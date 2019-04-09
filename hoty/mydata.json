@@ -1,0 +1,10 @@
+{
+  "ids": {
+    "User": 12
+  },
+  "models": {
+    "User": {
+      "11": "{\"username\":\"Bantr\",\"password\":\"$2b$10$h.d.GoBu1m65gJV/MUHqkeCkpcVQsa75TruEw8RQ6MtgrTkEN5JmO\",\"email\":\"lukecochrane2@gmail.com\",\"firstName\":\"luke\",\"lastName\":\"c\",\"_id\":11}"
+    }
+  }
+}
