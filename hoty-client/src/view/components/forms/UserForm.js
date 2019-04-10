@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+
+import FormContainer from './FormContainer';
 
 import API from '../../../api';
 
@@ -7,7 +12,7 @@ class UserForm extends Component {
 		super(props);
 
 		this.state = {
-			step: 1,
+			step: 0,
 			username: '',
 			password: '',
 			confirmPass: '',
@@ -27,16 +32,19 @@ class UserForm extends Component {
 		});
 		// const { step } = this.state;
 		// this.setState({step: step + 1});
-
 	}
+
 	render() {
 		return (
-			<div className='form'>
-				 { this.state.greeting }
-				<button onClick={ this.nestStep }>
-					Click me
-				</button>
-			</div>
+			<Paper className='form'>
+				<Paper>
+					<Tabs value={ 0 } onChange={this.handleChange} variant='fullWidth'>
+						<Tab label='Register' />
+						<Tab label='Login' />
+					</Tabs>
+					<FormContainer step={ this.state.step } />
+				</Paper>
+			</Paper>
 		)
 	}
 }
