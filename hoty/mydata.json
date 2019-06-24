@@ -1,10 +1,11 @@
 {
   "ids": {
-    "User": 12
+    "User": 18
   },
   "models": {
     "User": {
-      "11": "{\"username\":\"Bantr\",\"password\":\"$2b$10$h.d.GoBu1m65gJV/MUHqkeCkpcVQsa75TruEw8RQ6MtgrTkEN5JmO\",\"email\":\"lukecochrane2@gmail.com\",\"firstName\":\"luke\",\"lastName\":\"c\",\"_id\":11}"
+      "16": "{\"_id\":16,\"username\":\"luke\",\"password\":\"$2b$10$GuWk24ApAOZqgnxI3xjksOBNWuNDAHXIQKMDvEkWgcFz7Vv0PITo.\",\"email\":\"lukecochrane2@gmail.com\",\"firstName\":\"string\",\"lastName\":\"string\"}",
+      "17": "{\"username\":\"luke2\",\"password\":\"$2b$10$VJexkKL/zfT0aBc2wnb60OffRFCEF/z5e29iYqX4DWBzB4..JJE0K\",\"email\":\"test@testmail.com\",\"firstName\":\"Luke\",\"lastName\":\"Cochrane\",\"_id\":17}"
     }
   }
 }

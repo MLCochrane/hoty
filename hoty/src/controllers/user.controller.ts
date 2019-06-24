@@ -22,83 +22,121 @@ import {
   AuthenticationBindings,
   UserProfile,
   authenticate,
+  TokenService,
+  UserService,
 } from '@loopback/authentication';
+import { validateCredentials } from '../services/validator';
 
 import {User} from '../models';
 import {UserRepository} from '../repositories';
+import { Credentials } from '../repositories/user.repository';
+import { PasswordHasher } from '../services/hash.password.bcrypt';
 
-import * as bcrypt from 'bcrypt';
+import {
+  TokenServiceBindings,
+  PasswordHasherBindings,
+  UserServiceBindings,
+} from '../keys';
 
-class Credentials {
-  username: string;
-  password: string;
-}
+import * as _ from 'lodash';
+
+const CredentialsSchema = {
+  type: 'object',
+  required: ['email', 'password'],
+  properties: {
+    email: {
+      type: 'string',
+      format: 'email',
+    },
+    password: {
+      type: 'string',
+      minLength: 8,
+    },
+  },
+};
+
+const CredentialsRequestBody = {
+  description: 'The input of login function',
+  required: true,
+  content: {
+    'application/json': { schema: CredentialsSchema },
+  },
+};
 
 export class UserController {
   constructor(
-    @inject(AuthenticationBindings.CURRENT_USER, {optional: true}) private user: UserProfile,
-    @repository(UserRepository)
-    public userRepository : UserRepository,
+    @inject(PasswordHasherBindings.PASSWORD_HASHER) public passwordHasher: PasswordHasher,
+    @inject(TokenServiceBindings.TOKEN_SERVICE) public jwtService: TokenService,
+    @inject(UserServiceBindings.USER_SERVICE) public userService: UserService<User, Credentials>,
+    @repository(UserRepository) public userRepository : UserRepository,
   ) {}
 
-    @post('/users/login', {
+  @post('/users/login', {
     responses: {
       '200': {
-        description: 'Login',
-        // content: {'application/json': {schema: {'x-ts-type': User}}},
+        description: 'Token',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                token: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
       },
     },
   })
-  async login(@requestBody() credentials: Credentials): Promise<object> {
-    const filter = {
-      where: {
-        username: credentials.username
-      }
-    }
-    
-    const user = await this.userRepository.findOne(filter);
-    if (!user) {
-      throw new HttpErrors.NotFound('User not found');
-    }
+  async login(@requestBody(CredentialsRequestBody) credentials: Credentials,
+  ): Promise<{token: string}> {
+    // This will ensure a user exists and password is correct
+    const user = await this.userService.verifyCredentials(credentials);
 
-    const validPass = await bcrypt.compare(credentials.password, user.password);
-    if (!validPass) {
-      throw new HttpErrors.Unauthorized('Incorrect username or password');
-    }
+    // Converts object with a reduced set of properties
+    const userProfile = this.userService.convertToUserProfile(user);
 
-    // If user found with correct username and password, generate token
-    const token = user.generateAuthToken();
-    return {
-      'token': token
-    }
+    const token = await this.jwtService.generateToken(userProfile);
+
+    return {token};
   }
 
-  @post('/users', {
-    responses: {
-      '200': {
-        description: 'User model instance',
-        content: {'application/json': {schema: {'x-ts-type': User}}},
-      },
-    },
-  })
+  @post('/users')
   async create(@requestBody() user: User): Promise<User> {
+
+    validateCredentials(_.pick(user, ['email', 'password']));
+
     // Search usernames for new entered username
-    const filter: Filter = {
+    const filter = {
       where: {
         username: user.username
       }
     }
     const usernameUsed = await this.userRepository.findOne(filter);
+
     if (usernameUsed) {
       throw new HttpErrors.Conflict('Username already in use');
     }
 
-    // Hashing password for db
-    const { ...newUser } = user;
-    newUser.password = await bcrypt.hash(user.password, 10);
+    const emailInUse = await this.userRepository.findOne({where: {email: user.email}});
 
-    await this.userRepository.create(newUser);
-    return user;
+    if (emailInUse) {
+      throw new HttpErrors.Conflict('Email already in use');
+    }
+
+    user.password = await this.passwordHasher.hashPassword(user.password);
+
+    try {
+      // create the new user
+      const savedUser = await this.userRepository.create(user);
+      delete savedUser.password;
+
+      return savedUser;
+    } catch (error) {
+      throw error;
+    }
   }
 
   @get('/users/count', {
@@ -115,23 +153,50 @@ export class UserController {
     return await this.userRepository.count(where);
   }
 
-  @authenticate('jwt')
-  @get('/users', {
+  // @get('/users', {
+  //   responses: {
+  //     '200': {
+  //       description: 'Array of User model instances',
+  //       content: {
+  //         'application/json': {
+  //           schema: {type: 'array', items: {'x-ts-type': User}},
+  //         },
+  //       },
+  //     },
+  //   },
+  // })
+  // @authenticate('jwt')
+  // async find(
+  //   @param.query.object('filter', getFilterSchemaFor(User)) filter?: Filter,
+  // ): Promise<User[]> {
+  //   return await this.userRepository.find(filter);
+  // }
+
+  @get('/users/me', {
     responses: {
       '200': {
-        description: 'Array of User model instances',
+        description: 'Current user profile',
         content: {
           'application/json': {
-            schema: {type: 'array', items: {'x-ts-type': User}},
+            schema: {
+              type: 'object',
+              required: ['id'],
+              properties: {
+                id: { type: 'string' },
+                email: { type: 'string' },
+                name: { type: 'string' },
+              },
+            },
           },
         },
       },
     },
   })
-  async find(
-    @param.query.object('filter', getFilterSchemaFor(User)) filter?: Filter,
-  ): Promise<User[]> {
-    return await this.userRepository.find(filter);
+  @authenticate('jwt')
+  async printCurrentUser(
+    @inject(AuthenticationBindings.CURRENT_USER) currentUserProfile: UserProfile
+  ): Promise<Object> {
+    return await this.userRepository.testFunc();
   }
 
   @patch('/users', {

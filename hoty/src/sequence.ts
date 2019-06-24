@@ -9,7 +9,12 @@ import {
   Send,
   SequenceHandler,
 } from '@loopback/rest';
-import { AuthenticationBindings, AuthenticateFn } from '@loopback/authentication';
+import {
+  AuthenticationBindings,
+  AuthenticateFn,
+  AUTHENTICATION_STRATEGY_NOT_FOUND,
+  USER_PROFILE_NOT_FOUND
+} from '@loopback/authentication';
 
 const SequenceActions = RestBindings.SequenceActions;
 
@@ -28,22 +33,29 @@ export class MySequence implements SequenceHandler {
       const {request, response} = context;
       const route = this.findRoute(request);
       
-      // This is the important line added to the default sequence implementation
-      const authenticated = await this.authenticateRequest(request);
+      await this.authenticateRequest(request);
+
 
       const args = await this.parseParams(request, route);
       const result = await this.invoke(route, args);
 
-      // console.log(authenticated);
-      // if (!authenticated) {
-      //    response.cookie('cookieName', randomNumber, {
-      //      maxAge: 900000,
-      //      httpOnly: true,
-      //    });
-      // }
+      if (result && result.token) {
+        response.cookie('token', result.token, {
+          maxAge: 900000,
+          httpOnly: true
+        });
+      }
+
       this.send(response, result);
     } catch (err) {
+      if (
+        err.code === AUTHENTICATION_STRATEGY_NOT_FOUND ||
+        err.code === USER_PROFILE_NOT_FOUND
+      ) {
+        Object.assign(err, { statusCode: 401 /* Unauthorized */ });
+      }
       this.reject(context, err);
+      return;
     }
   }
 }

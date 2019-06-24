@@ -1,5 +1,4 @@
 import {Entity, model, property} from '@loopback/repository';
-import * as jwt from 'jsonwebtoken';
 
 @model({settings: {strict: false}})
 export class User extends Entity {
@@ -30,13 +29,13 @@ export class User extends Entity {
 
   @property({
     type: 'string',
-    required: true,
+    required: false,
   })
   firstName: string;
 
   @property({
     type: 'string',
-    required: true,
+    required: false,
   })
   lastName: string;
 
@@ -47,20 +46,5 @@ export class User extends Entity {
 
   constructor(data?: Partial<User>) {
     super(data);
-  }
-
-  generateAuthToken() {
-    const token = jwt.sign(
-      {
-        _id: this._id,
-        username: this.username,
-        email: this.email,
-      },
-      'privateKey',
-      {
-        expiresIn: 604800, // 1 week in seconds
-      },
-    );
-    return token;
   }
 }
