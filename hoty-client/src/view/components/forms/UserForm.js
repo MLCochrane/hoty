@@ -34,15 +34,20 @@ class UserForm extends Component {
 		// this.setState({step: step + 1});
 	}
 
+	handleChange = (event, value) => {
+		this.setState({ step: value });
+	}
+
 	render() {
+		const { step } = this.state;
 		return (
 			<Paper className='form'>
 				<Paper>
-					<Tabs value={ 0 } onChange={this.handleChange} variant='fullWidth'>
-						<Tab label='Register' />
+					<Tabs value={ step } onChange={this.handleChange} variant='fullWidth'>
 						<Tab label='Login' />
+						<Tab label='Register' />
 					</Tabs>
-					<FormContainer step={ this.state.step } />
+					<FormContainer step={ step } />
 				</Paper>
 			</Paper>
 		)

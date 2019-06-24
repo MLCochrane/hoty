@@ -1,11 +1,12 @@
 import React from 'react';
+import FormUserDetails from './FormUserDetails';
 
 const FormContainer = props => {
     switch(props.step) {
         case 0:
-            return <FormContainer form='login' />;
+            return <FormUserDetails form='login' />;
         case 1:
-            return <FormContainer from='register' />
+            return <FormUserDetails form='register' />;
         default:
             return null;
     }
