@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -23,9 +24,15 @@ class UserForm extends Component {
 	}
 
 	nestStep = () => {
-		API.get('/ping')
+		const token = localStorage.getItem('token');
+		API.get('users/me',
+		{
+			headers: {
+				'Authorization': 'Bearer ' + token
+			}
+		})
 		.then(res => {
-			this.setState({greeting: res.data.greeting});
+			console.log(res);
 		})
 		.catch(err => {
 			console.log(err);
@@ -41,15 +48,18 @@ class UserForm extends Component {
 	render() {
 		const { step } = this.state;
 		return (
-			<Paper className='form'>
-				<Paper>
-					<Tabs value={ step } onChange={this.handleChange} variant='fullWidth'>
-						<Tab label='Login' />
-						<Tab label='Register' />
-					</Tabs>
-					<FormContainer step={ step } />
+			<Container maxWidth="md">
+				<Paper className='form'>
+					<Paper>
+						<Tabs value={ step } onChange={this.handleChange} variant='fullWidth'>
+							<Tab label='Login' />
+							<Tab label='Register' />
+						</Tabs>
+						<FormContainer step={ step } />
+						<button onClick={ this.nestStep } >HELLLO</button>
+					</Paper>
 				</Paper>
-			</Paper>
+			</Container>
 		)
 	}
 }

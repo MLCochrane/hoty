@@ -35,16 +35,8 @@ export class MySequence implements SequenceHandler {
 
       await this.authenticateRequest(request);
 
-
       const args = await this.parseParams(request, route);
       const result = await this.invoke(route, args);
-
-      if (result && result.token) {
-        response.cookie('token', result.token, {
-          maxAge: 900000,
-          httpOnly: true
-        });
-      }
 
       this.send(response, result);
     } catch (err) {
