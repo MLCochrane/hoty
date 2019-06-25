@@ -50,7 +50,6 @@ export class JWTService implements TokenService {
     }
 
     // Generate a JSON Web Token
-    console.log(userProfile);
     let token: string;
     try {
       token = await signAsync(userProfile, this.jwtSecret, {

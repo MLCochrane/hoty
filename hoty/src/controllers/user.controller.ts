@@ -2,7 +2,6 @@ import {inject} from '@loopback/context';
 import {
   Count,
   CountSchema,
-  Filter,
   repository,
   Where,
 } from '@loopback/repository';
@@ -10,7 +9,6 @@ import {
   post,
   param,
   get,
-  getFilterSchemaFor,
   getWhereSchemaFor,
   patch,
   put,
@@ -29,7 +27,7 @@ import { validateCredentials } from '../services/validator';
 
 import {User} from '../models';
 import {UserRepository} from '../repositories';
-import { Credentials } from '../repositories/user.repository';
+import { Credentials, FormattedUser } from '../repositories/user.repository';
 import { PasswordHasher } from '../services/hash.password.bcrypt';
 
 import {
@@ -39,6 +37,7 @@ import {
 } from '../keys';
 
 import * as _ from 'lodash';
+const uuidv4 = require('uuid/v4');
 
 const CredentialsSchema = {
   type: 'object',
@@ -127,6 +126,8 @@ export class UserController {
     }
 
     user.password = await this.passwordHasher.hashPassword(user.password);
+    // Creates random uuid
+    user._id = uuidv4();
 
     try {
       // create the new user
@@ -153,25 +154,6 @@ export class UserController {
     return await this.userRepository.count(where);
   }
 
-  // @get('/users', {
-  //   responses: {
-  //     '200': {
-  //       description: 'Array of User model instances',
-  //       content: {
-  //         'application/json': {
-  //           schema: {type: 'array', items: {'x-ts-type': User}},
-  //         },
-  //       },
-  //     },
-  //   },
-  // })
-  // @authenticate('jwt')
-  // async find(
-  //   @param.query.object('filter', getFilterSchemaFor(User)) filter?: Filter,
-  // ): Promise<User[]> {
-  //   return await this.userRepository.find(filter);
-  // }
-
   @get('/users/me', {
     responses: {
       '200': {
@@ -195,8 +177,8 @@ export class UserController {
   @authenticate('jwt')
   async printCurrentUser(
     @inject(AuthenticationBindings.CURRENT_USER) currentUserProfile: UserProfile
-  ): Promise<Object> {
-    return await this.userRepository.testFunc();
+  ): Promise<FormattedUser> {
+    return await this.userRepository.fetchUser(currentUserProfile);
   }
 
   @patch('/users', {
@@ -222,7 +204,7 @@ export class UserController {
       },
     },
   })
-  async findById(@param.path.number('id') id: number): Promise<User> {
+  async findById(@param.path.string('id') id: string): Promise<User> {
     return await this.userRepository.findById(id);
   }
 
@@ -234,7 +216,7 @@ export class UserController {
     },
   })
   async updateById(
-    @param.path.number('id') id: number,
+    @param.path.string('id') id: string,
     @requestBody() user: User,
   ): Promise<void> {
     await this.userRepository.updateById(id, user);
@@ -248,7 +230,7 @@ export class UserController {
     },
   })
   async replaceById(
-    @param.path.number('id') id: number,
+    @param.path.string('id') id: string,
     @requestBody() user: User,
   ): Promise<void> {
     await this.userRepository.replaceById(id, user);
@@ -261,7 +243,7 @@ export class UserController {
       },
     },
   })
-  async deleteById(@param.path.number('id') id: number): Promise<void> {
+  async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.userRepository.deleteById(id);
   }
 }

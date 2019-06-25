@@ -64,7 +64,8 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.11",
     "memory": "0.0.3",
-    "passport": "^0.4.0"
+    "passport": "^0.4.0",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@loopback/build": "^2.0.2",
