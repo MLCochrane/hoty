@@ -2,8 +2,9 @@ export default function reducer(state = {
     fetching: false,
     fetched: false,
     user: {},
-    token: '',
-    error: null
+    loggedIn: false,
+    error: null,
+    index: 0
   }, action) {
     switch (action.type) {
       case 'FETCH_STARTED': {
@@ -13,7 +14,10 @@ export default function reducer(state = {
         return {...state, user: action.payload, fetched: true, fetching: false}
       }
       case 'RECIEVE_TOKEN': {
-        return {...state, token: action.payload, fetched: true, fetching: false}
+        return {...state, token: action.payload, fetched: true, fetching: false, loggedIn: true}
+      }
+      case 'SET_CURRENT': {
+        return {...state, loggedIn: !!action.payload}
       }
       case 'RECIEVE_USER_ERROR': {
         return {...state, fetching: false, error: action.payload}

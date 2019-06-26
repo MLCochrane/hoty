@@ -1,9 +1,10 @@
 import API from '../../api';
 
-export function login() {
+export function login(reqBody) {
     return dispatch => {
+        console.log(reqBody);
         dispatch({ type: "FETCH_STARTED" });
-        API.post('/users/login')
+        API.post('/users/login', reqBody)
         .then(res => {
             dispatch({ type: 'RECIEVE_TOKEN', payload: res.data });
         })
@@ -11,6 +12,15 @@ export function login() {
             dispatch({ type: 'RECIEVE_TOKEN_ERROR', payload: err });
         });
     };
+}
+
+export function setCurrentIndex(index) {
+    return (dispatch) => {
+        dispatch({
+            type: 'SET_CURRENT',
+            payload: index
+        });
+    }
 }
 
 // export function register() {
