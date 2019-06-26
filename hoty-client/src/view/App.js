@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import Header from './components/global/header/Header';
-import UserForm from './components/forms/UserForm';
+import Routes from './components/Routes';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <Header/>
-        <UserForm/>
-      </div>
+      <Router>
+        <section className="App">
+          <Header />
+          <main className="page-content">
+            <Routes/>
+          </main>
+        </section>
+      </Router>
     );
   }
 }
