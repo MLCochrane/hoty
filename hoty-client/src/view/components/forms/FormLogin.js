@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 import PasswordField from './fields/PasswordField';
 import EmailField from './fields/EmailField';
 import validator from './validator';
 
-import { setCurrentIndex, login } from '../../../store/actions/userActions';
+import { login } from '../../../store/actions/userActions';
+
+const mapStateToProps = state => {
+	return {
+		error: state.users.error,
+		fetching: state.users.fetching
+	}
+}
 
 class FormLogin extends Component {
 	constructor(props) {
@@ -22,8 +30,7 @@ class FormLogin extends Component {
 				val: '',
 				errors: false,
 				message: ''
-			},
-			errors: []
+			}
 		}
 
 		this.handleChange = this.handleChange.bind(this);
@@ -53,20 +60,7 @@ class FormLogin extends Component {
 				email: this.state.email.val,
 				password: this.state.password.val
 		}
-		this.props.dispatch(setCurrentIndex(1));
-
-		// api.post('users/login', {
-			// email: this.state.email.val,
-			// password: this.state.password.val
-		// }).then(res => {
-		// 	console.log('response');
-		// 	if (res.data && res.data.token) {
-		// 		localStorage.setItem('token', res.data.token);
-		// 	}
-		// }).catch(err => {
-		// 	this.state.push(err.response);
-		// 	console.log(err.response);
-		// });
+		this.props.dispatch(login(reqBody));
 	}
 
 	render() {
@@ -74,6 +68,11 @@ class FormLogin extends Component {
 			<form className='form__login'
 				noValidate
 				onSubmit={ this.handleSubmit }>
+			<Typography
+				color='error'
+			>
+				{ !this.props.error ? null : this.props.error.response.data.error.message }
+			</Typography>
 			<EmailField
 				formName='login'
 				inputName='email'
@@ -96,16 +95,21 @@ class FormLogin extends Component {
 				variant="contained"
 				color="primary"
 				disabled={
+					this.props.fetching ||
 					this.state.email.errors ||
 					this.state.password.errors ||
 					!this.state.email.val.length ||
 					!this.state.password.val.length }
 			>
-				Sign In
+				{
+					this.props.fetching
+					? 'Fetching'
+					: 'Sign In'
+				}
 			</Button>
 		</form>
 		)
 	}
 }
 
-export default connect()(FormLogin);
+export default connect(mapStateToProps)(FormLogin);

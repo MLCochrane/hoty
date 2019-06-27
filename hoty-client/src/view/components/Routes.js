@@ -3,6 +3,8 @@ import { Route, Switch } from 'react-router-dom';
 
 import Landing from './landing/Landing';
 import UserForm from './forms/UserForm';
+import Profile from './profile/Profile';
+
 // ROUTE CONFIG
 const routes = [
 	{
@@ -11,9 +13,14 @@ const routes = [
 		component: Landing
 	},
 	{
-		exact: false,
+		exact: true,
 		path: "/login/",
 		component: UserForm
+	},
+	{
+		exact: true,
+		path: "/profile/",
+		component: Profile
 	}
 ];
 
@@ -34,17 +41,18 @@ class Routes extends Component {
 		return (
 			<Route
 				render={({ location }) => 
-                    <Switch key={location.key} location={location}>
-                        {routes.map(
-                            ({ exact, path, component: C }, index) => (
-                                <Route
-                                key={ index }
-                                exact={ exact }
-                                path={ path }
-                                render={props => <C {...props} />}
-                                    />
-                        ))}
-                    </Switch>
+					<Switch key={location.key} location={location}>
+							{routes.map(
+								({ exact, path, component: C }, index) => (
+									<Route
+										key={ index }
+										exact={ exact }
+										path={ path }
+										render={props => <C {...props} noAuth={ this.props.noAuth } />}
+									/>
+								)
+							)}
+					</Switch>
 				}>
 			</Route>
 		);

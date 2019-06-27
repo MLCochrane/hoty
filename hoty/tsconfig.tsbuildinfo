@@ -6998,6 +6998,7 @@
       "c:/users/luke cochrane/desktop/projects/hoty/hoty/node_modules/@loopback/authentication/dist/strategy-adapter.d.ts",
       "c:/users/luke cochrane/desktop/projects/hoty/hoty/node_modules/@loopback/authentication/dist/index.d.ts",
       "c:/users/luke cochrane/desktop/projects/hoty/hoty/node_modules/@loopback/authentication/index.d.ts",
+      "c:/users/luke cochrane/desktop/projects/hoty/hoty/src/sequence.ts",
       "c:/users/luke cochrane/desktop/projects/hoty/hoty/node_modules/@types/bcrypt/index.d.ts",
       "c:/users/luke cochrane/desktop/projects/hoty/hoty/src/services/hash.password.bcrypt.ts",
       "c:/users/luke cochrane/desktop/projects/hoty/hoty/src/models/user.model.ts",
@@ -7064,8 +7065,7 @@
       "c:/users/luke cochrane/desktop/projects/hoty/hoty/node_modules/@types/on-finished/index.d.ts",
       "c:/users/luke cochrane/desktop/projects/hoty/hoty/node_modules/@types/passport-http/index.d.ts",
       "c:/users/luke cochrane/desktop/projects/hoty/hoty/node_modules/@types/passport-http-bearer/index.d.ts",
-      "c:/users/luke cochrane/desktop/projects/hoty/hoty/node_modules/@types/type-is/index.d.ts",
-      "c:/users/luke cochrane/desktop/projects/hoty/hoty/src/sequence.ts"
+      "c:/users/luke cochrane/desktop/projects/hoty/hoty/node_modules/@types/type-is/index.d.ts"
     ]
   },
   "version": "3.5.2"
