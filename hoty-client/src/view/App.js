@@ -39,10 +39,16 @@ class App extends Component {
       });
       return;
     }
-    if (prev.loggedIn !== this.props.loggedIn && this.props.loggedIn === true) {
-      this.setState({
+    if (prev.loggedIn !== this.props.loggedIn) {
+      if (this.props.loggedIn === true) {
+        this.setState({
         noAuth: false
-      });
+        });
+      } else if (this.props.loggedIn === false) {
+        this.setState({
+          noAuth: true
+        });
+      }
     }
   }
   render() {

@@ -13,6 +13,13 @@ export function login(reqBody) {
     };
 }
 
+export function logout() {
+    return dispatch => {
+        dispatch({type: 'REMOVE_TOKEN'})
+        dispatch({type: 'LOGOUT'})
+    };
+}
+
 export function getCurrentUser(data) {
     return dispatch => {
         dispatch({ type: "FETCH_STARTED" });

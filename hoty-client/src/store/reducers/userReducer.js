@@ -19,6 +19,9 @@ export default function reducer(state = {
       case 'LOGIN_ERROR': {
         return {...state, fetching: false, error: action.payload}
       }
+      case 'LOGOUT': {
+        return {...state, loggedIn: false, user: {}}
+      }
     //no default
     }
     return state;

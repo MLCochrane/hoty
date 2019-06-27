@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-// import './scss/theme.scss';
+import './scss/theme.scss';
 
 import store from './store';
 
