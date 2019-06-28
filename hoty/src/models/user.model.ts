@@ -1,4 +1,5 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasMany} from '@loopback/repository';
+import { Event, EventWithRelations } from './event.model';
 
 @model({settings: {strict: false}})
 export class User extends Entity {
@@ -39,7 +40,9 @@ export class User extends Entity {
   })
   lastName: string;
 
-  // Define well-known properties here
+  @hasMany(() => Event)
+  events: Event[];
+
 
   // Indexer property to allow additional data
   [prop: string]: any;
@@ -48,3 +51,10 @@ export class User extends Entity {
     super(data);
   }
 }
+
+export interface UserRelations {
+  events?: EventWithRelations[];
+  // describe navigational properties here
+}
+
+export type UserWithRelations = User & UserRelations;
