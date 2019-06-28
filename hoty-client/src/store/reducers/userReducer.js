@@ -11,7 +11,7 @@ export default function reducer(state = {
         return {...state, fetching: true}
       }
       case 'RECIEVE_USER': {
-        return {...state, user: action.payload.data, fetched: true, fetching: false, loggedIn: true}
+        return {...state, user: action.payload, fetched: true, fetching: false, loggedIn: true}
       }
       case 'RECIEVE_USER_ERROR': {
         return {...state, fetching: false, userError: action.payload, loggedIn: false}

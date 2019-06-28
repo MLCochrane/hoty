@@ -1,5 +1,7 @@
 import API from '../../api';
 
+import { getUserEvents } from '../actions/eventActions';
+
 export function login(reqBody) {
     return dispatch => {
         dispatch({ type: "FETCH_STARTED" });
@@ -33,6 +35,7 @@ export function getCurrentUser(data) {
         .then(res => {
             dispatch({ type: 'RECIEVE_USER', payload: res.data });
             dispatch(setToken(data));
+            dispatch(getUserEvents(data, res.data._id));
         })
         .catch(err => {
             dispatch({ type: 'RECIEVE_USER_ERROR', payload: err });
@@ -47,6 +50,7 @@ function setToken(data) {
     };
 }
 
+
 // export function register() {
 //     return dispatch => {
 //         dispatch({ type: "FETCH_STARTED" });
@@ -58,17 +62,4 @@ function setToken(data) {
 //             dispatch({ type: 'RECIEVE_ARTISTS_ERROR', payload: err });
 //         });
 //     };
-// }
-
-// export function fetchUser() {
-//   return dispatch => {
-// 		dispatch({ type: "FETCH_STARTED" });
-// 		API.get('/users/me')
-//         .then(res => {
-//             dispatch({ type: 'RECIEVE_USER', payload: res.data });
-//         })
-//         .catch(err => {
-//             dispatch({ type: 'RECIEVE_USER_ERROR', payload: err });
-//         });
-//   };
 // }

@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { getAllEvents } from '../../../store/actions/eventActions';
 
-const mapStateToProps = ({users, events}) => {
+const mapStateToProps = ({events, token}) => {
 	return {
-		user: users.user,
-		events: events.eventsUser
+        token: token.token,
+		events: events.events
 	}
 }
 
-class Profile extends Component {
+class Events extends Component {
+    componentDidMount() {
+        this.props.dispatch(getAllEvents(this.props.token));
+    }
 	deets() {
 		return (
 			<div>
-				<h1>username: { this.props.user.username }</h1>
-				<p>firstname: { this.props.user.firstName }</p>
-				<p>lastname: { this.props.user.lastName }</p>
 				{ this.props.events.map((el, index) => (
 					<div key={ index }>
 						<h2>{ el.title }</h2>
@@ -27,7 +28,7 @@ class Profile extends Component {
 	}
 	render() {
 		return (
-			<div className='profile'>
+			<div className='events'>
 				{this.props.noAuth
 					? <Redirect to='/login' />
 					: this.deets()
@@ -36,4 +37,4 @@ class Profile extends Component {
 		)
 	}
 }
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps)(Events);

@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import Landing from './landing/Landing';
 import UserForm from './forms/UserForm';
 import Profile from './profile/Profile';
+import Events from './events/Events';
 
 // ROUTE CONFIG
 const routes = [
@@ -21,6 +22,11 @@ const routes = [
 		exact: true,
 		path: "/profile/",
 		component: Profile
+	},
+	{
+		exact: false,
+		path: "/events/",
+		component: Events
 	}
 ];
 

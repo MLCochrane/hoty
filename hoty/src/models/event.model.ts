@@ -20,11 +20,11 @@ export class Event extends Entity {
   })
   description?: string;
 
-  @property({
-    type: 'date',
-    required: true,
-  })
-  date: string;
+  // @property({
+  //   type: 'date',
+  //   required: true,
+  // })
+  // date: string;
 
   @belongsTo(() => User)
   userId: string;
