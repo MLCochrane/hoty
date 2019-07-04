@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import IconButton from '@material-ui/core/IconButton';
+
+import {
+	IconButton,
+	Drawer,
+	List,
+	Divider,
+	ListItem,
+	ListItemIcon,
+	ListItemText
+} from '@material-ui/core';
+
 import MenuIcon from '@material-ui/icons/Menu';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-// import InboxIcon from '@material-ui/icons/MoveToInbox';
-// import MailIcon from '@material-ui/icons/Mail';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import EventsIcon from '@material-ui/icons/ViewList';
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import LogoutIcon from '@material-ui/icons/PowerSettingsNew';
 import { logout } from '../../../../store/actions/userActions';
@@ -39,7 +42,7 @@ class Menu extends Component {
 				<ListItem
 					button
 					key={el.name}
-					onClick={(el.name === 'Logout') ? this.logoutHandle : null}
+					onClick={el.click}
 					>
 					<ListItemIcon>
 						{ el.icon }
@@ -52,25 +55,32 @@ class Menu extends Component {
 	}
 
 	logoutHandle() {
-		console.log('fam');
 		this.props.dispatch(logout());
 	}
 	render() {
 		const menuBlockTop = [
 			{
 				name: 'Dashboard',
-				icon: <DashboardIcon />
+				icon: <DashboardIcon />,
+				click: () => {this.props.history.push('/')}
+			},
+			{
+				name: 'Events',
+				icon: <EventsIcon />,
+				click: () => {this.props.history.push('/events')}
 			}
 		]
 		
 		const menuBlockBottom = [
 			{
 				name: 'Profile',
-				icon: <AccountIcon />
+				icon: <AccountIcon />,
+				click: () => {this.props.history.push('/profile')}
 			},
 			{
 				name: 'Logout',
-				icon: <LogoutIcon/>
+				icon: <LogoutIcon/>,
+				click: this.logoutHandle
 			}
 		]
 		const sideList = (

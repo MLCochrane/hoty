@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import { Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import Menu from './Menu';
 import Topbar from './Topbar';
 
@@ -19,11 +19,16 @@ class Header extends Component {
 				<AppBar position="static">
 					<Toolbar>
 						{this.props.loggedIn
-						? <Menu />
+						? <Menu 
+							history={ this.props.history }
+						/>
 						: null
 						}
 						<Topbar
 							loggedIn={ this.props.loggedIn }
+							history={
+								this.props.history
+							}
 						/>
 					</Toolbar>
 				</AppBar>
@@ -31,4 +36,4 @@ class Header extends Component {
 		)
 	}
 }
-export default connect(mapStateToProps)(Header);
+export default withRouter(connect(mapStateToProps)(Header));
