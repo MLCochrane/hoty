@@ -5,10 +5,11 @@ import { getAllEvents } from '../../../store/actions/eventActions';
 
 import EventsContainer from './EventsContainer';
 
-const mapStateToProps = ({events, token}) => {
+const mapStateToProps = ({events, token, users}) => {
 	return {
     token: token.token,
-		events: events.events
+		events: events.events,
+		userId: users.user._id
 	}
 }
 
@@ -17,24 +18,31 @@ class Events extends Component {
 		super(props);
 
 		this.state = {
-			curIndex: null,
-			modalOpen: false
+			curId: null,
+			formOpen: false,
+			confirmOpen: false
 		}
 
 		this.setCurrent = this.setCurrent.bind(this);
 		this.toggleModal = this.toggleModal.bind(this);
+		this.toggleConfirm = this.toggleConfirm.bind(this);
 	}
 	componentDidMount() {
 			this.props.dispatch(getAllEvents(this.props.token));
 	}
-	setCurrent(index) {
+	setCurrent(id) {
 		this.setState({
-			curIndex: index
+			curId: id
 		})
 	}
 	toggleModal(open) {
 		this.setState({
-			modalOpen: open 
+			formOpen: open
+		})
+	}
+	toggleConfirm(open) {
+		this.setState({
+			confirmOpen: open
 		})
 	}
 	render() {
@@ -45,9 +53,12 @@ class Events extends Component {
 					: <EventsContainer
 						events={this.props.events}
 						callback={this.setCurrent}
-						curIndex={this.state.curIndex}
+						curId={this.state.curId}
 						toggleModal={this.toggleModal}
-						modalOpen={this.state.modalOpen}
+						toggleConfirm={this.toggleConfirm}
+						formOpen={this.state.formOpen}
+						confirmOpen={this.state.confirmOpen}
+						userId={this.props.userId}
 						/>
 				}
 			</div>

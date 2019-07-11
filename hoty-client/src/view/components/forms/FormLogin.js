@@ -67,7 +67,8 @@ class FormLogin extends Component {
 		return (
 			<form className='form__login'
 				noValidate
-				onSubmit={ this.handleSubmit }>
+				onSubmit={ this.handleSubmit }
+				{...this.props}>
 			<Typography
 				color='error'
 			>

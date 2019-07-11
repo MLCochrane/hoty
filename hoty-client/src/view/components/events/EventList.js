@@ -16,7 +16,7 @@ const EventList = props => {
 				>
 					<ListItem
 					button
-					onClick={ () => { props.callback(index) } }
+					onClick={ () => { props.callback(el.id) } }
 					>
 						<ListItemText
 							primary={ el.title }

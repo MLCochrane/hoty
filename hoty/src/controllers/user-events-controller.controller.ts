@@ -2,6 +2,7 @@ import {inject} from '@loopback/context';
 import {
   post,
   get,
+  del,
   param,
   requestBody,
   HttpErrors
@@ -61,5 +62,33 @@ export class UserEventsControllerController {
     // @param.query.object('filter') filter?: Filter<Event>,
   ): Promise<Object[]> {
     return await this.eventRepository.fetchAll();
+  }
+
+  @del('/users/{id}/event/{eventId}', {
+    responses: {
+      '204': {
+        description: 'User DELETE success',
+      },
+    },
+  })
+  @authenticate('jwt')
+  async deleteEvent(
+    @param.path.string('id') userId: string,
+    @param.path.number('eventId') eventId: number,
+    @inject(AuthenticationBindings.CURRENT_USER) currentUserProfile: UserProfile
+  ): Promise<void> {
+    // No referential integrity so we want to confirm user id exists
+    const isUser = await this.userRepository.findById(userId);
+
+    if (!isUser) {
+      throw new HttpErrors.Conflict('User not found');
+    }
+
+    // Checks that user id passed matches the current authenticated user
+    if (userId !== currentUserProfile.id) {
+      throw new HttpErrors.Conflict('Incorrect user id');
+    }
+
+    return await this.eventRepository.deleteById(eventId);
   }
 }

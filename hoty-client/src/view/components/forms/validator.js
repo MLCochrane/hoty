@@ -30,6 +30,7 @@ export default (name, value) => {
 			result.message = passValid ? '' : 'Username may not contain any spaces or special character.';
 			break;
 		default:
+			result.valid = true;
 			break;
 	}
 

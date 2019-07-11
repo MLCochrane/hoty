@@ -7,7 +7,7 @@ export default function reducer(state = {
   }, action) {
     switch (action.type) {
       case 'EVENT_FETCH_STARTED': {
-        return {...state, fetching: true}
+        return {...state, fetching: true, fetched: false}
       }
       case 'RECIEVE_EVENTS': {
         return {...state, events: action.payload, fetched: true, fetching: false}

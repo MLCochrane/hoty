@@ -13,6 +13,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import EventList from './EventList';
 import EventOverview from './EventOverview';
 import EventForm from './EventsForm';
+import EventConfrimation from './EventConfrim';
 
 const useStyles = makeStyles(theme => ({
 	container: {
@@ -28,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 
 const EventsContainer = props => {
 	const collectCurrent = () => {
-		return props.events.filter((el, index) => index === props.curIndex)[0];
+		return props.events.filter(el => el.id === props.curId)[0];
 	}
 	const classes = useStyles();
 	return (
@@ -61,7 +62,15 @@ const EventsContainer = props => {
 					container
 					spacing={2}
 					>
-					<Grid item xs={12} sm>
+					<Grid
+					item
+					xs={12}
+					sm
+					style={{
+						'overflow-y': 'scroll',
+						'height': '60vh'
+					}}
+					>
 						<EventList
 							events={ props.events }
 							callback={ props.callback }
@@ -71,14 +80,21 @@ const EventsContainer = props => {
 						<Grid item xs={12} sm={7}>
 							<EventOverview
 								event={ collectCurrent() }
+								toggleConfirm={ props.toggleConfirm }
+								userId={ props.userId }
 							/>
 						</Grid>
 					</Hidden>
 				</Grid>
 			</Paper>
 			<EventForm
-				open={ props.modalOpen }
+				open={ props.formOpen }
 				toggleModal={ props.toggleModal }
+			/>
+			<EventConfrimation
+				open={ props.confirmOpen }
+				toggleConfirm={ props.toggleConfirm }
+				eventId={ props.curId }
 			/>
 		</Container>
 	)

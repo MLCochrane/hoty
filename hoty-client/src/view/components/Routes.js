@@ -24,7 +24,7 @@ const routes = [
 		component: Profile
 	},
 	{
-		exact: false,
+		exact: true,
 		path: "/events/",
 		component: Events
 	}

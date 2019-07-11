@@ -26,7 +26,7 @@ export class EventRepository extends DefaultCrudRepository<
     const events = await super.find();
     const formattedEvents: Array<Object> = [];
     events.forEach(el => {
-      const updatedEl = _.pick(el, ['id', 'title', 'description']);
+      const updatedEl = _.pick(el, ['id', 'userId', 'title', 'description']);
       formattedEvents.push(updatedEl);
     })
 

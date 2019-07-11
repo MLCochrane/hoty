@@ -6,6 +6,8 @@ import { getCurrentUser } from '../store/actions/userActions';
 import Header from './components/global/header/Header';
 import Routes from './components/Routes';
 
+import CssBaseline from '@material-ui/core/CssBaseline';
+
 const mapStateToProps = ({users, token}) => {
   return {
     userError: users.userError,
@@ -55,6 +57,7 @@ class App extends Component {
     return (
       <Router>
         <section className="App">
+          <CssBaseline />
           <Header />
           <main className="page-content">
             <Routes
