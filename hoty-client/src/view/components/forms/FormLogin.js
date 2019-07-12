@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -9,108 +10,139 @@ import validator from './validator';
 
 import { login } from '../../../store/actions/userActions';
 
-const mapStateToProps = state => {
-	return {
-		error: state.users.error,
-		fetching: state.users.fetching
-	}
-}
+const mapStateToProps = state => ({
+  error: state.users.error,
+  fetching: state.users.fetching,
+});
 
 class FormLogin extends Component {
-	constructor(props) {
-		super(props);
-		
-		this.state = {
-			email: {
-				val: '',
-				errors: false,
-				message: ''
-			},
-			password: {
-				val: '',
-				errors: false,
-				message: ''
-			}
-		}
+  constructor(props) {
+    super(props);
 
-		this.handleChange = this.handleChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
-	}
+    this.state = {
+      email: {
+        val: '',
+        errors: false,
+        message: '',
+      },
+      password: {
+        val: '',
+        errors: false,
+        message: '',
+      },
+    };
 
-	handleChange(e) {
-		const target = e.target;
-		const value = target.type === 'checkbox' ? target.checked : target.value;
-		const name = target.name;
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-		const errorResult = validator(name, value);
+  handleChange(e) {
+    const { target } = e;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const { name } = target;
 
-		this.setState({
-			[name]: {
-				...this.state[name],
-				val: value,
-				errors: !errorResult.valid,
-				message: errorResult.message
-			}
-		});
-	}
+    const errorResult = validator(name, value);
 
-	handleSubmit(e) {
-		e.preventDefault();
-		const reqBody = {
-				email: this.state.email.val,
-				password: this.state.password.val
-		}
-		this.props.dispatch(login(reqBody));
-	}
+    this.setState({
+      [name]: {
+        // eslint-disable-next-line
+        ...this.state[name],
+        val: value,
+        errors: !errorResult.valid,
+        message: errorResult.message,
+      },
+    });
+  }
 
-	render() {
-		return (
-			<form className='form__login'
-				noValidate
-				onSubmit={ this.handleSubmit }
-				{...this.props}>
-			<Typography
-				color='error'
-			>
-				{ !this.props.error ? null : this.props.error.response.data.error.message }
-			</Typography>
-			<EmailField
-				formName='login'
-				inputName='email'
-				value={ this.state.email.value }
-				errors={ this.state.email.errors }
-				errorMessage={ this.state.email.message }
-				handleChange={ this.handleChange }
-			/>
-			<PasswordField
-				formName='login'
-				inputName='password'
-				value={ this.state.password.value }
-				errors={ this.state.password.errors }
-				errorMessage={ this.state.password.message }
-				handleChange={ this.handleChange }
-			/>
-			<Button
-				type="submit"
-				fullWidth
-				variant="contained"
-				color="primary"
-				disabled={
-					this.props.fetching ||
-					this.state.email.errors ||
-					this.state.password.errors ||
-					!this.state.email.val.length ||
-					!this.state.password.val.length }
-			>
-				{
-					this.props.fetching
-					? 'Fetching'
-					: 'Sign In'
-				}
-			</Button>
-		</form>
-		)
-	}
+  handleSubmit(e) {
+    const {
+      dispatch,
+    } = this.props;
+
+    const {
+      email,
+      password,
+    } = this.state;
+
+    e.preventDefault();
+    const reqBody = {
+      email: email.val,
+      password: password.val,
+    };
+    dispatch(login(reqBody));
+  }
+
+  render() {
+    const {
+      error,
+      fetching,
+    } = this.props;
+
+    const {
+      email,
+      password,
+    } = this.state;
+
+    return (
+      <form
+        className="form__login"
+        noValidate
+        onSubmit={this.handleSubmit}
+        {...this.props}
+      >
+        <Typography
+          color="error"
+        >
+          { !error ? null : error.response.data.error.message }
+        </Typography>
+        <EmailField
+          formName="login"
+          inputName="email"
+          value={email.value}
+          errors={email.errors}
+          errorMessage={email.message}
+          handleChange={this.handleChange}
+        />
+        <PasswordField
+          formName="login"
+          inputName="password"
+          value={password.value}
+          errors={password.errors}
+          errorMessage={password.message}
+          handleChange={this.handleChange}
+        />
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          disabled={
+          fetching
+          || email.errors
+          || password.errors
+          || !email.val.length
+          || !password.val.length}
+        >
+          {
+          fetching
+            ? 'Fetching'
+            : 'Sign In'
+        }
+        </Button>
+      </form>
+    );
+  }
 }
 
 export default connect(mapStateToProps)(FormLogin);
+
+FormLogin.propTypes = {
+  error: PropTypes.objectOf(),
+  fetching: PropTypes.bool,
+  dispatch: PropTypes.func.isRequired,
+};
+
+FormLogin.defaultProps = {
+  error: null,
+  fetching: false,
+};

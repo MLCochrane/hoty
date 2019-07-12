@@ -10,9 +10,9 @@ const middleware = applyMiddleware(thunk);
 const store = createStore(reducers, persistedState, middleware);
 
 store.subscribe(() => {
-	saveState({
-		token: store.getState().token
-	})
+  saveState({
+    token: store.getState().token,
+  });
 });
 
 export default store;

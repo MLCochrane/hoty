@@ -1,27 +1,42 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 
-const EmailField = props => {
-	return (
-		<FormControl
-		fullWidth={ true }
-		required={ true }
-		>
-			<TextField
-				required
-				name={ props.inputName }
-				id={ `${props.formName}-email` }
-				value={ props.value }
-				error={ props.errors }
-				helperText={ props.errors ? props.errorMessage : '' }
-				label='Email'
-				margin='normal'
-				variant='standard'
-				onChange={ props.handleChange }
-			/>
-		</FormControl >
-	)
-}
+const EmailField = ({
+  inputName,
+  formName,
+  value,
+  errors,
+  handleChange,
+  errorMessage,
+}) => (
+  <FormControl
+    fullWidth
+    required
+  >
+    <TextField
+      required
+      name={inputName}
+      id={`${formName}-email`}
+      value={value}
+      error={errors}
+      helperText={errors ? errorMessage : ''}
+      label="Email"
+      margin="normal"
+      variant="standard"
+      onChange={handleChange}
+    />
+  </FormControl>
+);
 
 export default EmailField;
+
+EmailField.propTypes = {
+  inputName: PropTypes.string.isRequired,
+  formName: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  errors: PropTypes.bool.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string.isRequired,
+};

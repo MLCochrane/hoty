@@ -1,151 +1,208 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
+import {
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  DialogTitle,
+  Button,
+  Typography,
+} from '@material-ui/core';
 import TitleField from '../forms/fields/TitleField';
 import DescriptionField from '../forms/fields/DescriptionField';
 import validator from '../forms/validator';
 
 import { postEvent } from '../../../store/actions/eventActions';
 
-import {
-	Dialog,
-	DialogContent,
-	DialogContentText,
-	DialogActions,
-	DialogTitle,
-	Button, 
-	Typography,
- } from '@material-ui/core';
-
-const mapStateToProps = state => {
-	return {
-		error: state.users.error,
-		fetching: state.events.fetching,
-		fetched: state.events.fetched,
-		token: state.token.token,
-		id: state.users.user._id 
-	}
-}
+const mapStateToProps = ({ users, events, token }) => ({
+  error: users.error,
+  fetching: events.fetching,
+  fetched: events.fetched,
+  token: token.token,
+  id: users.user.id,
+});
 
 class EventsForm extends Component {
-	constructor(props) {
-		super(props);
-		
-		this.state = {
-			title: {
-				val: '',
-				errors: false,
-				message: ''
-			},
-			description: {
-				val: '',
-				errors: false,
-				message: ''
-			}
-		}
+  constructor(props) {
+    super(props);
 
-		this.handleChange = this.handleChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.componentDidUpdate = this.componentDidUpdate.bind(this);
-	}
+    let initTitle = '';
+    let initDescription = '';
 
-	handleChange(e) {
-		const target = e.target;
-		const value = target.type === 'checkbox' ? target.checked : target.value;
-		const name = target.name;
+    // Antipattern to define state from props but needed to init form when editing
+    if (props.event && props.isEditing) {
+      initTitle = props.event.title;
+      initDescription = props.event.description;
+    }
 
-		const errorResult = validator(name, value);
+    this.state = {
+      title: {
+        val: initTitle,
+        errors: false,
+        message: '',
+      },
+      description: {
+        val: initDescription,
+        errors: false,
+        message: '',
+      },
+    };
 
-		this.setState({
-			[name]: {
-				...this.state[name],
-				val: value,
-				errors: !errorResult.valid,
-				message: errorResult.message
-			}
-		});
-	}
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.componentDidUpdate = this.componentDidUpdate.bind(this);
+  }
 
-	handleSubmit(e) {
-		e.preventDefault();
-		const reqBody = {
-				title: this.state.title.val,
-				description: this.state.description.val
-		}
-		this.props.dispatch(postEvent(this.props.token, this.props.id, reqBody));
-	}
+  componentDidUpdate(prevProps) {
+    const {
+      fetched,
+      toggleModal,
+    } = this.props;
+    if (prevProps.fetched !== fetched && fetched === true) toggleModal(false);
+  }
 
-	componentDidUpdate(prevProps) {
-		if (prevProps.fetched !== this.props.fetched && this.props.fetched === true) this.props.toggleModal(false);
-	}
+  handleChange(e) {
+    const { target } = e;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const { name } = target;
 
-	render() {
-		return (
-			<Dialog
-				open={this.props.open}
-				onClose={() => {this.props.toggleModal(false)}}
-				aria-labelledby="alert-dialog-title"
+    const errorResult = validator(name, value);
+
+    this.setState({
+      [name]: {
+        ...[name],
+        val: value,
+        errors: !errorResult.valid,
+        message: errorResult.message,
+      },
+    });
+  }
+
+  handleSubmit(e) {
+    const {
+      token,
+      id,
+      dispatch,
+    } = this.props;
+
+    const {
+      title,
+      description,
+    } = this.state;
+
+    e.preventDefault();
+    const reqBody = {
+      title: title.val,
+      description: description.val,
+    };
+    dispatch(postEvent(token, id, reqBody));
+  }
+
+  render() {
+    const {
+      open,
+      toggleModal,
+      error,
+      fetching,
+    } = this.props;
+
+    const {
+      title,
+      description,
+      isEditing,
+    } = this.state;
+
+    return (
+      <Dialog
+        open={open}
+        onClose={() => { toggleModal(false); }}
+        aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-				>
-				<form className='form__events'
-					noValidate
-					onSubmit={ this.handleSubmit }>
-					<DialogTitle id="alert-dialog-title">Create new event.</DialogTitle>
-					<DialogContent>
-						<DialogContentText id="alert-dialog-description">
-							Make sure to name your event and provide a helpful and clear description.
-						</DialogContentText>
-					<Typography
-						color='error'
-					>
-						{ !this.props.error ? null : this.props.error.response.data.error.message }
-					</Typography>
-					<TitleField
-						formName='event'
-						inputName='title'
-						value={ this.state.title.value }
-						errors={ this.state.title.errors }
-						errorMessage={ this.state.title.message }
-						handleChange={ this.handleChange }
-					/>
-					<DescriptionField
-						formName='event'
-						inputName='description'
-						value={ this.state.description.value }
-						errors={ this.state.description.errors }
-						errorMessage={ this.state.description.message }
-						handleChange={ this.handleChange }
-					/>
-					</DialogContent>
-					<DialogActions>
-						<Button
-						variant="contained"
-						color="secondary"
-						onClick={() => {this.props.toggleModal(false)}}
-						>
-							Cancel
-						</Button>
-						<Button
-							type="submit"
-							variant="contained"
-							color="primary"
-							disabled={
-								this.props.fetching ||
-								this.state.title.errors ||
-								this.state.description.errors ||
-								!this.state.title.val.length ||
-								!this.state.description.val.length }
-						>
-							{
-								this.props.fetching
-								? 'Fetching'
-								: 'Publish'
-							}
-						</Button>
-					</DialogActions>
-				</form>
-			</Dialog>
-		)
-	}
+      >
+        <p>{ isEditing }</p>
+        <form
+          className="form__events"
+          noValidate
+          onSubmit={this.handleSubmit}
+        >
+          <DialogTitle id="alert-dialog-title">Create new event.</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Make sure to name your event and provide a helpful and clear description.
+            </DialogContentText>
+            <Typography
+              color="error"
+            >
+              { !error ? null : error.response.data.error.message }
+            </Typography>
+            <TitleField
+              formName="event"
+              inputName="title"
+              value={title.val}
+              errors={title.errors}
+              errorMessage={title.message}
+              handleChange={this.handleChange}
+            />
+            <DescriptionField
+              formName="event"
+              inputName="description"
+              value={description.val}
+              errors={description.errors}
+              errorMessage={description.message}
+              handleChange={this.handleChange}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => { toggleModal(false); }}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={
+                fetching
+                || title.errors
+                || description.errors
+                || !title.val.length
+                || !description.val.length}
+            >
+              {
+                fetching
+                  ? 'Fetching'
+                  : 'Publish'
+              }
+            </Button>
+          </DialogActions>
+        </form>
+      </Dialog>
+    );
+  }
 }
 export default connect(mapStateToProps)(EventsForm);
+
+EventsForm.propTypes = {
+  open: PropTypes.bool.isRequired,
+  event: PropTypes.arrayOf(),
+  toggleModal: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  isEditing: PropTypes.bool.isRequired,
+  error: PropTypes.objectOf(),
+  fetching: PropTypes.bool,
+  fetched: PropTypes.bool,
+  token: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+};
+
+EventsForm.defaultProps = {
+  event: [],
+  error: null,
+  fetching: false,
+  fetched: false,
+};

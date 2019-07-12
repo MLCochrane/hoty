@@ -1,29 +1,44 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
-	TextField, 
-	FormControl
+  TextField,
+  FormControl,
 } from '@material-ui/core';
 
-const TitleField = props => {
-	return (
-		<FormControl
-		fullWidth={ true }
-		required={ true }
-		>
-			<TextField
-				required
-				name={ props.inputName }
-				id={ `${props.formName}-title` }
-				value={ props.value }
-				error={ props.errors }
-				helperText={ props.errors ? props.errorMessage : '' }
-				label='Title'
-				margin='normal'
-				variant='standard'
-				onChange={ props.handleChange }
-			/>
-		</FormControl >
-	)
-}
+const TitleField = ({
+  inputName,
+  formName,
+  value,
+  errors,
+  handleChange,
+  errorMessage,
+}) => (
+  <FormControl
+    fullWidth
+    required
+  >
+    <TextField
+      required
+      name={inputName}
+      id={`${formName}-title`}
+      value={value}
+      error={errors}
+      helperText={errors ? errorMessage : ''}
+      label="Title"
+      margin="normal"
+      variant="standard"
+      onChange={handleChange}
+    />
+  </FormControl>
+);
 
 export default TitleField;
+
+TitleField.propTypes = {
+  inputName: PropTypes.string.isRequired,
+  formName: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  errors: PropTypes.bool.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string.isRequired,
+};

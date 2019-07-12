@@ -1,59 +1,74 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { connect } from 'react-redux';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import { getCurrentUser } from '../store/actions/userActions';
 
 import Header from './components/global/header/Header';
 import Routes from './components/Routes';
 
-import CssBaseline from '@material-ui/core/CssBaseline';
 
-const mapStateToProps = ({users, token}) => {
-  return {
-    userError: users.userError,
-    loggedIn: users.loggedIn,
-    token: token.token
-  }
-}
+const mapStateToProps = ({ users, token }) => ({
+  userError: users.userError,
+  loggedIn: users.loggedIn,
+  token: token.token,
+});
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      noAuth: false
-    }
+      noAuth: false,
+    };
   }
+
   componentDidMount() {
+    const {
+      token,
+      dispatch,
+    } = this.props;
     // Checks for token so we aren't forcing a login everytime
-    if (!this.props.token) {
-      this.setState({noAuth: true})
+    if (!token) {
+      this.setState({ noAuth: true });
       return;
     }
-    // Will see if token is still 
-    this.props.dispatch(getCurrentUser(this.props.token));
+    // Will see if token is still valid
+    dispatch(getCurrentUser(token));
   }
+
   componentDidUpdate(prev) {
-    // If there's an error 
-    if (prev.userError !== this.props.userError) {
+    const {
+      userError,
+      loggedIn,
+    } = this.props;
+    // If there's an error
+    if (prev.userError !== userError) {
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
-        noAuth: true
+        noAuth: true,
       });
       return;
     }
-    if (prev.loggedIn !== this.props.loggedIn) {
-      if (this.props.loggedIn === true) {
+    if (prev.loggedIn !== loggedIn) {
+      if (loggedIn === true) {
+        // eslint-disable-next-line react/no-did-update-set-state
         this.setState({
-        noAuth: false
+          noAuth: false,
         });
-      } else if (this.props.loggedIn === false) {
+      } else if (loggedIn === false) {
+        // eslint-disable-next-line react/no-did-update-set-state
         this.setState({
-          noAuth: true
+          noAuth: true,
         });
       }
     }
   }
+
   render() {
+    const { noAuth } = this.state;
+
     return (
       <Router>
         <section className="App">
@@ -61,7 +76,7 @@ class App extends Component {
           <Header />
           <main className="page-content">
             <Routes
-              noAuth={ this.state.noAuth }
+              noAuth={noAuth}
             />
           </main>
         </section>
@@ -71,3 +86,16 @@ class App extends Component {
 }
 
 export default connect(mapStateToProps)(App);
+
+App.propTypes = {
+  token: PropTypes.string,
+  dispatch: PropTypes.func.isRequired,
+  userError: PropTypes.objectOf(),
+  loggedIn: PropTypes.bool,
+};
+
+App.defaultProps = {
+  token: null,
+  userError: null,
+  loggedIn: false,
+};

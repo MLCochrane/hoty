@@ -4,7 +4,7 @@ import token from './tokenReducer';
 import events from './eventsReducer';
 
 export default combineReducers({
-	users,
-	events,
-	token
+  users,
+  events,
+  token,
 });

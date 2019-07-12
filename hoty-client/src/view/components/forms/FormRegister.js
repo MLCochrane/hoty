@@ -7,135 +7,149 @@ import NameField from './fields/NameField';
 import UsernameField from './fields/UsernameField';
 import validator from './validator';
 
-import api from './../../../api';
+import api from '../../../api';
 
 export default class FormRegister extends Component {
-	constructor(props) {
-		super(props);
-		
-		this.state = {
-			firstName: {
-				val: '',
-				errors: false,
-				message: ''
-			},
-			lastName: {
-				val: '',
-				errors: false,
-				message: ''
-			},
-			username: {
-				val: '',
-				errors: false,
-				message: ''
-			},
-			email: {
-				val: '',
-				errors: false,
-				message: ''
-			},
-			password: {
-				val: '',
-				errors: false,
-				message: ''
-			}
-		}
+  constructor(props) {
+    super(props);
 
-		this.handleChange = this.handleChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
-	}
+    this.state = {
+      firstName: {
+        val: '',
+        errors: false,
+        message: '',
+      },
+      lastName: {
+        val: '',
+        errors: false,
+        message: '',
+      },
+      username: {
+        val: '',
+        errors: false,
+        message: '',
+      },
+      email: {
+        val: '',
+        errors: false,
+        message: '',
+      },
+      password: {
+        val: '',
+        errors: false,
+        message: '',
+      },
+    };
 
-	handleChange(e) {
-		const target = e.target;
-		const value = target.type === 'checkbox' ? target.checked : target.value;
-		const name = target.name;
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-		const errorResult = validator(name, value);
-		console.log(errorResult);
+  handleChange(e) {
+    const { target } = e;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const { name } = target;
 
-		this.setState({
-			[name]: {
-				...this.state[name],
-				val: value,
-				errors: !errorResult.valid,
-				message: errorResult.message
-			}
-		});
-	}
+    const errorResult = validator(name, value);
 
-	handleSubmit(e) {
-		e.preventDefault();
-		api.post('users/login', {
-			email: this.state.email.val,
-			password: this.state.password.val
-		}).then(res => {
-			console.log(res);
-		}).catch(err => {
-			console.error(err);
-		});
-	}
+    this.setState({
+      [name]: {
+        // eslint-disable-next-line
+        ...this.state[name],
+        val: value,
+        errors: !errorResult.valid,
+        message: errorResult.message,
+      },
+    });
+  }
 
-	render() {
-		return (
-			<form className='register'
-				noValidate
-				onSubmit={ this.handleSubmit }>
-			<NameField
-				formName='register'
-				inputName='firstName'
-				label='Last Name'
-				value={ this.state.firstName.value }
-				errors={ this.state.firstName.errors }
-				errorMessage={ this.state.firstName.message }
-				handleChange={ this.handleChange }
-			/>
-			<NameField
-				formName='register'
-				inputName='lastName'
-				label='Last Name'
-				value={ this.state.lastName.value }
-				errors={ this.state.lastName.errors }
-				errorMessage={ this.state.lastName.message }
-				handleChange={ this.handleChange }
-			/>
-			<UsernameField
-				formName='register'
-				inputName='username'
-				value={ this.state.username.value }
-				errors={ this.state.username.errors }
-				errorMessage={ this.state.username.message }
-				handleChange={ this.handleChange }
-			/>
-			<EmailField
-				formName='register'
-				inputName='email'
-				value={ this.state.email.value }
-				errors={ this.state.email.errors }
-				errorMessage={ this.state.email.message }
-				handleChange={ this.handleChange }
-			/>
-			<PasswordField
-				formName='register'
-				inputName='password'
-				value={ this.state.password.value }
-				errors={ this.state.password.errors }
-				errorMessage={ this.state.password.message }
-				handleChange={ this.handleChange }
-			/>
-			<Button
-				type="submit"
-				fullWidth
-				variant="contained"
-				color="primary"
-				disabled={
-					this.state.email.errors ||
-					this.state.password.errors ||
-					!this.state.email.val.length ||
-					!this.state.password.val.length }
-			>
-				Sign Up
-			</Button>
-		</form>
-		)
-	}
+  handleSubmit(e) {
+    const {
+      email,
+      password,
+    } = this.state;
+
+    e.preventDefault();
+    api.post('users/login', {
+      email: email.val,
+      password: password.val,
+    }).then((res) => {
+      console.log(res);
+    }).catch((err) => {
+      console.error(err);
+    });
+  }
+
+  render() {
+    const {
+      firstName,
+      lastName,
+      username,
+      email,
+      password,
+    } = this.state;
+    return (
+      <form
+        className="register"
+        noValidate
+        onSubmit={this.handleSubmit}
+      >
+        <NameField
+          formName="register"
+          inputName="firstName"
+          label="Last Name"
+          value={firstName.value}
+          errors={firstName.errors}
+          errorMessage={firstName.message}
+          handleChange={this.handleChange}
+        />
+        <NameField
+          formName="register"
+          inputName="lastName"
+          label="Last Name"
+          value={lastName.value}
+          errors={lastName.errors}
+          errorMessage={lastName.message}
+          handleChange={this.handleChange}
+        />
+        <UsernameField
+          formName="register"
+          inputName="username"
+          value={username.value}
+          errors={username.errors}
+          errorMessage={username.message}
+          handleChange={this.handleChange}
+        />
+        <EmailField
+          formName="register"
+          inputName="email"
+          value={email.value}
+          errors={email.errors}
+          errorMessage={email.message}
+          handleChange={this.handleChange}
+        />
+        <PasswordField
+          formName="register"
+          inputName="password"
+          value={password.value}
+          errors={password.errors}
+          errorMessage={password.message}
+          handleChange={this.handleChange}
+        />
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          disabled={
+          email.errors
+          || password.errors
+          || !email.val.length
+          || !password.val.length}
+        >
+        Sign Up
+        </Button>
+      </form>
+    );
+  }
 }
