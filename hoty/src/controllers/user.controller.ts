@@ -127,7 +127,7 @@ export class UserController {
 
     user.password = await this.passwordHasher.hashPassword(user.password);
     // Creates random uuid
-    user._id = uuidv4();
+    user.id = uuidv4();
 
     try {
       // create the new user

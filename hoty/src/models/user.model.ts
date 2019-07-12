@@ -8,7 +8,7 @@ export class User extends Entity {
     id: true,
     required: false,
   })
-  _id: string;
+  id: string;
 
   @property({
     type: 'string',

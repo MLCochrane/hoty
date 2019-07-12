@@ -19,7 +19,7 @@ export type Credentials = {
 };
 
 export type FormattedUser = {
-  _id: string,
+  id: string,
   username: string,
   firstName: string,
   lastName: string
@@ -47,7 +47,7 @@ export class UserRepository extends DefaultCrudRepository<
 
   async fetchUser(user: UserProfile) {
     const curUser = await super.findById(user.id);
-    const formatUser = _.pick(curUser, ['_id', 'username', 'firstName', 'lastName']);
+    const formatUser = _.pick(curUser, ['id', 'username', 'firstName', 'lastName']);
     return formatUser;
   }
 }
