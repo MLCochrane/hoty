@@ -10,6 +10,7 @@ import {
   Button,
   Typography,
 } from '@material-ui/core';
+import { DateTimePicker } from '@material-ui/pickers';
 import TitleField from '../forms/fields/TitleField';
 import DescriptionField from '../forms/fields/DescriptionField';
 import validator from '../forms/validator';
@@ -37,6 +38,9 @@ class EventsForm extends Component {
       initDescription = props.event.description;
     }
 
+    this.startDateRef = React.createRef();
+    this.endDateRef = React.createRef();
+
     this.state = {
       title: {
         val: initTitle,
@@ -48,9 +52,20 @@ class EventsForm extends Component {
         errors: false,
         message: '',
       },
+      startDate: {
+        val: new Date(),
+        errors: false,
+        message: '',
+      },
+      endDate: {
+        val: new Date(),
+        errors: false,
+        message: '',
+      },
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.componentDidUpdate = this.componentDidUpdate.bind(this);
   }
@@ -80,6 +95,14 @@ class EventsForm extends Component {
     });
   }
 
+  handleDateChange(date, name) {
+    this.setState({
+      [name]: {
+        val: date,
+      },
+    });
+  }
+
   handleSubmit(e) {
     const {
       token,
@@ -90,12 +113,16 @@ class EventsForm extends Component {
     const {
       title,
       description,
+      startDate,
+      endDate,
     } = this.state;
 
     e.preventDefault();
     const reqBody = {
       title: title.val,
       description: description.val,
+      startDate: startDate.val.toISOString(),
+      endDate: endDate.val.toISOString(),
     };
     dispatch(postEvent(token, id, reqBody));
   }
@@ -111,6 +138,8 @@ class EventsForm extends Component {
     const {
       title,
       description,
+      startDate,
+      endDate,
       isEditing,
     } = this.state;
 
@@ -153,6 +182,19 @@ class EventsForm extends Component {
               errorMessage={description.message}
               handleChange={this.handleChange}
             />
+            <DateTimePicker
+              value={startDate.val}
+              disablePast
+              onChange={date => this.handleDateChange(date, 'startDate')}
+              label="Start Date"
+              showTodayButton
+            />
+            <DateTimePicker
+              value={endDate.val}
+              disablePast
+              onChange={date => this.handleDateChange(date, 'endDate')}
+              label="End Date"
+            />
           </DialogContent>
           <DialogActions>
             <Button
@@ -189,7 +231,10 @@ export default connect(mapStateToProps)(EventsForm);
 
 EventsForm.propTypes = {
   open: PropTypes.bool.isRequired,
-  event: PropTypes.arrayOf(),
+  event: PropTypes.shape({
+    title: PropTypes.string,
+    description: PropTypes.string,
+  }),
   toggleModal: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
   isEditing: PropTypes.bool.isRequired,
@@ -201,7 +246,7 @@ EventsForm.propTypes = {
 };
 
 EventsForm.defaultProps = {
-  event: [],
+  event: {},
   error: null,
   fetching: false,
   fetched: false,

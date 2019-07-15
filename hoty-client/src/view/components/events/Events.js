@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DayjsUtils from '@date-io/dayjs';
 import { getAllEvents } from '../../../store/actions/eventActions';
 
 import EventsContainer from './EventsContainer';
@@ -78,25 +80,27 @@ class Events extends Component {
       isEditing,
     } = this.state;
     return (
-      <div className="events">
-        {noAuth
-          ? <Redirect to="/login" />
-          : (
-            <EventsContainer
-              events={events}
-              callback={this.setCurrent}
-              curId={curId}
-              toggleModal={this.toggleModal}
-              toggleConfirm={this.toggleConfirm}
-              formOpen={formOpen}
-              confirmOpen={confirmOpen}
-              toggleEditing={this.toggleEditing}
-              isEditing={isEditing}
-              userId={userId}
-            />
-          )
-        }
-      </div>
+      <MuiPickersUtilsProvider utils={DayjsUtils}>
+        <div className="events">
+          {noAuth
+            ? <Redirect to="/login" />
+            : (
+              <EventsContainer
+                events={events}
+                callback={this.setCurrent}
+                curId={curId}
+                toggleModal={this.toggleModal}
+                toggleConfirm={this.toggleConfirm}
+                formOpen={formOpen}
+                confirmOpen={confirmOpen}
+                toggleEditing={this.toggleEditing}
+                isEditing={isEditing}
+                userId={userId}
+              />
+            )
+            }
+        </div>
+      </MuiPickersUtilsProvider>
     );
   }
 }
@@ -107,7 +111,7 @@ Events.propTypes = {
   token: PropTypes.string.isRequired,
   userId: PropTypes.string.isRequired,
   noAuth: PropTypes.bool.isRequired,
-  events: PropTypes.arrayOf(),
+  events: PropTypes.arrayOf(PropTypes.object),
 };
 
 Events.defaultProps = {
