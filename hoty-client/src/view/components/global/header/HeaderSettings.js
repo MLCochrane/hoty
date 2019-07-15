@@ -15,5 +15,9 @@ const HeaderSetings = ({ handleMobileMenuOpen }) => (
 export default HeaderSetings;
 
 HeaderSetings.propTypes = {
-  handleMobileMenuOpen: PropTypes.func.isRequired,
+  handleMobileMenuOpen: PropTypes.func,
+};
+
+HeaderSetings.defaultProps = {
+  handleMobileMenuOpen: undefined,
 };

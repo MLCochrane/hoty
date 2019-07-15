@@ -26,6 +26,10 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     paddingBottom: theme.spacing(4),
   },
+  listContainer: {
+    overflowY: 'scroll',
+    height: '60vh',
+  },
 }));
 
 const EventsContainer = ({
@@ -76,10 +80,7 @@ const EventsContainer = ({
             item
             xs={12}
             sm
-            style={{
-              'overflow-y': 'scroll',
-              height: '60vh',
-            }}
+            className={classes.listContainer}
           >
             <EventList
               events={events}
@@ -106,18 +107,24 @@ const EventsContainer = ({
         isEditing={isEditing}
         key={curId}
       />
-      <EventConfrimation
-        open={confirmOpen}
-        toggleConfirm={toggleConfirm}
-        eventId={curId}
-      />
+      {
+        (confirmOpen)
+          ? (
+            <EventConfrimation
+              open={confirmOpen}
+              toggleConfirm={toggleConfirm}
+              eventId={curId}
+            />
+          )
+          : null
+      }
     </Container>
   );
 };
 export default EventsContainer;
 
 EventsContainer.propTypes = {
-  events: PropTypes.arrayOf(),
+  events: PropTypes.arrayOf(PropTypes.object),
   curId: PropTypes.number,
   userId: PropTypes.string.isRequired,
   callback: PropTypes.func.isRequired,

@@ -22,7 +22,7 @@ const Topbar = (props) => {
   return (
     <React.Fragment>
       <Typography variant="h5" color="inherit" noWrap className={classes.title}>
-                HOTY
+        HOTY
       </Typography>
       {loggedIn
         ? (
@@ -41,7 +41,7 @@ const Topbar = (props) => {
             <Button
               color="inherit"
             >
-                    Login
+              Login
             </Button>
           </Link>
         )

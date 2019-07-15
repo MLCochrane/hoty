@@ -130,6 +130,6 @@ class Menu extends Component {
 export default connect()(Menu);
 
 Menu.propTypes = {
-  history: PropTypes.objectOf().isRequired,
+  history: PropTypes.shape({}).isRequired,
   dispatch: PropTypes.func.isRequired,
 };

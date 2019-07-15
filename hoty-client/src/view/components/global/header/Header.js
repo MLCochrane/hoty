@@ -38,5 +38,5 @@ export default withRouter(connect(mapStateToProps)(Header));
 
 Header.propTypes = {
   loggedIn: PropTypes.bool.isRequired,
-  history: PropTypes.objectOf.isRequired,
+  history: PropTypes.shape({}).isRequired,
 };

@@ -51,7 +51,7 @@ const EventOverview = ({
 export default EventOverview;
 
 EventOverview.propTypes = {
-  event: PropTypes.arrayOf(),
+  event: PropTypes.shape({}),
   userId: PropTypes.string,
   toggleConfirm: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
@@ -59,6 +59,6 @@ EventOverview.propTypes = {
 };
 
 EventOverview.defaultProps = {
-  event: [],
+  event: {},
   userId: '',
 };
