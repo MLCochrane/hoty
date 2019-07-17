@@ -1,3 +1,5 @@
+import Dayjs from 'dayjs';
+
 export default (name, value) => {
   const result = {
     valid: '',
@@ -46,3 +48,13 @@ export default (name, value) => {
 
   return result;
 };
+
+export function dateValidator(dateOne, dateTwo) {
+  const djOne = Dayjs(dateOne);
+  const djTwo = Dayjs(dateTwo);
+
+  return {
+    valid: djOne.isBefore(djTwo),
+    message: 'End date must come after start date.',
+  };
+}

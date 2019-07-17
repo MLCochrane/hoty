@@ -12,26 +12,23 @@ const mapStateToProps = ({ users }) => ({
 });
 
 const Header = ({ loggedIn, history }) => (
-  <div className="header">
-    <AppBar position="static">
-      <Toolbar>
-        {loggedIn
-          ? (
-            <Menu
-              history={history}
-            />
-          )
-          : null
-        }
-        <Topbar
-          loggedIn={loggedIn}
-          history={
-            history
-          }
-        />
-      </Toolbar>
-    </AppBar>
-  </div>
+  (loggedIn ? (
+    <div className="header">
+      <AppBar position="static">
+        <Toolbar>
+          <Menu
+            history={history}
+          />
+          <Topbar
+            loggedIn={loggedIn}
+            history={
+              history
+            }
+          />
+        </Toolbar>
+      </AppBar>
+    </div>
+  ) : null)
 );
 
 export default withRouter(connect(mapStateToProps)(Header));

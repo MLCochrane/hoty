@@ -22,7 +22,7 @@ const UsernameField = ({
       error={errors}
       label="Username"
       margin="normal"
-      variant="standard"
+      variant="filled"
       onChange={handleChange}
       helperText={errors ? errorMessage : ''}
     />

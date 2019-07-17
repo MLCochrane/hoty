@@ -43,7 +43,7 @@ class Profile extends Component {
     return (
       <div className="profile">
         {noAuth
-          ? <Redirect to="/login" />
+          ? <Redirect to="/" />
           : this.deets()
         }
       </div>

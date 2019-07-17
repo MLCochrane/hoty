@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-import PasswordField from './fields/PasswordField';
-import EmailField from './fields/EmailField';
-import validator from './validator';
+import PasswordField from '../forms/fields/PasswordField';
+import EmailField from '../forms/fields/EmailField';
+import validator from '../forms/validator';
 
 import { login } from '../../../store/actions/userActions';
 
@@ -88,7 +88,6 @@ class FormLogin extends Component {
         className="form__login"
         noValidate
         onSubmit={this.handleSubmit}
-        {...this.props}
       >
         <Typography
           color="error"
@@ -126,7 +125,7 @@ class FormLogin extends Component {
           {
           fetching
             ? 'Fetching'
-            : 'Sign In'
+            : 'Login'
         }
         </Button>
       </form>

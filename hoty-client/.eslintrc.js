@@ -21,5 +21,6 @@ module.exports = {
     "rules": {
         "jsx-quotes": 1,
         "react/jsx-filename-extension": [0],
+        "linebreak-style": 0,
     }
 };

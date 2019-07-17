@@ -24,7 +24,7 @@ const EmailField = ({
       helperText={errors ? errorMessage : ''}
       label={label}
       margin="normal"
-      variant="standard"
+      variant="filled"
       onChange={handleChange}
     />
   </FormControl>

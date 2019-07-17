@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 
-import PasswordField from './fields/PasswordField';
-import EmailField from './fields/EmailField';
-import NameField from './fields/NameField';
-import UsernameField from './fields/UsernameField';
-import validator from './validator';
+import PasswordField from '../forms/fields/PasswordField';
+import EmailField from '../forms/fields/EmailField';
+import NameField from '../forms/fields/NameField';
+import UsernameField from '../forms/fields/UsernameField';
+import validator from '../forms/validator';
 
 import api from '../../../api';
 
@@ -147,7 +147,7 @@ export default class FormRegister extends Component {
           || !email.val.length
           || !password.val.length}
         >
-        Sign Up
+        Register
         </Button>
       </form>
     );
