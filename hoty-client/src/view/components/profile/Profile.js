@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
+import PageBar from '../global/header/PageBar';
+
+
 const mapStateToProps = ({ users, events }) => ({
   user: users.user,
   events: events.eventsUser,
@@ -42,6 +45,9 @@ class Profile extends Component {
     const { noAuth } = this.props;
     return (
       <div className="profile">
+        <PageBar
+          title="Profile"
+        />
         {noAuth
           ? <Redirect to="/" />
           : this.deets()
