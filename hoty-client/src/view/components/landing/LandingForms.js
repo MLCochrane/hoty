@@ -1,5 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {
+  CSSTransition,
+  SwitchTransition,
+} from 'react-transition-group';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -9,12 +13,12 @@ import {
 } from '@material-ui/core';
 
 import FormContainer from './FormContainer';
-
+import LandingFormLinks from './LandingFormLinks';
 
 const useStyles = makeStyles(theme => ({
   formWrap: {
     position: 'absolute',
-    transform: 'translate(-50%,-50%)',
+    transform: 'translate(-50%,calc(-50% - .5px)) translate3d(0,0,0)',
     top: '50%',
     left: '50%',
     backgroundColor: '#fff',
@@ -42,56 +46,38 @@ const LandingForms = (props) => {
     buttonCallback,
   } = props;
   return (
-    <Container
-      maxWidth="xs"
-      className={classes.formWrap}
-    >
-      <Typography
-        variant="h5"
-        className={classes.formTitle}
+    <SwitchTransition>
+      <CSSTransition
+        key={formType}
+        classNames="slide"
+        timeout={300}
+        in={formType}
       >
-        {formType}
-      </Typography>
-      <Container
-        className={classes.formContainer}
-      >
-        <FormContainer
-          formType={formType}
-        />
-      </Container>
-      {(formType === 'login')
-        ? (
+        <Container
+          maxWidth="xs"
+          className={classes.formWrap}
+        >
           <Typography
-            variant="caption"
+            variant="h5"
+            className={classes.formTitle}
           >
-            Don&#39;t have an account?
-            <button
-              type="button"
-              className={classes.captionButtons}
-              onClick={() => { buttonCallback('register'); }}
-            >
-              Create one
-            </button>
-            now.
+            {formType}
           </Typography>
-        )
-        : (
-          <Typography
-            variant="caption"
+          <Container
+            className={classes.formContainer}
           >
-            Already have an account?
-            <button
-              type="button"
-              className={classes.captionButtons}
-              onClick={() => { buttonCallback('login'); }}
-            >
-              Sign in
-            </button>
-            now.
-          </Typography>
-        )
-      }
-    </Container>
+            <FormContainer
+              formType={formType}
+            />
+          </Container>
+          <LandingFormLinks
+            formType={formType}
+            buttonCallback={buttonCallback}
+            classes={classes}
+          />
+        </Container>
+      </CSSTransition>
+    </SwitchTransition>
   );
 };
 export default LandingForms;

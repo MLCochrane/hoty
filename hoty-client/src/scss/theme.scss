@@ -2,3 +2,51 @@ a {
 	color: inherit;
 	text-decoration: none;
 }
+
+// Use of !important due to material-ui hooks with higher specificity
+// Not a big fan of this atm.
+.slide {
+	&-enter {
+		opacity: 0;
+		transform: translate(-50%,-30%) !important;
+	}
+	&-enter-active {
+		opacity: 1;
+		transform: translate(-50%, -50%) !important;
+		transition: opacity 300ms, transform 300ms;
+	}
+	&-exit {
+		opacity: 1;
+		transform: translate(-50%, -50%) !important;
+	}
+	&-exit-active {
+		opacity: 0;
+		transform: translate(-50%, -80%) !important;
+		transition: opacity 300ms, transform 300ms;
+	}
+}
+
+.fade {
+	&-enter {
+		opacity: 0;
+	}
+
+	&-enter-active {
+		opacity: 1;
+		transition: opacity 300ms;
+	}
+
+	&-exit {
+		opacity: 1;
+	}
+
+	&-exit-active {
+		opacity: 0;
+		transition: opacity 300ms;
+	}
+}
+
+.header__toolbar {
+	background: #fff;
+	color: #6200EE;
+}

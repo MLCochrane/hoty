@@ -73,10 +73,6 @@ export default class FormRegister extends Component {
     api.post('users/login', {
       email: email.val,
       password: password.val,
-    }).then((res) => {
-      console.log(res);
-    }).catch((err) => {
-      console.error(err);
     });
   }
 
