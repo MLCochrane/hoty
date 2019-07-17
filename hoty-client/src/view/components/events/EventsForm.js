@@ -259,7 +259,7 @@ EventsForm.propTypes = {
   fetching: PropTypes.bool,
   fetched: PropTypes.bool,
   token: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
 };
 
 EventsForm.defaultProps = {
@@ -267,4 +267,5 @@ EventsForm.defaultProps = {
   error: null,
   fetching: false,
   fetched: false,
+  id: '',
 };

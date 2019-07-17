@@ -5,26 +5,18 @@ import {
   Grid,
   Hidden,
   Container,
-  Typography,
   Paper,
-  Button,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import EventList from './EventList';
-import EventOverview from './EventOverview';
 import EventForm from './EventsForm';
 import EventConfrimation from './EventConfrim';
+import EventBackdrop from './EventBackdrop';
 
 const useStyles = makeStyles(theme => ({
   container: {
     padding: theme.spacing(4),
-  },
-  titleBar: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingBottom: theme.spacing(4),
   },
   listContainer: {
     overflowY: 'scroll',
@@ -44,31 +36,19 @@ const EventsContainer = ({
   isEditing,
   confirmOpen,
 }) => {
-  const collectCurrent = () => events.filter(el => el.id === curId)[0];
+  const collectCurrent = () => {
+    if (events.length) {
+      return events.filter(el => el.id === curId)[0];
+    } else {
+      return {};
+    }
+  }
   const classes = useStyles();
   return (
     <Container
       maxWidth="xl"
       className={classes.container}
     >
-      <div
-        className={classes.titleBar}
-      >
-        <Typography
-          variant="h5"
-          component="h1"
-        >
-          Events
-        </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.button}
-          onClick={() => { toggleModal(true); }}
-        >
-          Add New
-        </Button>
-      </div>
       <Paper
         elevation={1}
       >
@@ -89,7 +69,8 @@ const EventsContainer = ({
           </Grid>
           <Hidden smDown>
             <Grid item xs={12} sm={7}>
-              <EventOverview
+              <EventBackdrop
+                curId={curId}
                 event={collectCurrent()}
                 toggleConfirm={toggleConfirm}
                 toggleModal={toggleModal}

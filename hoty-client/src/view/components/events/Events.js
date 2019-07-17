@@ -4,14 +4,17 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DayjsUtils from '@date-io/dayjs';
+import Dayjs from 'dayjs';
 import { getAllEvents } from '../../../store/actions/eventActions';
 
 import EventsContainer from './EventsContainer';
+import PageBar from '../global/header/PageBar';
+import EventFilter from '../events/EventFilter';
 
 const mapStateToProps = ({ events, token, users }) => ({
   token: token.token,
   events: events.events,
-  userId: users.user.id,
+  user: users.user,
 });
 
 class Events extends Component {
@@ -23,12 +26,15 @@ class Events extends Component {
       formOpen: false,
       confirmOpen: false,
       isEditing: false,
+      filter: 'all'
     };
 
     this.setCurrent = this.setCurrent.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleConfirm = this.toggleConfirm.bind(this);
     this.toggleEditing = this.toggleEditing.bind(this);
+    this.changeFilter = this.changeFilter.bind(this);
+    this.filteredEvents = this.filteredEvents.bind(this);
   }
 
   componentDidMount() {
@@ -66,11 +72,36 @@ class Events extends Component {
     });
   }
 
+  changeFilter(filter) {
+    this.setState({
+      filter: filter,
+    });
+  }
+
+  filteredEvents() {
+    const {
+      filter,
+    } = this.state;
+    const {
+      events,
+    } = this.props;
+
+    switch (filter) {
+      case 'all':
+        return events;
+      case 'upcoming':
+        return events.filter(el => Dayjs(el.startDate).isAfter(Dayjs(Date.now())));
+      case 'past':
+        return events.filter(el => Dayjs(el.endDate).isBefore(Dayjs(Date.now())));
+      default:
+        break;
+    };
+  }
+
   render() {
     const {
       noAuth,
-      events,
-      userId,
+      user,
     } = this.props;
 
     const {
@@ -78,15 +109,25 @@ class Events extends Component {
       formOpen,
       confirmOpen,
       isEditing,
+      filter,
     } = this.state;
     return (
       <MuiPickersUtilsProvider utils={DayjsUtils}>
-        <div className="events">
-          {noAuth
-            ? <Redirect to="/" />
-            : (
+        {noAuth
+          ? <Redirect to="/" />
+          : (
+            <div className="events">
+              <PageBar
+                title="Events"
+              >
+                <EventFilter
+                  filter={filter}
+                  user={user}
+                  changeFilter={this.changeFilter}
+                />
+              </PageBar>
               <EventsContainer
-                events={events}
+                events={this.filteredEvents()}
                 callback={this.setCurrent}
                 curId={curId}
                 toggleModal={this.toggleModal}
@@ -95,11 +136,11 @@ class Events extends Component {
                 confirmOpen={confirmOpen}
                 toggleEditing={this.toggleEditing}
                 isEditing={isEditing}
-                userId={userId}
+                userId={user.id}
               />
-            )
-            }
-        </div>
+            </div>
+          )
+        }
       </MuiPickersUtilsProvider>
     );
   }
@@ -109,7 +150,12 @@ export default connect(mapStateToProps)(Events);
 Events.propTypes = {
   dispatch: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
-  userId: PropTypes.string.isRequired,
+  user: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    username: PropTypes.string,
+    id: PropTypes.string,
+  }).isRequired,
   noAuth: PropTypes.bool.isRequired,
   events: PropTypes.arrayOf(PropTypes.object),
 };
