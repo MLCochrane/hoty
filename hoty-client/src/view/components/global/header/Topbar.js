@@ -11,6 +11,7 @@ import HeaderSettings from './HeaderSettings';
 const useStyles = makeStyles({
   title: {
     'flex-grow': 1,
+    'text-align': 'center',
   },
 });
 
@@ -22,7 +23,7 @@ const Topbar = (props) => {
   return (
     <React.Fragment>
       <Typography variant="h5" color="inherit" noWrap className={classes.title}>
-        HOTY
+        Host Of The Year
       </Typography>
       {loggedIn
         ? (

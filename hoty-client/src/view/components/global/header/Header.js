@@ -15,7 +15,9 @@ const Header = ({ loggedIn, history }) => (
   (loggedIn ? (
     <div className="header">
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar
+          className="header__toolbar"
+        >
           <Menu
             history={history}
           />
