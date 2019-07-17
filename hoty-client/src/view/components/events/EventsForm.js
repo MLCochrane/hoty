@@ -13,7 +13,7 @@ import {
 import { DateTimePicker } from '@material-ui/pickers';
 import TitleField from '../forms/fields/TitleField';
 import DescriptionField from '../forms/fields/DescriptionField';
-import validator from '../forms/validator';
+import validator, { dateValidator } from '../forms/validator';
 
 import { postEvent } from '../../../store/actions/eventActions';
 
@@ -96,9 +96,21 @@ class EventsForm extends Component {
   }
 
   handleDateChange(date, name) {
+    const { startDate, endDate } = this.state;
+    let errorResult;
+
+    if (name === 'startDate') {
+      errorResult = dateValidator(date, endDate.val);
+    } else {
+      errorResult = dateValidator(startDate.val, date);
+    }
+
     this.setState({
       [name]: {
+        ...[name],
         val: date,
+        errors: !errorResult.valid,
+        message: errorResult.message,
       },
     });
   }
@@ -187,6 +199,8 @@ class EventsForm extends Component {
               disablePast
               onChange={date => this.handleDateChange(date, 'startDate')}
               label="Start Date"
+              error={startDate.errors}
+              helperText={startDate.errors ? startDate.errorMessage : ''}
               showTodayButton
             />
             <DateTimePicker
@@ -194,6 +208,9 @@ class EventsForm extends Component {
               disablePast
               onChange={date => this.handleDateChange(date, 'endDate')}
               label="End Date"
+              error={endDate.errors}
+              helperText={endDate.errors ? endDate.errorMessage : ''}
+              showTodayButton
             />
           </DialogContent>
           <DialogActions>

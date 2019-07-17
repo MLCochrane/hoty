@@ -83,7 +83,7 @@ class Events extends Component {
       <MuiPickersUtilsProvider utils={DayjsUtils}>
         <div className="events">
           {noAuth
-            ? <Redirect to="/login" />
+            ? <Redirect to="/" />
             : (
               <EventsContainer
                 events={events}
