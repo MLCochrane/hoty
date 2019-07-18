@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-import PasswordField from '../forms/fields/PasswordField';
-import EmailField from '../forms/fields/EmailField';
-import validator from '../forms/validator';
+import PasswordField from '../../forms/fields/PasswordField';
+import EmailField from '../../forms/fields/EmailField';
+import validator from '../../forms/validator';
 
-import { login } from '../../../store/actions/userActions';
+import { login } from '../../../../store/actions/userActions';
 
 const mapStateToProps = state => ({
   error: state.users.error,

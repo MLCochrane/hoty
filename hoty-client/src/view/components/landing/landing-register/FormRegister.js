@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 
-import PasswordField from '../forms/fields/PasswordField';
-import EmailField from '../forms/fields/EmailField';
-import NameField from '../forms/fields/NameField';
-import UsernameField from '../forms/fields/UsernameField';
-import validator from '../forms/validator';
+import PasswordField from '../../forms/fields/PasswordField';
+import EmailField from '../../forms/fields/EmailField';
+import NameField from '../../forms/fields/NameField';
+import UsernameField from '../../forms/fields/UsernameField';
+import validator from '../../forms/validator';
 
-import api from '../../../api';
+import api from '../../../../api';
 
 export default class FormRegister extends Component {
   constructor(props) {

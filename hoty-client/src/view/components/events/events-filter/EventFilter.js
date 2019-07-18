@@ -4,7 +4,7 @@ import {
   Button,
 } from '@material-ui/core';
 import {
-  makeStyles
+  makeStyles,
 } from '@material-ui/core/styles';
 
 import PropTypes from 'prop-types';
@@ -45,7 +45,9 @@ const EventFilter = ({ user, filter, changeFilter }) => {
       <Typography
         className={classes.blurb}
       >
-        Hey { user.firstName }, check out the latest going on or add a new event.
+        Hey
+        { user.firstName }
+        , check out the latest going on or add a new event.
       </Typography>
       {
         buttons.map(el => (
@@ -62,8 +64,14 @@ const EventFilter = ({ user, filter, changeFilter }) => {
         ))
       }
     </div>
-  )
-}
+  );
+};
 export default EventFilter;
+
 EventFilter.propTypes = {
+  user: PropTypes.shape({
+    firstName: PropTypes.string.isRequired,
+  }).isRequired,
+  filter: PropTypes.string.isRequired,
+  changeFilter: PropTypes.func.isRequired,
 };

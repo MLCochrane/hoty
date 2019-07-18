@@ -11,11 +11,11 @@ import {
   Typography,
 } from '@material-ui/core';
 import { DateTimePicker } from '@material-ui/pickers';
-import TitleField from '../forms/fields/TitleField';
-import DescriptionField from '../forms/fields/DescriptionField';
-import validator, { dateValidator } from '../forms/validator';
+import TitleField from '../../forms/fields/TitleField';
+import DescriptionField from '../../forms/fields/DescriptionField';
+import validator, { dateValidator } from '../../forms/validator';
 
-import { postEvent } from '../../../store/actions/eventActions';
+import { postEvent } from '../../../../store/actions/eventActions';
 
 const mapStateToProps = ({ users, events, token }) => ({
   error: users.error,

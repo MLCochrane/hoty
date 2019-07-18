@@ -4,8 +4,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/styles';
 import { Link } from 'react-router-dom';
-import HeaderIcons from './HeaderIcons';
-import HeaderSettings from './HeaderSettings';
+import HeaderIcons from '../header-icons/HeaderIcons';
+import HeaderSettings from '../header-settings/HeaderSettings';
 
 
 const useStyles = makeStyles({

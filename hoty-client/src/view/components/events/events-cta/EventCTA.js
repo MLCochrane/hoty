@@ -6,7 +6,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
-import bg from '../../../EVENT-BG.jpg';
+import bg from '../../../../EVENT-BG.jpg';
 
 const useStyles = makeStyles(theme => ({
   wrap: {
@@ -39,11 +39,11 @@ const EventCta = ({ toggleModal }) => {
     <div
       className={classes.wrap}
     >
-      <div className={classes.bg}></div>
+      <div className={classes.bg} />
       <div className={classes.cta}>
         <Typography
-          variant='h5'
-          color='primary'
+          variant="h5"
+          color="primary"
           className={classes.ctaText}
         >
           Something fun going down?!
@@ -58,8 +58,8 @@ const EventCta = ({ toggleModal }) => {
         </Button>
       </div>
     </div>
-  )
-}
+  );
+};
 export default EventCta;
 EventCta.propTypes = {
 };

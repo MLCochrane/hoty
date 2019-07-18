@@ -10,7 +10,7 @@ import {
   Button,
 } from '@material-ui/core';
 
-import { deleteEvent } from '../../../store/actions/eventActions';
+import { deleteEvent } from '../../../../store/actions/eventActions';
 
 const mapStateToProps = ({ events, token, users }) => ({
   fetching: events.fetching,

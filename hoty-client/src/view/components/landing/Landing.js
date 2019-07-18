@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 
 import bg from '../../../EVENT-BG.jpg';
 
-import LandingIntro from './LandingIntro';
-import LandingForms from './LandingForms';
+import LandingIntro from './landing-intro/LandingIntro';
+import LandingForms from './landing-forms/LandingForms';
 
 class Landing extends Component {
   constructor(props) {

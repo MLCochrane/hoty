@@ -29,20 +29,21 @@ export default (name, value) => {
     }
     case 'username':
     {
-      const usernameValid = value.match(/^[a-zA-Z0-9_]*$/i);
+      const usernameValid = value.match(/^[a-zA-Z0-9_]{2,}$/i);
       result.valid = !!usernameValid;
       result.message = usernameValid ? '' : 'Username may not contain any spaces or special character.';
       break;
     }
     case 'password':
     {
-      const passValid = value.match(/(.){8,}/);
+      const passValid = value.match(/^([^\s]){8,}$/);
       result.valid = !!passValid;
-      result.message = passValid ? '' : 'Username may not contain any spaces or special character.';
+      result.message = passValid ? '' : 'Password must be at least 8 characters.';
       break;
     }
     default:
-      result.valid = true;
+      result.valid = false;
+      result.message = 'Invalid field name';
       break;
   }
 
@@ -53,8 +54,17 @@ export function dateValidator(dateOne, dateTwo) {
   const djOne = Dayjs(dateOne);
   const djTwo = Dayjs(dateTwo);
 
+  if (!djOne.isValid() || !djTwo.isValid()) {
+    return {
+      valid: false,
+      message: 'Dates are invalid.',
+    };
+  }
+
+  const res = djOne.isBefore(djTwo);
+
   return {
-    valid: djOne.isBefore(djTwo),
-    message: 'End date must come after start date.',
+    valid: res,
+    message: res ? '' : 'End date must come after start date.',
   };
 }

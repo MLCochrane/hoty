@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { withRouter } from 'react-router-dom';
-import Menu from './Menu';
-import Topbar from './Topbar';
+import Menu from './header-menu/Menu';
+import Topbar from './header-topbar/Topbar';
 
 const mapStateToProps = ({ users }) => ({
   loggedIn: users.loggedIn,

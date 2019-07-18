@@ -17,7 +17,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import EventsIcon from '@material-ui/icons/ViewList';
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import LogoutIcon from '@material-ui/icons/PowerSettingsNew';
-import { logout } from '../../../../store/actions/userActions';
+import { logout } from '../../../../../store/actions/userActions';
 
 class Menu extends Component {
   constructor(props) {
