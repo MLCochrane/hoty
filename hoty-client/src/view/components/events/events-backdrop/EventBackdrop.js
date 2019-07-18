@@ -4,8 +4,8 @@ import {
   CSSTransition,
   SwitchTransition,
 } from 'react-transition-group';
-import EventOverview from './EventOverview';
-import EventCTA from './EventCTA';
+import EventOverview from '../events-overview/EventOverview';
+import EventCTA from '../events-cta/EventCTA';
 
 const EventBackdrop = (props) => {
   const {
@@ -42,8 +42,8 @@ const EventBackdrop = (props) => {
         }
       </CSSTransition>
     </SwitchTransition>
-  )
-}
+  );
+};
 export default EventBackdrop;
 EventBackdrop.propTypes = {
 };

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Button } from '@material-ui/core';
 
 
-
 const display = (event, userId, toggleConfirm, toggleModal, toggleEditing) => (
   <div className="event__content">
     <h1>{ event.title }</h1>

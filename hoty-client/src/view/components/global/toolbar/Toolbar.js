@@ -21,15 +21,16 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const PageBar = ({ title, children }) => {
+const Toolbar = ({ title, children }) => {
   const classes = useStyles();
   return (
     <div className={classes.bar}>
       <div className={classes.wrap}>
         <Typography
           className={classes.title}
+          component="h1"
           variant="h2"
-          >
+        >
           { title }
         </Typography>
         <div className="page-bar__content">
@@ -40,7 +41,7 @@ const PageBar = ({ title, children }) => {
   );
 };
 
-export default PageBar;
-PageBar.propTypes = {
+export default Toolbar;
+Toolbar.propTypes = {
   title: PropTypes.string.isRequired,
 };

@@ -1254,12 +1254,12 @@
         "signature": "f03594cc668c4d08662922715b727f5680f028bab3746d13adfac62674c97537"
       },
       "c:/users/luke cochrane/documents/projects/hoty/hoty/src/models/event.model.ts": {
-        "version": "65c8711176361cec4f8800ff219b4006224b835f5b1c1513803096e3b6faca98",
-        "signature": "e010add0b6f7aaf141c4e865ba48cfb42b5182dd42ba12649346bf68aff46d98"
+        "version": "090a1562247f890cf5d218f5cea18ad0d3baf397388267d37259e563bffb5593",
+        "signature": "7350b85b66869050c055f225b76347c89a3334835fc804ade781239fdbd6edfe"
       },
       "c:/users/luke cochrane/documents/projects/hoty/hoty/src/models/user.model.ts": {
-        "version": "f957d2678d704ec55f7bcef804326856827d161e080674fef39897d81a75f31a",
-        "signature": "d2f2f2e1e9f3535591ed521e6d5260228e53c2d27c4607a8895796e9475ca4ea"
+        "version": "f043564d82fbf8f630b98361e8668e04648066a5de74f4d50b3a369164105e95",
+        "signature": "3f1aee595dadef4e0bc90e32f797e616b12bf7f64b206009a0cc3ef8e4ce3aca"
       },
       "c:/users/luke cochrane/documents/projects/hoty/hoty/src/models/index.ts": {
         "version": "05d1460a4a8edc234aa70f801f1eb706d4b4177deb16645b5818687c8b013d37",
@@ -1329,12 +1329,12 @@
         "signature": "bbf144d4354e2aaa6439f32761f3ee798cc68d1600adab6e2a596f25269f106d"
       },
       "c:/users/luke cochrane/documents/projects/hoty/hoty/src/repositories/event.repository.ts": {
-        "version": "7882f5f784b6820911e4e06327970c06a98f4b0aa6f71eb56d7ffbb744fb39bb",
-        "signature": "d660f1183314fa869d3f05d9a0ae48795d4d7cf631d2df6b6c0b087c8dda4516"
+        "version": "8959196037e8f709768515145952474cd350d24eb3daf9e0094a9d74af2014d6",
+        "signature": "0d1bfd07fa9d18a5f1f9e2c9af0a1c539652e1e56338c554990020d484a1bb7e"
       },
       "c:/users/luke cochrane/documents/projects/hoty/hoty/src/repositories/user.repository.ts": {
-        "version": "abba4a1ecda9261ed4f256aaa9ffe4d7a97318a5769e8cd952180268f1aac79b",
-        "signature": "daf00fb64823897fbd34684b3490dc8781014d9df6fd96f98b347697b48d78e1"
+        "version": "ccabd01b93898bcb3b671714c5c419e44541b5b01581d17852564c0522b38a86",
+        "signature": "e925096b2bcbb727dc03747fe5f1c54cb1125104a8bb0a9c987dd855b32648a3"
       },
       "c:/users/luke cochrane/documents/projects/hoty/hoty/src/repositories/index.ts": {
         "version": "54e3a9c9d2317686449c717b958950d1eeaa5d2efbb716c032350a0d99a552cf",
@@ -1349,7 +1349,7 @@
         "signature": "bbc74d908b51e11201d46a1bb8107264d723838d52420e4fe6ac9c927a83a3b1"
       },
       "c:/users/luke cochrane/documents/projects/hoty/hoty/src/services/user-service.ts": {
-        "version": "505ff10c642e5abbb4d34393ada0efec3bf2a4457325fc376fd48523c797d2e5",
+        "version": "661b18443b15fc6b479457e96c2f0093660bd9e8ef03abefb6c861f338a9183d",
         "signature": "d34602dd3a36cbef31622854710c6ecc6354e69cad564e0f8949530fa6c7c495"
       },
       "c:/users/luke cochrane/documents/projects/hoty/hoty/src/auth-strategies/jwt-strategy.ts": {
@@ -1473,12 +1473,12 @@
         "signature": "b329b5f7911d48d395280d610989dd2eb2a3d3dfd5fe4963c700291260a7ed58"
       },
       "c:/users/luke cochrane/documents/projects/hoty/hoty/src/controllers/user.controller.ts": {
-        "version": "f1300566e16be2bd5846acd33e7af4ca5a12675385d7886a57551102512fab4e",
+        "version": "81f1beb7b0f5eb03de2fdef74f0e2a8029c6fadc654875727be49c5c4d0edf06",
         "signature": "eee5ff9f2ee75465e9c678ef44d9b3370c168f6689e674df1e6834a2e1d03b5a"
       },
       "c:/users/luke cochrane/documents/projects/hoty/hoty/src/controllers/user-events-controller.controller.ts": {
-        "version": "601c5fe848fcb551bafd55d860de50866d1db7be0bc9ae28a8da348b6971bd3d",
-        "signature": "5eaaeb02f12c3842d1c063e7cbada508b0f27bedc290f49c723d9f46ff4681cd"
+        "version": "c7b51351afcdcf56fe65d9546e69f196aaf3c599317f9f71b270b028ad8fd594",
+        "signature": "ac4527aae146b13d83af7d6dba1412b788fb8bb4be2d3201e9bdd0532c928c3c"
       },
       "c:/users/luke cochrane/documents/projects/hoty/hoty/src/controllers/index.ts": {
         "version": "63f5631ef4b1874a755a8acae1ca655c998b5dc3e78b9495c027667f1f8896da",
@@ -6512,8 +6512,8 @@
         "c:/users/luke cochrane/documents/projects/hoty/hoty/src/models/index.ts"
       ],
       "c:/users/luke cochrane/documents/projects/hoty/hoty/src/repositories/user.repository.ts": [
-        "c:/users/luke cochrane/documents/projects/hoty/hoty/node_modules/@loopback/repository/index.d.ts",
         "c:/users/luke cochrane/documents/projects/hoty/hoty/src/models/index.ts",
+        "c:/users/luke cochrane/documents/projects/hoty/hoty/node_modules/@loopback/repository/index.d.ts",
         "c:/users/luke cochrane/documents/projects/hoty/hoty/src/datasources/index.ts",
         "c:/users/luke cochrane/documents/projects/hoty/hoty/node_modules/@loopback/core/index.d.ts",
         "c:/users/luke cochrane/documents/projects/hoty/hoty/src/repositories/event.repository.ts",
@@ -7079,6 +7079,7 @@
       "c:/users/luke cochrane/documents/projects/hoty/hoty/node_modules/@loopback/authentication/index.d.ts",
       "c:/users/luke cochrane/documents/projects/hoty/hoty/src/sequence.ts",
       "c:/users/luke cochrane/documents/projects/hoty/hoty/node_modules/@types/bcrypt/index.d.ts",
+      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/services/hash.password.bcrypt.ts",
       "c:/users/luke cochrane/documents/projects/hoty/hoty/src/models/event.model.ts",
       "c:/users/luke cochrane/documents/projects/hoty/hoty/src/models/user.model.ts",
       "c:/users/luke cochrane/documents/projects/hoty/hoty/src/models/index.ts",
@@ -7098,6 +7099,14 @@
       "c:/users/luke cochrane/documents/projects/hoty/hoty/node_modules/@types/lodash/ts3.1/common/string.d.ts",
       "c:/users/luke cochrane/documents/projects/hoty/hoty/node_modules/@types/lodash/ts3.1/common/util.d.ts",
       "c:/users/luke cochrane/documents/projects/hoty/hoty/node_modules/@types/lodash/ts3.1/index.d.ts",
+      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/repositories/event.repository.ts",
+      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/repositories/user.repository.ts",
+      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/repositories/index.ts",
+      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/keys.ts",
+      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/services/jwt-service.ts",
+      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/services/user-service.ts",
+      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/auth-strategies/jwt-strategy.ts",
+      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/application.ts",
       "c:/users/luke cochrane/documents/projects/hoty/hoty/src/index.ts",
       "c:/users/luke cochrane/documents/projects/hoty/hoty/src/migrate.ts",
       "c:/users/luke cochrane/documents/projects/hoty/hoty/node_modules/@types/cookiejar/index.d.ts",
@@ -7125,6 +7134,10 @@
       "c:/users/luke cochrane/documents/projects/hoty/hoty/src/__tests__/acceptance/ping.controller.acceptance.ts",
       "c:/users/luke cochrane/documents/projects/hoty/hoty/src/controllers/ping.controller.ts",
       "c:/users/luke cochrane/documents/projects/hoty/hoty/node_modules/isemail/lib/index.d.ts",
+      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/services/validator.ts",
+      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/controllers/user.controller.ts",
+      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/controllers/user-events-controller.controller.ts",
+      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/controllers/index.ts",
       "c:/users/luke cochrane/documents/projects/hoty/hoty/node_modules/@types/debug/index.d.ts",
       "c:/users/luke cochrane/documents/projects/hoty/hoty/node_modules/@types/eslint-visitor-keys/index.d.ts",
       "c:/users/luke cochrane/documents/projects/hoty/hoty/node_modules/@types/fs-extra/index.d.ts",
@@ -7135,20 +7148,7 @@
       "c:/users/luke cochrane/documents/projects/hoty/hoty/node_modules/@types/on-finished/index.d.ts",
       "c:/users/luke cochrane/documents/projects/hoty/hoty/node_modules/@types/passport-http/index.d.ts",
       "c:/users/luke cochrane/documents/projects/hoty/hoty/node_modules/@types/passport-http-bearer/index.d.ts",
-      "c:/users/luke cochrane/documents/projects/hoty/hoty/node_modules/@types/type-is/index.d.ts",
-      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/services/hash.password.bcrypt.ts",
-      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/repositories/event.repository.ts",
-      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/repositories/user.repository.ts",
-      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/repositories/index.ts",
-      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/keys.ts",
-      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/services/jwt-service.ts",
-      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/services/user-service.ts",
-      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/auth-strategies/jwt-strategy.ts",
-      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/application.ts",
-      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/services/validator.ts",
-      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/controllers/user.controller.ts",
-      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/controllers/user-events-controller.controller.ts",
-      "c:/users/luke cochrane/documents/projects/hoty/hoty/src/controllers/index.ts"
+      "c:/users/luke cochrane/documents/projects/hoty/hoty/node_modules/@types/type-is/index.d.ts"
     ]
   },
   "version": "3.5.2"

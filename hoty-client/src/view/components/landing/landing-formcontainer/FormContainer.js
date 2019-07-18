@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormLogin from './FormLogin';
-import FormRegister from './FormRegister';
+import FormLogin from '../landing-login/FormLogin';
+import FormRegister from '../landing-register/FormRegister';
 
 const FormContainer = ({ formType }) => {
   switch (formType) {

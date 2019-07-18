@@ -9,10 +9,10 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import EventList from './EventList';
-import EventForm from './EventsForm';
-import EventConfrimation from './EventConfrim';
-import EventBackdrop from './EventBackdrop';
+import EventList from '../events-list/EventList';
+import EventForm from '../events-form/EventsForm';
+import EventConfrimation from '../events-confirm/EventConfrim';
+import EventBackdrop from '../events-backdrop/EventBackdrop';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -39,10 +39,9 @@ const EventsContainer = ({
   const collectCurrent = () => {
     if (events.length) {
       return events.filter(el => el.id === curId)[0];
-    } else {
-      return {};
     }
-  }
+    return {};
+  };
   const classes = useStyles();
   return (
     <Container

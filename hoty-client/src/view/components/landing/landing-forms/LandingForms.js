@@ -12,8 +12,8 @@ import {
   Container,
 } from '@material-ui/core';
 
-import FormContainer from './FormContainer';
-import LandingFormLinks from './LandingFormLinks';
+import FormContainer from '../landing-formcontainer/FormContainer';
+import LandingFormLinks from '../landing-formlinks/LandingFormLinks';
 
 const useStyles = makeStyles(theme => ({
   formWrap: {

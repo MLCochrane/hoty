@@ -7,9 +7,9 @@ import DayjsUtils from '@date-io/dayjs';
 import Dayjs from 'dayjs';
 import { getAllEvents } from '../../../store/actions/eventActions';
 
-import EventsContainer from './EventsContainer';
-import PageBar from '../global/header/PageBar';
-import EventFilter from '../events/EventFilter';
+import EventsContainer from './events-container/EventsContainer';
+import Toolbar from '../global/toolbar/Toolbar';
+import EventFilter from './events-filter/EventFilter';
 
 const mapStateToProps = ({ events, token, users }) => ({
   token: token.token,
@@ -17,7 +17,7 @@ const mapStateToProps = ({ events, token, users }) => ({
   user: users.user,
 });
 
-class Events extends Component {
+export class Events extends Component {
   constructor(props) {
     super(props);
 
@@ -26,7 +26,7 @@ class Events extends Component {
       formOpen: false,
       confirmOpen: false,
       isEditing: false,
-      filter: 'all'
+      filter: 'all',
     };
 
     this.setCurrent = this.setCurrent.bind(this);
@@ -74,7 +74,7 @@ class Events extends Component {
 
   changeFilter(filter) {
     this.setState({
-      filter: filter,
+      filter,
     });
   }
 
@@ -94,8 +94,8 @@ class Events extends Component {
       case 'past':
         return events.filter(el => Dayjs(el.endDate).isBefore(Dayjs(Date.now())));
       default:
-        break;
-    };
+        return {};
+    }
   }
 
   render() {
@@ -117,7 +117,7 @@ class Events extends Component {
           ? <Redirect to="/" />
           : (
             <div className="events">
-              <PageBar
+              <Toolbar
                 title="Events"
               >
                 <EventFilter
@@ -125,7 +125,7 @@ class Events extends Component {
                   user={user}
                   changeFilter={this.changeFilter}
                 />
-              </PageBar>
+              </Toolbar>
               <EventsContainer
                 events={this.filteredEvents()}
                 callback={this.setCurrent}

@@ -1,6 +1,11 @@
 import {Entity, model, property, belongsTo } from '@loopback/repository';
 import {User, UserWithRelations} from './user.model';
 
+type Filter = {
+  title: string,
+  emoji: string
+}
+
 @model({settings: {}})
 export class Event extends Entity {
   @property({
@@ -31,6 +36,12 @@ export class Event extends Entity {
     required: true,
   })
   endDate: string;
+
+  @property({
+    type: 'array',
+    itemType: 'object',
+  })
+  filters?: Filter[];
 
   @belongsTo(() => User)
   userId: string;

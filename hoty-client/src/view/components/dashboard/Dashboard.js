@@ -1,10 +1,10 @@
 import React from 'react';
-import PageBar from '../global/header/PageBar';
+import Toolbar from '../global/toolbar/Toolbar';
 // import PropTypes from 'prop-types';
 
 const Dashboard = () => (
   <div className="dashboard">
-    <PageBar
+    <Toolbar
       title="Dashboard"
     />
   </div>
