@@ -7,7 +7,9 @@ import {
 import {User, UserRelations, Event} from '../models';
 import {EventRepository} from './event.repository';
 import {UserProfile} from '@loopback/authentication';
-import {DbDataSource} from '../datasources';
+import {
+  DbDataSource,
+} from '../datasources';
 import {inject, Getter} from '@loopback/core';
 
 import * as _ from 'lodash';

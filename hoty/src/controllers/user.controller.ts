@@ -26,7 +26,9 @@ import {
 import { validateCredentials } from '../services/validator';
 
 import {User} from '../models';
-import {UserRepository} from '../repositories';
+import {
+  UserRepository,
+} from '../repositories';
 import { Credentials, FormattedUser } from '../repositories/user.repository';
 import { PasswordHasher } from '../services/hash.password.bcrypt';
 
@@ -67,7 +69,7 @@ export class UserController {
     @inject(PasswordHasherBindings.PASSWORD_HASHER) public passwordHasher: PasswordHasher,
     @inject(TokenServiceBindings.TOKEN_SERVICE) public jwtService: TokenService,
     @inject(UserServiceBindings.USER_SERVICE) public userService: UserService<User, Credentials>,
-    @repository(UserRepository) public userRepository : UserRepository,
+    @repository(UserRepository) public userRepository: UserRepository,
   ) {}
 
   @post('/users/login', {
