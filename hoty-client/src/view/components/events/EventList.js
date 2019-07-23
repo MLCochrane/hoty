@@ -25,13 +25,16 @@ const useStyles = makeStyles(() => ({
 const EventList = ({ events, callback }) => {
   const classes = useStyles();
   return (
-    <List>
+    <List
+      data-cy="event-list"
+    >
       {events.map((el, index, self) => (
         <React.Fragment
           key={el.id}
         >
           <ListItem
-            button
+            // button
+            data-cy="event-list-item"
             onClick={() => { callback(el.id); }}
           >
             <ListItemText

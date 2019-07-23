@@ -24,15 +24,22 @@ const useStyles = makeStyles(theme => ({
 const PageBar = ({ title, children }) => {
   const classes = useStyles();
   return (
-    <div className={classes.bar}>
+    <div
+      className={classes.bar}
+      data-cy="page-bar"
+    >
       <div className={classes.wrap}>
         <Typography
           className={classes.title}
           variant="h2"
+          data-cy="page-bar-title"
           >
           { title }
         </Typography>
-        <div className="page-bar__content">
+        <div
+          className="page-bar__content"
+          data-cy="page-bar-content"
+        >
           { children }
         </div>
       </div>

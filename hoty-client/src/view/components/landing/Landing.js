@@ -29,6 +29,7 @@ class Landing extends Component {
     return (
       <div
         className="landing"
+        data-cy="landing"
         style={{
           backgroundImage: `url(${bg})`,
           height: '100vh',

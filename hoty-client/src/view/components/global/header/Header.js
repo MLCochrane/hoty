@@ -13,7 +13,10 @@ const mapStateToProps = ({ users }) => ({
 
 const Header = ({ loggedIn, history }) => (
   (loggedIn ? (
-    <div className="header">
+    <div
+      className="header"
+      data-cy="header"
+    >
       <AppBar position="static">
         <Toolbar
           className="header__toolbar"

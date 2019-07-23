@@ -42,8 +42,9 @@ const EventBackdrop = (props) => {
         }
       </CSSTransition>
     </SwitchTransition>
-  )
-}
+  );
+};
+
 export default EventBackdrop;
 EventBackdrop.propTypes = {
 };

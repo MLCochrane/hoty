@@ -9,7 +9,7 @@ import { getAllEvents } from '../../../store/actions/eventActions';
 
 import EventsContainer from './EventsContainer';
 import PageBar from '../global/header/PageBar';
-import EventFilter from '../events/EventFilter';
+import EventFilter from './EventFilter';
 
 const mapStateToProps = ({ events, token, users }) => ({
   token: token.token,
@@ -26,7 +26,7 @@ class Events extends Component {
       formOpen: false,
       confirmOpen: false,
       isEditing: false,
-      filter: 'all'
+      filter: 'all',
     };
 
     this.setCurrent = this.setCurrent.bind(this);
@@ -74,7 +74,7 @@ class Events extends Component {
 
   changeFilter(filter) {
     this.setState({
-      filter: filter,
+      filter,
     });
   }
 
@@ -93,9 +93,12 @@ class Events extends Component {
         return events.filter(el => Dayjs(el.startDate).isAfter(Dayjs(Date.now())));
       case 'past':
         return events.filter(el => Dayjs(el.endDate).isBefore(Dayjs(Date.now())));
+      case 'current':
+        return events.filter(el => Dayjs(el.startDate).isBefore(Dayjs(Date.now()))
+          && Dayjs(el.endDate).isAfter(Dayjs(Date.now())));
       default:
-        break;
-    };
+        return null;
+    }
   }
 
   render() {

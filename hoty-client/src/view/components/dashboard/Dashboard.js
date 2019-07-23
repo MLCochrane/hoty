@@ -3,7 +3,10 @@ import PageBar from '../global/header/PageBar';
 // import PropTypes from 'prop-types';
 
 const Dashboard = () => (
-  <div className="dashboard">
+  <div
+    className="dashboard"
+    data-cy="dashboard"
+  >
     <PageBar
       title="Dashboard"
     />

@@ -6,7 +6,9 @@ import {
   Hidden,
   Container,
   Paper,
+  Fab,
 } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/core/styles';
 
 import EventList from './EventList';
@@ -21,6 +23,11 @@ const useStyles = makeStyles(theme => ({
   listContainer: {
     overflowY: 'scroll',
     height: '60vh',
+  },
+  fab: {
+    position: 'absolute',
+    right: theme.spacing(4),
+    bottom: theme.spacing(4),
   },
 }));
 
@@ -39,15 +46,15 @@ const EventsContainer = ({
   const collectCurrent = () => {
     if (events.length) {
       return events.filter(el => el.id === curId)[0];
-    } else {
-      return {};
     }
-  }
+    return {};
+  };
   const classes = useStyles();
   return (
     <Container
       maxWidth="xl"
       className={classes.container}
+      data-cy="events"
     >
       <Paper
         elevation={1}
@@ -88,6 +95,15 @@ const EventsContainer = ({
         isEditing={isEditing}
         key={curId}
       />
+      <Fab
+        color="primary"
+        aria-label="Add"
+        data-cy="event-fab"
+        size="small"
+        className={classes.fab}
+      >
+        <AddIcon />
+      </Fab>
       {
         (confirmOpen)
           ? (

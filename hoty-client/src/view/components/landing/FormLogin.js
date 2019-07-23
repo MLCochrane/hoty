@@ -85,7 +85,7 @@ class FormLogin extends Component {
 
     return (
       <form
-        className="form__login"
+        className="login"
         noValidate
         onSubmit={this.handleSubmit}
       >

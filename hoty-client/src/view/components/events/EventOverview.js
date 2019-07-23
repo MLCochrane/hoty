@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '@material-ui/core';
 
-
-
 const display = (event, userId, toggleConfirm, toggleModal, toggleEditing) => (
   <div className="event__content">
     <h1>{ event.title }</h1>
@@ -42,7 +40,10 @@ const EventOverview = ({
   toggleModal,
   toggleEditing,
 }) => (
-  <div className="events__overview">
+  <div
+    className="events__overview"
+    data-cy="event-overview"
+  >
     {(event)
       ? display(event, userId, toggleConfirm, toggleModal, toggleEditing)
       : null
