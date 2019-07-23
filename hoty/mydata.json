@@ -1,6 +1,6 @@
 {
   "ids": {
-    "Event": 17
+    "Event": 20
   },
   "models": {
     "User": {
@@ -8,8 +8,8 @@
       "27bc8faa-60de-413a-b431-6fc59a9be0e7": "{\"id\":\"27bc8faa-60de-413a-b431-6fc59a9be0e7\",\"username\":\"bantr\",\"password\":\"$2b$10$F3LzYsmG/X50vdR7xF6wL.VGi/62/NDGnxjM0MVJPI12mrevg1Wl.\",\"email\":\"test@testmail.com\",\"firstName\":\"string\",\"lastName\":\"string\"}"
     },
     "Event": {
-      "15": "{\"title\":\"New Ting\",\"description\":\"This one has times.\",\"startDate\":\"2019-07-15T22:50:05.539Z\",\"endDate\":\"2019-07-23T22:50:00.000Z\",\"userId\":\"11a87a0b-88ac-48e6-9a74-d9d69fe17e12\",\"id\":15}",
-      "16": "{\"title\":\"Anotha new ting\",\"description\":\"Dates amiright\",\"startDate\":\"2019-07-18T21:26:00.000Z\",\"endDate\":\"2019-07-20T23:26:00.000Z\",\"userId\":\"11a87a0b-88ac-48e6-9a74-d9d69fe17e12\",\"id\":16}"
+      "17": "{\"title\":\"Newest Event\",\"description\":\"Not much cooking\",\"startDate\":\"2019-07-23T15:32:17.175Z\",\"endDate\":\"2019-07-24T15:32:00.000Z\",\"fullName\":\"string string\",\"userId\":\"11a87a0b-88ac-48e6-9a74-d9d69fe17e12\",\"id\":17}",
+      "18": "{\"title\":\"Testing host name\",\"description\":\"Should save as string sting\",\"startDate\":\"2019-07-23T15:43:42.268Z\",\"endDate\":\"2019-07-23T15:43:42.268Z\",\"fullName\":\"string string\",\"userId\":\"11a87a0b-88ac-48e6-9a74-d9d69fe17e12\",\"id\":18}"
     }
   }
 }

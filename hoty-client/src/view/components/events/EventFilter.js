@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Typography,
   Button,
 } from '@material-ui/core';
 import {
@@ -18,10 +17,6 @@ const useStyles = makeStyles(theme => ({
     '&:last-of-type': {
       marginRight: '0px',
     },
-  },
-  blurb: {
-    color: theme.palette.primary.light,
-    paddingBottom: theme.spacing(2),
   },
 }));
 
@@ -45,14 +40,6 @@ const EventFilter = ({ user, filter, changeFilter }) => {
   const classes = useStyles();
   return (
     <div className={classes.filter}>
-      <Typography
-        className={classes.blurb}
-      >
-        Hey
-        { user.firstName }
-        ,
-        check out the latest going on or add a new event.
-      </Typography>
       {
         buttons.map(el => (
           <Button
@@ -73,4 +60,9 @@ const EventFilter = ({ user, filter, changeFilter }) => {
 };
 export default EventFilter;
 EventFilter.propTypes = {
+  user: PropTypes.shape({
+    firstName: PropTypes.string,
+  }).isRequired,
+  changeFilter: PropTypes.func.isRequired,
+  filter: PropTypes.string.isRequired,
 };

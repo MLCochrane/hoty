@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Home from './home/Home';
 import Profile from './profile/Profile';
 import Events from './events/Events';
+import CreateEvent from './events/create-event/CreateEvent';
 
 // ROUTE CONFIG
 const routes = [
@@ -22,6 +23,11 @@ const routes = [
     exact: true,
     path: '/events/',
     component: Events,
+  },
+  {
+    exact: true,
+    path: '/events/create',
+    component: CreateEvent,
   },
 ];
 

@@ -8,11 +8,14 @@ import {
   Paper,
   Fab,
 } from '@material-ui/core';
+import {
+  Link,
+} from 'react-router-dom';
 import AddIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/core/styles';
 
 import EventList from './EventList';
-import EventForm from './EventsForm';
+import EditEventsForm from './EditEventsForm';
 import EventConfrimation from './EventConfrim';
 import EventBackdrop from './EventBackdrop';
 
@@ -35,10 +38,9 @@ const EventsContainer = ({
   events,
   curId,
   userId,
-  callback,
-  toggleModal,
-  toggleConfirm,
+  setCurrent,
   toggleEditing,
+  toggleConfirm,
   formOpen,
   isEditing,
   confirmOpen,
@@ -71,7 +73,7 @@ const EventsContainer = ({
           >
             <EventList
               events={events}
-              callback={callback}
+              setCurrent={setCurrent}
             />
           </Grid>
           <Hidden smDown>
@@ -80,7 +82,6 @@ const EventsContainer = ({
                 curId={curId}
                 event={collectCurrent()}
                 toggleConfirm={toggleConfirm}
-                toggleModal={toggleModal}
                 toggleEditing={toggleEditing}
                 userId={userId}
               />
@@ -88,22 +89,26 @@ const EventsContainer = ({
           </Hidden>
         </Grid>
       </Paper>
-      <EventForm
+      <EditEventsForm
         open={formOpen}
-        toggleModal={toggleModal}
+        toggleEditing={toggleEditing}
         event={collectCurrent()}
         isEditing={isEditing}
         key={curId}
       />
-      <Fab
-        color="primary"
-        aria-label="Add"
-        data-cy="event-fab"
-        size="small"
-        className={classes.fab}
+      <Link
+        to="/events/create"
       >
-        <AddIcon />
-      </Fab>
+        <Fab
+          color="primary"
+          aria-label="Add"
+          data-cy="event-fab"
+          size="small"
+          className={classes.fab}
+        >
+          <AddIcon />
+        </Fab>
+      </Link>
       {
         (confirmOpen)
           ? (
@@ -124,10 +129,9 @@ EventsContainer.propTypes = {
   events: PropTypes.arrayOf(PropTypes.object),
   curId: PropTypes.number,
   userId: PropTypes.string.isRequired,
-  callback: PropTypes.func.isRequired,
-  toggleModal: PropTypes.func.isRequired,
-  toggleConfirm: PropTypes.func.isRequired,
+  setCurrent: PropTypes.func.isRequired,
   toggleEditing: PropTypes.func.isRequired,
+  toggleConfirm: PropTypes.func.isRequired,
   formOpen: PropTypes.bool.isRequired,
   isEditing: PropTypes.bool.isRequired,
   confirmOpen: PropTypes.bool.isRequired,

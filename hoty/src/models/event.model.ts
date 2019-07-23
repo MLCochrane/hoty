@@ -32,6 +32,12 @@ export class Event extends Entity {
   })
   endDate: string;
 
+  @property({
+    type: 'string',
+  })
+  fullName: string;
+
+
   @belongsTo(() => User)
   userId: string;
 

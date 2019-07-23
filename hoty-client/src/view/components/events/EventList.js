@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const EventList = ({ events, callback }) => {
+const EventList = ({ events, setCurrent }) => {
   const classes = useStyles();
   return (
     <List
@@ -35,7 +35,7 @@ const EventList = ({ events, callback }) => {
           <ListItem
             // button
             data-cy="event-list-item"
-            onClick={() => { callback(el.id); }}
+            onClick={() => { setCurrent(el.id); }}
           >
             <ListItemText
               primary={el.title}
@@ -56,5 +56,5 @@ export default EventList;
 
 EventList.propTypes = {
   events: PropTypes.arrayOf(PropTypes.object).isRequired,
-  callback: PropTypes.func.isRequired,
+  setCurrent: PropTypes.func.isRequired,
 };

@@ -23,7 +23,8 @@ describe('Events page content', () => {
     cy.get('[data-cy="page-bar"]').should('have.length', 1);
     cy.get('[data-cy="page-bar-title"]').should('have.length', 1);
     cy.get('[data-cy="page-bar-title"]').contains('Events');
-    cy.get('[data-cy="page-bar-content"]').within(() => {
+    cy.get('[data-cy="page-bar-content"]').within(($content) => {
+      cy.get($content).contains('Hey Luke, check out the latest going on or add a new event');
       cy.get('button')
         .should(($el) => {
           expect($el).to.have.length(4);
@@ -40,6 +41,7 @@ describe('Events page content', () => {
   });
 
   it('displays event list', () => {
+    cy.get('[data-cy="event-list-item"]').as('eventListItem');
     // cy.window().its('store').invoke('getState').its('events')
     //   .its('events')
     //   .as('events');
@@ -48,31 +50,101 @@ describe('Events page content', () => {
     //   cy.get('[data-cy="event-list-item"]').should('have.length', count);
     // });
     cy.get('[data-cy="event-list"]').within(() => {
-      cy.get('[data-cy="event-list-item"]').should('have.length', 2);
-      cy.get('[data-cy="event-list-item"]').first().contains('Event number one');
-      cy.get('[data-cy="event-list-item"]').first().contains('This one has times.');
-      cy.get('[data-cy="event-list-item"]').first().contains('July 15, 2019');
+      cy.get('@eventListItem').should('have.length', 2);
+      cy.get('@eventListItem').first().contains('Event number one');
+      cy.get('@eventListItem').first().contains('This one has times.');
+      cy.get('@eventListItem').first().contains('July 15, 2019');
     });
   });
 
   it('displays event when clicked', () => {
+    cy.get('[data-cy="event-list-item"]').as('eventListItem');
+
     cy.get('[data-cy="event-overview"]').should('not.exist');
     cy.get('[data-cy="event-cta"]').contains('Something fun going down?!');
     cy.get('[data-cy="event-cta"]').within(() => {
       cy.get('button').contains('Create');
     });
-    cy.get('[data-cy="event-list-item"]').first().click();
-    cy.get('[data-cy="event-cta"]').should('not.exist');
-    cy.get('[data-cy="event-overview"]').contains('Event number two').should('not.exist');
-    cy.get('[data-cy="event-list-item"]').eq(1).click();
-    cy.get('[data-cy="event-overview"]').contains('Event number one').should('be.visible');
+    cy.get('@eventListItem').first().click().then(() => {
+      cy.get('[data-cy="event-content"]').as('eventContent');
+      cy.get('[data-cy="event-date"]').as('eventDate');
+      cy.get('[data-cy="event-title"]').as('eventTitle');
+      cy.get('[data-cy="event-host"]').as('eventHost');
+
+      cy.get('[data-cy="event-cta"]').should('not.exist');
+      cy.get('[data-cy="event-overview"]').children().should('have.length', 1);
+      cy.get('@eventContent').should('have.length', 1);
+      cy.get('@eventDate').contains('July 15, 2019 at 6:50pm');
+      cy.get('@eventTitle').contains('Event number one');
+      cy.get('@eventHost').contains('Luke Cochrane');
+      cy.get('@eventListItem').eq(1).click();
+      cy.get('@eventContent').contains('Event number one').should('not.exist');
+      cy.get('@eventContent').should('have.length', 1);
+      cy.get('@eventDate').contains('July 18, 2019 at 5:26pm');
+      cy.get('@eventTitle').contains('Event number two');
+      cy.get('@eventContent').contains('Dates amiright');
+      cy.get('@eventHost').contains('John Smith');
+    });
   });
 
   it('filters events from buttons in page bar', () => {
     expect(true).eq(false);
   });
 
-  it('displays fab', () => {
+  it('displays fab and links to form', () => {
     cy.get('[data-cy="event-fab"]').should('be.length', 1);
+    cy.get('[data-cy="event-fab"]').click();
+    cy.get('[data-cy="events"]').should('not.exist');
+    cy.url().should('include', '/events/create');
+  });
+});
+
+describe('Create events page', () => {
+  it('will not display if not logged in', () => {
+    cy.visit('localhost:3001/events/create');
+    cy.get('[data-cy="create-event"]').should('not.exist');
+    cy.get('[data-cy="header"]').should('not.exist');
+    cy.login();
+    cy.visit('localhost:3001/events/create');
+    cy.get('[data-cy="create-events"]');
+    cy.get('[data-cy="header"]');
+  });
+});
+
+describe('Create events page content', () => {
+  before(() => {
+    cy.login();
+    // cy.route('GET', 'http://localhost:3000/users/event', 'fixture:events.json');
+    cy.visit('localhost:3001/events/create');
+  });
+
+  it('displays title and caption', () => {
+    cy.get('[data-cy="page-bar"]').should('have.length', 1);
+    cy.get('[data-cy="page-bar-title"]').should('have.length', 1);
+    cy.get('[data-cy="page-bar-title"]').contains('Create new event');
+    cy.get('[data-cy="page-bar-content"]').within(($content) => {
+      cy.get($content).contains('I\'m excited already!');
+    });
+  });
+
+  it('displays stepper correctly', () => {
+    cy.get('[data-cy="event-form-stepper"]').should('have.length', 1);
+    cy.get('[data-cy="event-form-step"]').should('have.length', 3);
+    cy.get('[data-cy="event-form-step"]').should('not.have.class', 'MuiStep-completed');
+    cy.get('[data-cy="event-form-next"]').contains('Next');
+    cy.get('[data-cy="event-form-next"]').click();
+    cy.get('[data-cy="event-form-step"]').first().should('have.class', 'MuiStep-completed');
+    cy.get('[data-cy="event-form-next"]').click();
+    cy.get('[data-cy="event-form-step"]').eq(1).should('have.class', 'MuiStep-completed');
+    cy.get('[data-cy="event-form-next"]').click();
+    cy.get('[data-cy="event-form-next"]').contains('Publish');
+    cy.get('[data-cy="event-form-step"]').eq(2).should('have.class', 'MuiStep-completed');
+  });
+
+  it('closes when exit button clicked', () => {
+    cy.get('[data-cy="create-events"]').within(() => {
+      cy.get('[data-cy="close-form"]').click();
+    });
+    cy.url().should('not.include', '/events/create');
   });
 });

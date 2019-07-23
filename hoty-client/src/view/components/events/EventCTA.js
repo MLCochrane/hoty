@@ -3,6 +3,9 @@ import {
   Typography,
   Button,
 } from '@material-ui/core';
+import {
+  Link,
+} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
@@ -33,7 +36,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const EventCta = ({ toggleModal }) => {
+const EventCta = () => {
   const classes = useStyles();
   return (
     <div
@@ -49,19 +52,20 @@ const EventCta = ({ toggleModal }) => {
         >
           Something fun going down?!
         </Typography>
-        <Button
-          type="button"
-          variant="contained"
-          color="primary"
-          onClick={() => { toggleModal(true); }}
+        <Link
+          to="/events/create"
         >
-          Create
-        </Button>
+          <Button
+            type="button"
+            variant="contained"
+            color="primary"
+          >
+            Create
+          </Button>
+        </Link>
       </div>
     </div>
   );
 };
 
 export default EventCta;
-EventCta.propTypes = {
-};

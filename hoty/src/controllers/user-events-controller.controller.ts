@@ -33,9 +33,9 @@ export class UserEventsControllerController {
   ): Promise<Event> {
 
     // No referential integrity so we want to confirm user id exists
-    const isUser = await this.userRepository.findById(userId);
+    const user = await this.userRepository.findById(userId);
 
-    if (!isUser) {
+    if (!user) {
       throw new HttpErrors.Conflict('User not found');
     }
 
@@ -43,6 +43,8 @@ export class UserEventsControllerController {
     if (userId !== currentUserProfile.id) {
       throw new HttpErrors.Conflict('Incorrect user id');
     }
+
+    eventData['fullName'] = `${user.firstName} ${user.lastName}`;
 
     return await this.userRepository.events(userId).create(eventData);
   }

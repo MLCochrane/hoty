@@ -1,10 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from '@material-ui/core';
+import {
+  Button,
+  Typography,
+} from '@material-ui/core';
+import Dayjs from 'dayjs';
 
-const display = (event, userId, toggleConfirm, toggleModal, toggleEditing) => (
-  <div className="event__content">
-    <h1>{ event.title }</h1>
+const formatDate = date => Dayjs(date).format('MMMM D, YYYY [at] h:mma');
+
+const display = (event, userId, toggleConfirm, toggleEditing) => (
+  <div
+    className="event__content"
+    data-cy="event-content"
+  >
+    <Typography
+      variant="overline"
+      data-cy="event-date"
+    >
+      {formatDate(event.startDate)}
+    </Typography>
+    <Typography
+      variant="h2"
+      data-cy="event-title"
+    >
+      {event.title}
+    </Typography>
+    <Typography
+      variant="h6"
+      data-cy="event-host"
+    >
+      {`Hosted by: ${event.fullName}`}
+    </Typography>
     <p>{ event.description }</p>
     {(userId === event.userId)
       ? (
@@ -13,7 +39,6 @@ const display = (event, userId, toggleConfirm, toggleModal, toggleEditing) => (
             variant="contained"
             color="primary"
             onClick={() => {
-              toggleModal(true);
               toggleEditing(true);
             }}
           >
@@ -37,7 +62,6 @@ const EventOverview = ({
   event,
   userId,
   toggleConfirm,
-  toggleModal,
   toggleEditing,
 }) => (
   <div
@@ -45,7 +69,7 @@ const EventOverview = ({
     data-cy="event-overview"
   >
     {(event)
-      ? display(event, userId, toggleConfirm, toggleModal, toggleEditing)
+      ? display(event, userId, toggleConfirm, toggleEditing)
       : null
     }
   </div>
@@ -57,7 +81,6 @@ EventOverview.propTypes = {
   event: PropTypes.shape({}),
   userId: PropTypes.string,
   toggleConfirm: PropTypes.func.isRequired,
-  toggleModal: PropTypes.func.isRequired,
   toggleEditing: PropTypes.func.isRequired,
 };
 

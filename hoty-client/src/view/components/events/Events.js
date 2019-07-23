@@ -30,7 +30,6 @@ class Events extends Component {
     };
 
     this.setCurrent = this.setCurrent.bind(this);
-    this.toggleModal = this.toggleModal.bind(this);
     this.toggleConfirm = this.toggleConfirm.bind(this);
     this.toggleEditing = this.toggleEditing.bind(this);
     this.changeFilter = this.changeFilter.bind(this);
@@ -48,18 +47,6 @@ class Events extends Component {
     });
   }
 
-  toggleModal(open) {
-    this.setState({
-      formOpen: open,
-    });
-
-    // if (open === false) {
-    // this.setState({
-    // isEditing: false
-    // })
-    // }
-  }
-
   toggleConfirm(open) {
     this.setState({
       confirmOpen: open,
@@ -68,7 +55,7 @@ class Events extends Component {
 
   toggleEditing(bool) {
     this.setState({
-      isEditing: bool,
+      formOpen: bool,
     });
   }
 
@@ -114,6 +101,8 @@ class Events extends Component {
       isEditing,
       filter,
     } = this.state;
+
+    const pageBlurb = `Hey ${user.firstName}, check out the latest going on or add a new event.`;
     return (
       <MuiPickersUtilsProvider utils={DayjsUtils}>
         {noAuth
@@ -122,6 +111,7 @@ class Events extends Component {
             <div className="events">
               <PageBar
                 title="Events"
+                blurb={pageBlurb}
               >
                 <EventFilter
                   filter={filter}
@@ -131,9 +121,8 @@ class Events extends Component {
               </PageBar>
               <EventsContainer
                 events={this.filteredEvents()}
-                callback={this.setCurrent}
+                setCurrent={this.setCurrent}
                 curId={curId}
-                toggleModal={this.toggleModal}
                 toggleConfirm={this.toggleConfirm}
                 formOpen={formOpen}
                 confirmOpen={confirmOpen}

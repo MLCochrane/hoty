@@ -13,7 +13,6 @@ const EventBackdrop = (props) => {
     event,
     userId,
     toggleConfirm,
-    toggleModal,
     toggleEditing,
   } = props;
   return (
@@ -30,13 +29,12 @@ const EventBackdrop = (props) => {
               event={event}
               userId={userId}
               toggleConfirm={toggleConfirm}
-              toggleModal={toggleModal}
               toggleEditing={toggleEditing}
             />
           )
           : (
             <EventCTA
-              toggleModal={toggleModal}
+              toggleEditing={toggleEditing}
             />
           )
         }
@@ -46,5 +44,17 @@ const EventBackdrop = (props) => {
 };
 
 export default EventBackdrop;
+
 EventBackdrop.propTypes = {
+  event: PropTypes.shape({}),
+  userId: PropTypes.string,
+  curId: PropTypes.number,
+  toggleConfirm: PropTypes.func.isRequired,
+  toggleEditing: PropTypes.func.isRequired,
+};
+
+EventBackdrop.defaultProps = {
+  event: {},
+  curId: null,
+  userId: '',
 };
