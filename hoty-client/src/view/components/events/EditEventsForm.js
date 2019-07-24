@@ -15,7 +15,7 @@ import TitleField from '../forms/fields/TitleField';
 import DescriptionField from '../forms/fields/DescriptionField';
 import validator, { dateValidator } from '../forms/validator';
 
-import { postEvent } from '../../../store/actions/eventActions';
+import { editEvent } from '../../../store/actions/eventActions';
 
 const mapStateToProps = ({ users, events, token }) => ({
   error: users.error,
@@ -136,7 +136,7 @@ class EditEventsForm extends Component {
       startDate: startDate.val.toISOString(),
       endDate: endDate.val.toISOString(),
     };
-    dispatch(postEvent(token, id, reqBody));
+    dispatch(editEvent(token, id, reqBody));
   }
 
   render() {

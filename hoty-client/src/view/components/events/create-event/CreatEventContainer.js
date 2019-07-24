@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const EventsContainer = ({ step, changeStep }) => {
+const CreateEventsContainer = ({ step, changeStep }) => {
   const classes = useStyles();
   return (
     <Container
@@ -31,27 +31,28 @@ const EventsContainer = ({ step, changeStep }) => {
     >
       <Paper
         elevation={1}
-      />
-      <Link
-        to="/events"
       >
-        <IconButton
-          data-cy="close-form"
-          color="primary"
+        <Link
+          to="/events"
         >
-          <Cancel />
-        </IconButton>
-      </Link>
-      <CreateEventStepper
-        step={step}
-        changeStep={changeStep}
-      />
+          <IconButton
+            data-cy="close-form"
+            color="primary"
+          >
+            <Cancel />
+          </IconButton>
+        </Link>
+        <CreateEventStepper
+          step={step}
+          changeStep={changeStep}
+        />
+      </Paper>
     </Container>
   );
 };
-export default EventsContainer;
+export default CreateEventsContainer;
 
-EventsContainer.propTypes = {
+CreateEventsContainer.propTypes = {
   step: PropTypes.number.isRequired,
   changeStep: PropTypes.func.isRequired,
 };

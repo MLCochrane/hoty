@@ -26,7 +26,7 @@ const DescriptionField = ({
       helperText={errors ? errorMessage : ''}
       label="Description"
       margin="normal"
-      variant="standard"
+      variant="filled"
       multiline
       rows={5}
       onChange={handleChange}

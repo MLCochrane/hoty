@@ -26,7 +26,7 @@ const TitleField = ({
       helperText={errors ? errorMessage : ''}
       label="Title"
       margin="normal"
-      variant="standard"
+      variant="filled"
       onChange={handleChange}
     />
   </FormControl>

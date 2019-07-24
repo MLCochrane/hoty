@@ -3,6 +3,7 @@ import {
   post,
   get,
   del,
+  patch,
   param,
   requestBody,
   HttpErrors
@@ -64,6 +65,22 @@ export class UserEventsControllerController {
     // @param.query.object('filter') filter?: Filter<Event>,
   ): Promise<Object[]> {
     return await this.eventRepository.fetchAll();
+  }
+
+  // NEED TO ADD LOGIC FOR MAARKING AS ATTENDING VS ACTUALLY EDITING
+  @patch('/users/{id}/event/{eventId}', {
+    responses: {
+      '204': {
+        description: 'User PATCH success',
+      },
+    },
+  })
+  @authenticate('jwt')
+  async updateById(
+    @param.path.string('id') id: string,
+    @requestBody() user: User,
+  ): Promise<void> {
+    await this.userRepository.updateById(id, user);
   }
 
   @del('/users/{id}/event/{eventId}', {

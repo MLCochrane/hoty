@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(4),
   },
   listContainer: {
-    overflowY: 'scroll',
+    overflow: 'auto',
     height: '60vh',
   },
   fab: {

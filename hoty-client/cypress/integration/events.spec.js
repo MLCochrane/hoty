@@ -131,14 +131,17 @@ describe('Create events page content', () => {
     cy.get('[data-cy="event-form-stepper"]').should('have.length', 1);
     cy.get('[data-cy="event-form-step"]').should('have.length', 3);
     cy.get('[data-cy="event-form-step"]').should('not.have.class', 'MuiStep-completed');
+    cy.get('[data-cy="event-form-title"]').contains('Overview');
     cy.get('[data-cy="event-form-next"]').contains('Next');
     cy.get('[data-cy="event-form-next"]').click();
     cy.get('[data-cy="event-form-step"]').first().should('have.class', 'MuiStep-completed');
+    cy.get('[data-cy="event-form-title"]').contains('Themes');
     cy.get('[data-cy="event-form-next"]').click();
     cy.get('[data-cy="event-form-step"]').eq(1).should('have.class', 'MuiStep-completed');
-    cy.get('[data-cy="event-form-next"]').click();
     cy.get('[data-cy="event-form-next"]').contains('Publish');
-    cy.get('[data-cy="event-form-step"]').eq(2).should('have.class', 'MuiStep-completed');
+    cy.get('[data-cy="event-form-title"]').contains('Review and Publish');
+    // cy.get('[data-cy="event-form-next"]').click();
+    // cy.get('[data-cy="event-form-step"]').eq(2).should('have.class', 'MuiStep-completed');
   });
 
   it('closes when exit button clicked', () => {

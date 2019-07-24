@@ -3,43 +3,35 @@ import PropTypes from 'prop-types';
 import {
   makeStyles,
 } from '@material-ui/core/styles';
+import {
+  CSSTransition,
+  TransitionGroup,
+} from 'react-transition-group';
 
 import {
-  Typography,
+  Container,
+  Paper,
   Button,
   Step,
   Stepper,
   StepLabel,
 } from '@material-ui/core';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: '90%',
+import CreateEventForm from './CreateEventForm';
+
+const useStyles = makeStyles(() => ({
+  container: {
+    textAlign: 'center',
   },
-  backButton: {
-    marginRight: theme.spacing(1),
-  },
-  instructions: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
+  curStep: {
+    position: 'relative',
+    minHeight: '400px',
+    // overflow: 'auto',
   },
 }));
 
 function getSteps() {
   return ['Fill out main details', 'Add relevant themes', 'Review and publish'];
-}
-
-function getStepContent(stepIndex) {
-  switch (stepIndex) {
-    case 0:
-      return 'Select campaign settings...';
-    case 1:
-      return 'What is an ad group anyways?';
-    case 2:
-      return 'This is the bit I really care about!';
-    default:
-      return 'Uknown stepIndex';
-  }
 }
 
 const CreateEventStepper = ({
@@ -50,14 +42,29 @@ const CreateEventStepper = ({
   const steps = getSteps();
 
   return (
-    <div className={classes.root}>
+    <Container
+      className={classes.container}
+    >
+      <TransitionGroup
+        className={classes.curStep}
+      >
+        <CSSTransition
+          key={step}
+          timeout={300}
+          classNames="slide-right"
+        >
+          <CreateEventForm
+            step={step}
+          />
+        </CSSTransition>
+      </TransitionGroup>
       <Button
         color="primary"
         variant="contained"
         onClick={() => { changeStep(step); }}
         data-cy="event-form-next"
       >
-        {(step === 1)
+        {(step === 2)
           ? 'Publish'
           : 'Next'
         }
@@ -80,7 +87,7 @@ const CreateEventStepper = ({
           ))
         }
       </Stepper>
-    </div>
+    </Container>
   );
 };
 

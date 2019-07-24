@@ -4,15 +4,19 @@ import DayjsUtils from '@date-io/dayjs';
 import {
   Redirect,
 } from 'react-router-dom';
-// import {
-//   Typography,
-// } from '@material-ui/core';
+import {
+  connect,
+} from 'react-redux';
 
 import PropTypes from 'prop-types';
-
 import PageBar from '../../global/header/PageBar';
 import CreateEventContainer from './CreatEventContainer';
 
+const mapStateToProps = ({ events, token, users }) => ({
+  token: token.token,
+  events: events.events,
+  user: users.user,
+});
 
 class CreateEvent extends Component {
   constructor(props) {
@@ -66,7 +70,7 @@ class CreateEvent extends Component {
   }
 }
 
-export default CreateEvent;
+export default connect(mapStateToProps)(CreateEvent);
 
 CreateEvent.propTypes = {
   noAuth: PropTypes.bool.isRequired,
