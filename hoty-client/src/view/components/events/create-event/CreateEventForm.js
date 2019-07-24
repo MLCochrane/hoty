@@ -5,12 +5,18 @@ import {
   Button,
   Typography,
 } from '@material-ui/core';
+import {
+  CSSTransition,
+  TransitionGroup,
+} from 'react-transition-group';
+
 import validator, { dateValidator } from '../../forms/validator';
 
 import { postEvent } from '../../../../store/actions/eventActions';
 
 import CreateEventFields from './CreateEventFields';
 import CreateEventThemes from './CreateEventThemes';
+import CreateEventReview from './CreateEventReview';
 
 const mapStateToProps = ({ users, events, token }) => ({
   error: users.error,
@@ -48,19 +54,27 @@ class CreateEventForm extends Component {
         errors: false,
         message: '',
       },
+      themes: [
+        {
+          title: 'celebration',
+          checked: false,
+        },
+        {
+          title: 'sports',
+          checked: false,
+        },
+        {
+          title: 'pity party',
+          checked: false,
+        },
+      ],
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.toggleThemeCheckbox = this.toggleThemeCheckbox.bind(this);
   }
-
-  // componentDidUpdate(prevProps) {
-  //   const {
-  //     fetched,
-  //   } = this.props;
-  //   if (prevProps.fetched !== fetched && fetched === true) toggleEditing(false);
-  // }
 
   handleChange(e) {
     const { target } = e;
@@ -71,11 +85,30 @@ class CreateEventForm extends Component {
 
     this.setState({
       [name]: {
-        ...[name],
         val: value,
         errors: !errorResult.valid,
         message: errorResult.message,
       },
+    });
+  }
+
+  toggleThemeCheckbox(i, checked, title) {
+    const {
+      themes,
+    } = this.state;
+
+    const updatedTheme = {
+      title,
+      checked,
+    };
+
+    /* Makes copy of array and then updates object at index i with new obj
+    *  Ensures that we're not modifying state directly
+    */
+    const themesCopy = Object.assign([...themes], { [i]: updatedTheme });
+
+    this.setState({
+      themes: themesCopy,
     });
   }
 
@@ -128,6 +161,7 @@ class CreateEventForm extends Component {
       error,
       fetching,
       step,
+      changeStep,
     } = this.props;
 
     const {
@@ -135,6 +169,7 @@ class CreateEventForm extends Component {
       description,
       startDate,
       endDate,
+      themes,
     } = this.state;
 
     const titles = [
@@ -159,23 +194,18 @@ class CreateEventForm extends Component {
         case 1:
           return (
             <CreateEventThemes
-              title={title}
-              description={description}
-              startDate={startDate}
-              endDate={endDate}
-              handleChange={this.handleChange}
-              handleDateChange={this.handleDateChange}
+              themes={themes}
+              toggleThemeCheckbox={this.toggleThemeCheckbox}
             />
           );
         case 2:
           return (
-            <CreateEventFields
+            <CreateEventReview
               title={title}
               description={description}
               startDate={startDate}
               endDate={endDate}
-              handleChange={this.handleChange}
-              handleDateChange={this.handleDateChange}
+              themes={themes}
             />
           );
         default:
@@ -183,25 +213,9 @@ class CreateEventForm extends Component {
       }
     };
 
-    return (
-      <form
-        className="form__events"
-        noValidate
-        onSubmit={this.handleSubmit}
-      >
-        <Typography
-          variant="h5"
-          data-cy="event-form-title"
-        >
-          {titles[step]}
-        </Typography>
-        <Typography
-          color="error"
-        >
-          { !error ? null : error.response.data.error.message }
-        </Typography>
-        {displayStepContent(step)}
-        {/* <Button
+    const submitButton = () => (
+      <div>
+        <Button
           type="submit"
           variant="contained"
           color="primary"
@@ -217,7 +231,52 @@ class CreateEventForm extends Component {
               ? 'Fetching'
               : 'Publish'
           }
-        </Button> */}
+        </Button>
+      </div>
+    );
+
+    const nextButton = () => (
+      <Button
+        color="primary"
+        variant="contained"
+        onClick={() => { changeStep(step); }}
+        data-cy="event-form-next"
+      >
+          Next
+      </Button>
+    );
+
+    return (
+      <form
+        className="form__events"
+        noValidate
+        onSubmit={this.handleSubmit}
+        data-cy="event-form"
+      >
+        <Typography
+          variant="h5"
+          data-cy="event-form-title"
+        >
+          {titles[step]}
+        </Typography>
+        <Typography
+          color="error"
+        >
+          { !error ? null : error.response.data.error.message }
+        </Typography>
+        <TransitionGroup>
+          <CSSTransition
+            key={step}
+            timeout={300}
+            classNames="slide-right"
+          >
+            {displayStepContent(step)}
+          </CSSTransition>
+        </TransitionGroup>
+        {(step === 2)
+          ? submitButton()
+          : nextButton()
+        }
       </form>
     );
   }

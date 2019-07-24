@@ -4,6 +4,10 @@ import {
   DateTimePicker,
 } from '@material-ui/pickers';
 
+import {
+  Container,
+} from '@material-ui/core';
+
 import TitleField from '../../forms/fields/TitleField';
 import DescriptionField from '../../forms/fields/DescriptionField';
 
@@ -15,7 +19,9 @@ const CreateEventFields = ({
   handleChange,
   handleDateChange,
 }) => (
-  <React.Fragment>
+  <Container
+    maxWidth="sm"
+  >
     <TitleField
       formName="event"
       inputName="title"
@@ -38,7 +44,7 @@ const CreateEventFields = ({
       onChange={date => handleDateChange(date, 'startDate')}
       label="Start Date"
       error={startDate.errors}
-      helperText={startDate.errors ? startDate.errorMessage : ''}
+      helperText={startDate.errors ? startDate.message : ''}
       inputVariant="filled"
       showTodayButton
     />
@@ -48,12 +54,34 @@ const CreateEventFields = ({
       onChange={date => handleDateChange(date, 'endDate')}
       label="End Date"
       error={endDate.errors}
-      helperText={endDate.errors ? endDate.errorMessage : ''}
+      helperText={endDate.errors ? endDate.message : ''}
       inputVariant="filled"
       showTodayButton
     />
-  </React.Fragment>
+  </Container>
 );
 export default CreateEventFields;
 CreateEventFields.propTypes = {
+  handleChange: PropTypes.func.isRequired,
+  handleDateChange: PropTypes.func.isRequired,
+  title: PropTypes.shape({
+    val: PropTypes.string,
+    errors: PropTypes.bool,
+    message: PropTypes.string,
+  }).isRequired,
+  description: PropTypes.shape({
+    val: PropTypes.string,
+    errors: PropTypes.bool,
+    message: PropTypes.string,
+  }).isRequired,
+  startDate: PropTypes.shape({
+    val: PropTypes.object,
+    errors: PropTypes.bool,
+    message: PropTypes.string,
+  }).isRequired,
+  endDate: PropTypes.shape({
+    val: PropTypes.object,
+    errors: PropTypes.bool,
+    message: PropTypes.string,
+  }).isRequired,
 };

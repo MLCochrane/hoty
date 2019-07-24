@@ -112,7 +112,7 @@ describe('Create events page', () => {
 });
 
 describe('Create events page content', () => {
-  before(() => {
+  beforeEach(() => {
     cy.login();
     // cy.route('GET', 'http://localhost:3000/users/event', 'fixture:events.json');
     cy.visit('localhost:3001/events/create');
@@ -144,10 +144,26 @@ describe('Create events page content', () => {
     // cy.get('[data-cy="event-form-step"]').eq(2).should('have.class', 'MuiStep-completed');
   });
 
-  it('closes when exit button clicked', () => {
-    cy.get('[data-cy="create-events"]').within(() => {
-      cy.get('[data-cy="close-form"]').click();
+  it('lets users select new themes', () => {
+    cy.get('[data-cy="event-form-next"]').click().then(() => {
+      cy.get('[data-cy="event-form-title"]').contains('Themes');
+      cy.get('[data-cy="event-form-themes"] > li').should('have.length', 3);
+      cy.get('[data-cy="event-form-themes"] > li').first().within(() => {
+        cy.contains('celebration');
+        cy.contains('🎉');
+        cy.get('input[type="checkbox"]').should('not.have.attr', 'checked');
+      });
+      cy.get('[data-cy="event-form-themes"] > li').first().click();
+      cy.get('[data-cy="event-form-themes"] > li').first().find('input[type="checkbox"]').should('have.attr', 'checked');
+      cy.get('[data-cy="event-form-themes"] > li').first().click();
+      cy.get('[data-cy="event-form-themes"] > li').first().find('input[type="checkbox"]').should('not.have.attr', 'checked');
     });
-    cy.url().should('not.include', '/events/create');
   });
+
+  // it('closes when exit button clicked', () => {
+  //   cy.get('[data-cy="create-events"]').within(() => {
+  //     cy.get('[data-cy="close-form"]').click();
+  //   });
+  //   cy.url().should('not.include', '/events/create');
+  // });
 });

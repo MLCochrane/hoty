@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import {
   makeStyles,
 } from '@material-ui/core/styles';
-import {
-  CSSTransition,
-  TransitionGroup,
-} from 'react-transition-group';
+// import {
+//   CSSTransition,
+//   TransitionGroup,
+// } from 'react-transition-group';
 
 import {
   Container,
-  Paper,
   Button,
   Step,
   Stepper,
@@ -45,30 +44,10 @@ const CreateEventStepper = ({
     <Container
       className={classes.container}
     >
-      <TransitionGroup
-        className={classes.curStep}
-      >
-        <CSSTransition
-          key={step}
-          timeout={300}
-          classNames="slide-right"
-        >
-          <CreateEventForm
-            step={step}
-          />
-        </CSSTransition>
-      </TransitionGroup>
-      <Button
-        color="primary"
-        variant="contained"
-        onClick={() => { changeStep(step); }}
-        data-cy="event-form-next"
-      >
-        {(step === 2)
-          ? 'Publish'
-          : 'Next'
-        }
-      </Button>
+      <CreateEventForm
+        step={step}
+        changeStep={changeStep}
+      />
       <Stepper
         activeStep={step}
         alternativeLabel

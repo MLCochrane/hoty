@@ -37,6 +37,11 @@ export class Event extends Entity {
   })
   fullName: string;
 
+  @property({
+    type: 'array',
+  })
+  themes: string[];
+
 
   @belongsTo(() => User)
   userId: string;
