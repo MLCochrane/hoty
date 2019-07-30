@@ -1,24 +1,21 @@
-import {HotyApplication} from '../..';
-import {
-  createRestAppClient,
-  givenHttpServerConfig,
-  Client,
-} from '@loopback/testlab';
+import { givenHttpServerConfig, Client, supertest } from '@loopback/testlab';
+import { HotyApplication } from '../../application';
+import { ExpressServer } from '../../server';
 
-export async function setupApplication(): Promise<AppWithClient> {
-  const app = new HotyApplication({
-    rest: givenHttpServerConfig(),
-  });
+export async function setupExpressApplication(): Promise<AppWithClient> {
+  const server = new ExpressServer({ rest: givenHttpServerConfig() });
+  await server.boot();
+  await server.start();
 
-  await app.boot();
-  await app.start();
+  const lbApp = server.lbApp;
 
-  const client = createRestAppClient(app);
+  const client = supertest('http://127.0.0.1:3000');
 
-  return {app, client};
+  return { server, client, lbApp };
 }
 
 export interface AppWithClient {
-  app: HotyApplication;
+  server: ExpressServer;
   client: Client;
+  lbApp: HotyApplication;
 }
