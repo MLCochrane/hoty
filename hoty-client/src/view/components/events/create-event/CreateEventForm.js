@@ -9,6 +9,9 @@ import {
   CSSTransition,
   TransitionGroup,
 } from 'react-transition-group';
+import {
+  Redirect,
+} from 'react-router-dom';
 
 import validator, { dateValidator } from '../../forms/validator';
 
@@ -34,6 +37,7 @@ class CreateEventForm extends Component {
     this.endDateRef = React.createRef();
 
     this.state = {
+      hasSubmitted: false,
       title: {
         val: '',
         errors: false,
@@ -65,6 +69,18 @@ class CreateEventForm extends Component {
         },
         {
           title: 'party',
+          checked: false,
+        },
+        {
+          title: 'movie',
+          checked: false,
+        },
+        {
+          title: 'cocktails',
+          checked: false,
+        },
+        {
+          title: 'bbq',
           checked: false,
         },
       ],
@@ -144,14 +160,23 @@ class CreateEventForm extends Component {
       description,
       startDate,
       endDate,
+      themes,
     } = this.state;
 
     e.preventDefault();
+
+    this.setState({
+      hasSubmitted: true,
+    });
+
+    const selectedThemes = themes.filter(el => el.checked === true).map(el => el.title);
+
     const reqBody = {
       title: title.val,
       description: description.val,
       startDate: startDate.val.toISOString(),
       endDate: endDate.val.toISOString(),
+      themes: selectedThemes,
     };
     dispatch(postEvent(token, id, reqBody));
   }
@@ -160,6 +185,7 @@ class CreateEventForm extends Component {
     const {
       error,
       fetching,
+      fetched,
       step,
       changeStep,
     } = this.props;
@@ -170,6 +196,7 @@ class CreateEventForm extends Component {
       startDate,
       endDate,
       themes,
+      hasSubmitted,
     } = this.state;
 
     const titles = [
@@ -241,6 +268,11 @@ class CreateEventForm extends Component {
         variant="contained"
         onClick={() => { changeStep(step); }}
         data-cy="event-form-next"
+        disabled={
+        title.errors
+        || description.errors
+        || !title.val.length
+        || !description.val.length}
       >
           Next
       </Button>
@@ -281,6 +313,17 @@ class CreateEventForm extends Component {
             : nextButton()
           }
         </form>
+        {(fetched && hasSubmitted)
+          ? (
+            <Redirect
+              to={{
+                pathname: '/events',
+                state: { snackbar: 'success' },
+              }}
+            />
+          )
+          : null
+        }
       </div>
     );
   }
@@ -298,6 +341,8 @@ CreateEventForm.propTypes = {
   fetched: PropTypes.bool,
   token: PropTypes.string.isRequired,
   id: PropTypes.string,
+  step: PropTypes.number.isRequired,
+  changeStep: PropTypes.func.isRequired,
 };
 
 CreateEventForm.defaultProps = {

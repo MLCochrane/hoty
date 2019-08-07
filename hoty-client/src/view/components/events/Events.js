@@ -7,6 +7,8 @@ import DayjsUtils from '@date-io/dayjs';
 import Dayjs from 'dayjs';
 import { getAllEvents } from '../../../store/actions/eventActions';
 
+import './events.scss';
+
 import EventsContainer from './EventsContainer';
 import PageBar from '../global/header/PageBar';
 import EventFilter from './EventFilter';
@@ -39,9 +41,22 @@ class Events extends Component {
   componentDidMount() {
     const { dispatch, token } = this.props;
     dispatch(getAllEvents(token));
+
+    console.log(this.props.location);
   }
 
   setCurrent(id) {
+    const {
+      curId,
+    } = this.state;
+
+    if (curId === id) {
+      this.setState({
+        curId: null,
+      });
+      return;
+    }
+
     this.setState({
       curId: id,
     });
@@ -60,6 +75,12 @@ class Events extends Component {
   }
 
   changeFilter(filter) {
+    /*
+    *  Simply sets active to null as the list of current events will change
+    *  Could add additional logic to check if active is within new list but meh
+    */
+    this.setCurrent(null);
+
     this.setState({
       filter,
     });

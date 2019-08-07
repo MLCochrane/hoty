@@ -39,7 +39,10 @@ class Dashboard extends Component {
       msg,
     } = this.state;
     return (
-      <div className="dashboard">
+      <div
+        className="dashboard"
+        data-cy="dashboard"
+      >
         <PageBar
           title="Dashboard"
         />

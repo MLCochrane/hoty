@@ -12,12 +12,12 @@
 // -- This is a parent command --
 Cypress.Commands.add('login', () => {
   cy.server();
-  cy.route('POST', 'localhost:3000/users/login', 'fixture:login-res.json');
+  cy.route('POST', 'http://localhost:3000/api/users/login', 'fixture:login-res.json');
   cy.window().its('store').invoke('dispatch', {
     type: 'RECIEVE_TOKEN',
     payload: 'secret.jwt.token',
   });
-  cy.route('GET', 'http://localhost:3000/users/me', 'fixture:user.json');
+  cy.route('GET', 'http://localhost:3000/api/users/me', 'fixture:user.json');
   // cy.request({
   //   url: 'localhost:3000/users/login',
   //   method: 'POST',

@@ -54,7 +54,7 @@ a {
 .slide-right {
 	&-enter {
 		opacity: 0;
-		transform: translateX(-30%);
+		transform: translateX(30%);
 	}
 
 	&-enter-active {
@@ -70,7 +70,7 @@ a {
 
 	&-exit-active {
 		opacity: 0;
-		transform: translateX(30%);
+		transform: translateX(-30%);
 		transition: opacity 300ms, transform 300ms;
 	}
 }
@@ -79,3 +79,11 @@ a {
 // 	position: absolute;
 // 	width: 100%;
 // }
+
+.emoji {
+	font-size: 20px;
+	padding-right: 8px;
+	&:last-of-type {
+		padding-right: 0;
+	}
+}

@@ -64,10 +64,11 @@ const PageBar = ({ title, children, blurb }) => {
 export default PageBar;
 PageBar.propTypes = {
   title: PropTypes.string.isRequired,
-  blurb: PropTypes.string.isRequired,
+  blurb: PropTypes.string,
   children: PropTypes.element,
 };
 
 PageBar.defaultProps = {
   children: null,
+  blurb: '',
 };

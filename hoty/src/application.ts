@@ -57,9 +57,6 @@ export class HotyApplication extends BootMixin(
     });
     this.component(RestExplorerComponent);
 
-    this.confirmServer();
-
-
     // Customize @loopback/boot Booter Conventions here
     this.bootOptions = {
       controllers: {

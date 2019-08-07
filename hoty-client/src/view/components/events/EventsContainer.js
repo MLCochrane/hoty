@@ -73,6 +73,7 @@ const EventsContainer = ({
           >
             <EventList
               events={events}
+              curId={curId}
               setCurrent={setCurrent}
             />
           </Grid>
@@ -115,6 +116,7 @@ const EventsContainer = ({
             <EventConfrimation
               open={confirmOpen}
               toggleConfirm={toggleConfirm}
+              setCurrent={setCurrent}
               eventId={curId}
             />
           )

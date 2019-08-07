@@ -59,8 +59,13 @@ class Profile extends Component {
 export default connect(mapStateToProps)(Profile);
 
 Profile.propTypes = {
-  user: PropTypes.objectOf().isRequired,
-  events: PropTypes.arrayOf(),
+  user: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    username: PropTypes.string,
+    id: PropTypes.string,
+  }).isRequired,
+  events: PropTypes.arrayOf(PropTypes.object),
   noAuth: PropTypes.bool.isRequired,
 };
 

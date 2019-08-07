@@ -15,7 +15,7 @@ describe('Events page', () => {
 describe('Events page content', () => {
   before(() => {
     cy.login();
-    cy.route('GET', 'http://localhost:3000/users/event', 'fixture:events.json');
+    cy.route('GET', 'http://localhost:3000/api/users/event', 'fixture:events.json');
     cy.visit('localhost:3001/events');
   });
 
@@ -84,6 +84,12 @@ describe('Events page content', () => {
       cy.get('@eventTitle').contains('Event number two');
       cy.get('@eventContent').contains('Dates amiright');
       cy.get('@eventHost').contains('John Smith');
+      cy.get('@eventListItem').eq(1).click();
+      cy.get('[data-cy="event-overview"]').should('not.exist');
+      cy.get('[data-cy="event-cta"]').contains('Something fun going down?!');
+      cy.get('[data-cy="event-cta"]').within(() => {
+        cy.get('button').contains('Create');
+      });
     });
   });
 

@@ -5,6 +5,9 @@ const availThemes = {
   celebration: '🎉',
   sports: '🏈',
   party: '🥤',
+  movie: '📽',
+  cocktails: '🍸',
+  bbq: '🍖',
 };
 
 const mapTitlesToEmojis = str => availThemes[str];
