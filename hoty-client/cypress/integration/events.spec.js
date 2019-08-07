@@ -148,16 +148,41 @@ describe('Create events page content', () => {
     cy.get('[data-cy="event-form-next"]').click().then(() => {
       cy.get('[data-cy="event-form-title"]').contains('Themes');
       cy.get('[data-cy="event-form-themes"] > li').should('have.length', 3);
+      cy.get('[data-cy="event-theme-checked-false"]').should('have.length', 3);
       cy.get('[data-cy="event-form-themes"] > li').first().within(() => {
         cy.contains('celebration');
         cy.contains('🎉');
-        cy.get('input[type="checkbox"]').should('not.have.attr', 'checked');
+        cy.get('[data-cy="event-theme-checked-false"]').should('have.length', 1);
+      });
+      cy.get('[data-cy="event-form-themes"] > li').eq(1).within(() => {
+        cy.contains('sports');
+        cy.contains('🏈');
+        cy.get('[data-cy="event-theme-checked-false"]').should('have.length', 1);
+      });
+      cy.get('[data-cy="event-form-themes"] > li').eq(2).within(() => {
+        cy.contains('party');
+        cy.contains('🥤');
+        cy.get('[data-cy="event-theme-checked-false"]').should('have.length', 1);
       });
       cy.get('[data-cy="event-form-themes"] > li').first().click();
-      cy.get('[data-cy="event-form-themes"] > li').first().find('input[type="checkbox"]').should('have.attr', 'checked');
+      cy.get('[data-cy="event-form-themes"] > li').first().find('[data-cy="event-theme-checked-true"]').should('have.length', 1);
       cy.get('[data-cy="event-form-themes"] > li').first().click();
-      cy.get('[data-cy="event-form-themes"] > li').first().find('input[type="checkbox"]').should('not.have.attr', 'checked');
+      cy.get('[data-cy="event-form-themes"] > li').first().find('[data-cy="event-theme-checked-false"]').should('have.length', 1);
     });
+  });
+
+  it('displaysy the event review', () => {
+    cy.get('input[name="title"]').type('Event title');
+    cy.get('textarea[name="description"]').type('This would be the description content.');
+    cy.get('[data-cy="event-form-next"]').click();
+    cy.get('[data-cy="event-form-themes"] > li').first().click();
+    cy.get('[data-cy="event-form-themes"] > li').eq(1).click();
+    cy.get('[data-cy="event-form-next"]').click();
+    cy.get('[data-cy="event-form-review"]').contains('Event title');
+    cy.get('[data-cy="event-form-review"]').contains('This would be the description content.');
+    cy.get('[data-cy="event-form-review"]').contains('🎉');
+    cy.get('[data-cy="event-form-review"]').contains('🏈');
+    cy.get('[data-cy="event-form-review"]').contains('July 25, 12:36pm');
   });
 
   // it('closes when exit button clicked', () => {

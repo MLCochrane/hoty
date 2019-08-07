@@ -8,7 +8,7 @@ import {
   ListItemSecondaryAction,
   Checkbox,
 } from '@material-ui/core';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import EmojiWrapper from '../../global/Emoji';
 
@@ -24,6 +24,7 @@ const CreateEventThemes = ({
     >
       {themes.map((el, index) => {
         const labelId = `checkbox-list-label-${el.title}`;
+        const checkedStatus = `event-theme-checked-${el.checked}`;
         return (
           <ListItem
             key={el.title}
@@ -37,13 +38,18 @@ const CreateEventThemes = ({
                 theme={el.title}
               />
             </ListItemIcon>
-            <ListItemText id={labelId} primary={el.title} />
+            <ListItemText
+              id={labelId}
+              primary={el.title}
+              className="create-event__theme-item"
+            />
             <ListItemSecondaryAction>
               <Checkbox
                 edge="end"
                 checked={el.checked}
                 tabIndex={-1}
                 disableRipple
+                data-cy={checkedStatus}
                 inputProps={{ 'aria-labelledby': labelId }}
                 onClick={() => { toggleThemeCheckbox(index, !el.checked, el.title); }}
               />
@@ -57,4 +63,11 @@ const CreateEventThemes = ({
 
 export default CreateEventThemes;
 CreateEventThemes.propTypes = {
+  themes: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string,
+      checked: PropTypes.bool,
+    }),
+  ).isRequired,
+  toggleThemeCheckbox: PropTypes.func.isRequired,
 };

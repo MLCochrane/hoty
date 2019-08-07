@@ -39,6 +39,7 @@ export class Event extends Entity {
 
   @property({
     type: 'array',
+    itemType: 'string',
   })
   themes: string[];
 

@@ -1,5 +1,8 @@
 import React from 'react';
-import PropTypes, { array } from 'prop-types';
+import {
+  Container,
+} from '@material-ui/core';
+import PropTypes from 'prop-types';
 
 import EmojiWrapper from '../../global/Emoji';
 
@@ -11,7 +14,9 @@ const CreateEventReview = ({
   startDate,
   endDate,
 }) => (
-  <div className="">
+  <Container
+    data-cy="event-form-review"
+  >
     <p>{ title.val }</p>
     <p>{ description.val }</p>
     {
@@ -22,7 +27,7 @@ const CreateEventReview = ({
         />
       ))
     }
-  </div>
+  </Container>
 );
 export default CreateEventReview;
 CreateEventReview.propTypes = {

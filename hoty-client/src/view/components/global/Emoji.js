@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 const availThemes = {
   celebration: '🎉',
+  sports: '🏈',
+  party: '🥤',
 };
 
 const mapTitlesToEmojis = str => availThemes[str];

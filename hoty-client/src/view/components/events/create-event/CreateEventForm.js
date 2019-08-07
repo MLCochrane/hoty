@@ -64,7 +64,7 @@ class CreateEventForm extends Component {
           checked: false,
         },
         {
-          title: 'pity party',
+          title: 'party',
           checked: false,
         },
       ],
@@ -247,37 +247,41 @@ class CreateEventForm extends Component {
     );
 
     return (
-      <form
-        className="form__events"
-        noValidate
-        onSubmit={this.handleSubmit}
-        data-cy="event-form"
-      >
-        <Typography
-          variant="h5"
-          data-cy="event-form-title"
+      <div className="create-event__form-wrap">
+        <form
+          className="create-event__form"
+          noValidate
+          onSubmit={this.handleSubmit}
+          data-cy="event-form"
         >
-          {titles[step]}
-        </Typography>
-        <Typography
-          color="error"
-        >
-          { !error ? null : error.response.data.error.message }
-        </Typography>
-        <TransitionGroup>
-          <CSSTransition
-            key={step}
-            timeout={300}
-            classNames="slide-right"
+          <Typography
+            variant="h5"
+            data-cy="event-form-title"
           >
-            {displayStepContent(step)}
-          </CSSTransition>
-        </TransitionGroup>
-        {(step === 2)
-          ? submitButton()
-          : nextButton()
-        }
-      </form>
+            {titles[step]}
+          </Typography>
+          <Typography
+            color="error"
+          >
+            { !error ? null : error.response.data.error.message }
+          </Typography>
+          <TransitionGroup
+            className="create-event__step-wrap"
+          >
+            <CSSTransition
+              key={step}
+              timeout={300}
+              classNames="slide-right"
+            >
+              {displayStepContent(step)}
+            </CSSTransition>
+          </TransitionGroup>
+          {(step === 2)
+            ? submitButton()
+            : nextButton()
+          }
+        </form>
+      </div>
     );
   }
 }

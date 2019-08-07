@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DayjsUtils from '@date-io/dayjs';
 import {
@@ -7,8 +8,8 @@ import {
 import {
   connect,
 } from 'react-redux';
+import './create-event.scss';
 
-import PropTypes from 'prop-types';
 import PageBar from '../../global/header/PageBar';
 import CreateEventContainer from './CreatEventContainer';
 
