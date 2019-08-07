@@ -28,7 +28,11 @@ import { JWTAuthenticationStrategy } from './auth-strategies/jwt-strategy';
 export class HotyApplication extends BootMixin(
   ServiceMixin(RepositoryMixin(RestApplication)),
 ) {
-  constructor(options: ApplicationConfig = {}) {
+  constructor(options: ApplicationConfig = {
+    cors: {
+      origin: 'http://localhost:3001',
+    },
+  }) {
     super(options);
 
     this.projectRoot = __dirname;
@@ -65,6 +69,9 @@ export class HotyApplication extends BootMixin(
     });
     this.component(RestExplorerComponent);
 
+    this.confirmServer();
+
+
     // Customize @loopback/boot Booter Conventions here
     this.bootOptions = {
       controllers: {
@@ -74,5 +81,30 @@ export class HotyApplication extends BootMixin(
         nested: true,
       },
     };
+  }
+
+  async confirmServer(): Promise<any> {
+    const server = await this.getServer('RestServer');
+    const io = require('socket.io')(server);
+
+    io.set('origins', 'http://localhost:3001/');
+    io.origins((origin: any, callback: any) => {
+      if (origin !== 'http://localhost:3001/') {
+          return callback('origin not allowed', false);
+      }
+      callback(null, true);
+    });
+    const nsp = io.of('/my-namespace');
+    nsp.on('connection', function(socket: any){
+      console.log('someone connected');
+    });
+    nsp.emit('hi', 'everyone!');
+
+    // io.on('connection', function (socket: any) {
+    //   socket.emit('news', { hello: 'world' });
+    //   socket.on('my other event', function (data: any) {
+    //     console.log(data);
+    //   });
+    // });
   }
 }
