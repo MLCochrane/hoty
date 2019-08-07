@@ -93,6 +93,7 @@ class FormLogin extends Component {
           color="error"
         >
           { !error ? null : error.response.data.error.message }
+          {/* {I DON'T THINK THIS WORKS} */}
         </Typography>
         <EmailField
           formName="login"

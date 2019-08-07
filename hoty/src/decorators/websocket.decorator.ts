@@ -27,7 +27,7 @@ export const WEBSOCKET_METADATA = MetadataAccessor.create<
  */
 export function ws(spec: WebSocketMetadata | string | RegExp = {}) {
   if (typeof spec === 'string' || spec instanceof RegExp) {
-    spec = {namespace: spec};
+    spec = { namespace: spec };
   }
   return ClassDecoratorFactory.createDecorator(WEBSOCKET_METADATA, spec);
 }
