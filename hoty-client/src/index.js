@@ -48,5 +48,5 @@ serviceWorker.unregister();
 
 // Exposes store for cypress testing
 if (window.Cypress) {
-  window.store = store
+  window.store = store;
 }

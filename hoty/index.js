@@ -1,4 +1,5 @@
 const application = require('./dist');
+require('dotenv').config();
 
 module.exports = application;
 
@@ -14,13 +15,13 @@ if (require.main === module) {
       }
     },
     websocket: {
-      port: 3002,
-      cors: {
-        origin: [
-          'http://localhost:3001/*',
-        ],
-        credentials: true,
-      }
+        port: 3002,
+      // cors: {
+      //   origin: [
+      //     'http://localhost:3001/*',
+      //   ],
+      //   credentials: true,
+      // }
     }
   };
   application.main(config).catch(err => {

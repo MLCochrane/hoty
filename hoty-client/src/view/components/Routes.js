@@ -46,7 +46,7 @@ class Routes extends Component {
   }
 
   render() {
-    const { noAuth } = this.props;
+    const { noAuth, socket } = this.props;
     return (
       <Route
         render={({ location }) => (
@@ -58,7 +58,7 @@ class Routes extends Component {
                   key={index} // eslint-disable-line
                   exact={exact}
                   path={path}
-                  render={props => <C {...props} noAuth={noAuth} />}
+                  render={props => <C {...props} noAuth={noAuth} socket={socket} />}
                 />
               ),
             )}
@@ -72,6 +72,10 @@ class Routes extends Component {
 
 Routes.propTypes = {
   noAuth: PropTypes.bool.isRequired,
+  socket: PropTypes.shape({
+    receive: PropTypes.func,
+    sent: PropTypes.func,
+  }).isRequired,
 };
 
 export default Routes;

@@ -1,4 +1,6 @@
+import { repository } from '@loopback/repository';
 import { Socket } from 'socket.io';
+import { UserRepository } from '../repositories';
 import { ws } from '../decorators/websocket.decorator';
 
 /**
@@ -7,9 +9,12 @@ import { ws } from '../decorators/websocket.decorator';
 @ws('/chats')
 export class WebSocketController {
   constructor(
+    @repository(UserRepository) public userRepository: UserRepository,
     @ws.socket() // Equivalent to `@inject('ws.socket')`
     private socket: Socket,
-  ) { }
+  ) {
+    console.log(this.userRepository);
+  }
 
   /**
    * The method is invoked when a client connects to the server

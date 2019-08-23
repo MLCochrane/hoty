@@ -1,21 +1,21 @@
 import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig} from '@loopback/core';
-import { HttpServer } from '@loopback/http-server';
 import {
   RestExplorerBindings,
   RestExplorerComponent,
 } from '@loopback/rest-explorer';
 import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
+import { UserController, UserEventsControllerController } from './controllers/';
 import {ServiceMixin} from '@loopback/service-proxy';
 import * as path from 'path';
-import * as express from 'express';
 import {MySequence} from './sequence';
 import {
   TokenServiceBindings,
   UserServiceBindings,
   TokenServiceConstants,
-  PasswordHasherBindings
+  PasswordHasherBindings,
+  Pusher
 } from './keys';
 import {
   AuthenticationComponent,
@@ -25,16 +25,18 @@ import { JWTService } from './services/jwt-service';
 import { MyUserService } from './services/user-service';
 import { BcryptHasher } from './services/hash.password.bcrypt';
 import { JWTAuthenticationStrategy } from './auth-strategies/jwt-strategy';
-
-import { WebSocketController } from './controllers';
+import { PusherComponent } from './pusher/component';
 import { WebSocketServer } from './websocket/websocket.server';
+import { WebSocketController } from './controllers';
+
 
 export class HotyApplication extends BootMixin(
   ServiceMixin(RepositoryMixin(RestApplication)),
 ) {
-  readonly httpServer: HttpServer;
-  readonly wsServer: WebSocketServer;
-  constructor(options: ApplicationConfig = {}) {
+  public wsServer: WebSocketServer;
+  constructor(
+    options: ApplicationConfig = {},
+    ) {
     super(options);
 
     this.projectRoot = __dirname;
@@ -56,49 +58,42 @@ export class HotyApplication extends BootMixin(
       path: '/explorer',
     });
     this.component(RestExplorerComponent);
+    this.component(PusherComponent);
 
-    // Customize @loopback/boot Booter Conventions here
     this.bootOptions = {
       controllers: {
         // Customize ControllerBooter Conventions here
         dirs: ['controllers'],
-        extensions: ['.controller.js'],
+        extensions: ['.controller.js', '.controller.ts'],
         nested: true,
       },
+      repositories: {
+        dirs: ['repositories'],
+        extensions: ['.repository.js', '.repository.ts'],
+        nested: true
+      },
+      datasources: {
+        dirs: ['datasources'],
+        extensions: ['.datasource.js', '.datasource.ts'],
+        nested: true
+      }
     };
-
-    const expressApp = express();
-
-    // Create an http server backed by the Express app
-    this.httpServer = new HttpServer(expressApp, options.websocket);
-
-    // Create ws server from the http server
-    const wsServer = new WebSocketServer(this.httpServer);
-    this.bind('servers.websocket.server1').to(wsServer);
-    wsServer.use((socket, next) => {
-      console.log('Global middleware - socket:', socket.id);
-      next();
-    });
-    // Add a route
-    const ns = wsServer.route(WebSocketController, /^\/chats\/\d+$/);
-    ns.use((socket, next) => {
-      console.log(
-        'Middleware for namespace %s - socket: %s',
-        socket.nsp.name,
-        socket.id,
-      );
-      next();
-    });
-
-    this.wsServer = wsServer;
   }
 
-  async wsStart() {
+  async pusherStart() {
+    this.controller(WebSocketController);
+    const pusherService = await this.getPusherComponent();
+    this.wsServer = pusherService.initWS(this.options);
+    this.bind('servers.websocket.server1').to(this.wsServer);
     await this.wsServer.start();
   }
 
-  async wsStop() {
+  async pusherStop() {
     await this.wsServer.stop();
+  }
+
+  async getPusherComponent() {
+    return this.get(Pusher.PUSHER_SERVICE);
   }
 
   setupBindings(): void {

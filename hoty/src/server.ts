@@ -8,14 +8,12 @@ import * as express from 'express';
 import * as path from 'path';
 import pEvent from 'p-event';
 import * as http from 'http';
-// import { HttpServer } from '@loopback/http-server';
-// var io = require('socket.io')(3002);
 
 export class ExpressServer {
   private app: express.Application;
   public readonly lbApp: HotyApplication;
   private server: http.Server;
-  constructor(options: ApplicationConfig = {}) {
+  constructor(private options: ApplicationConfig = {}) {
     this.app = express();
 
     this.lbApp = new HotyApplication(options);
@@ -32,17 +30,18 @@ export class ExpressServer {
   }
 
   public async start() {
-    const port = this.lbApp.restServer.config.port || 3000;
-    const host = this.lbApp.restServer.config.host || '127.0.0.1';
+    const port = this.options.rest.port || 3000;
+    const host = this.options.rest.host || '127.0.0.1';
     this.server = this.app.listen(port, host);
-    await this.lbApp.wsStart();
+
+    await this.lbApp.pusherStart();
     await pEvent(this.server, 'listening');
   }
 
   // For testing purposes
   public async stop() {
     if (!this.server) return;
-    await this.lbApp.wsStop();
+    await this.lbApp.pusherStop();
     this.server.close();
     await pEvent(this.server, 'close');
   }

@@ -1,23 +1,19 @@
 import React, { Component } from 'react';
-import PageBar from '../global/header/PageBar';
-import {
-  socketChat,
-} from '../../../api';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
-const chatInterface = socketChat();
+import PageBar from '../global/header/PageBar';
 
 class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
       message: '',
-      msg: [],
+      msgs: [],
     };
 
-    chatInterface.recieve((id, msg) => {
+    props.chatInterface.receive((id, msg) => {
       this.setState(prevState => ({
-        msg: [...prevState.msg, { id, msg }],
+        msgs: [...prevState.msgs, { id, msg }],
       }));
     });
 
@@ -36,8 +32,13 @@ class Dashboard extends Component {
   render() {
     const {
       message,
-      msg,
+      msgs,
     } = this.state;
+
+    const {
+      chatInterface,
+    } = this.props;
+
     return (
       <div
         className="dashboard"
@@ -58,7 +59,7 @@ class Dashboard extends Component {
         </button>
         <div>
           <ul>
-            {msg.map(el => (
+            {msgs.map(el => (
               <li
                 key={el.id}
               >
@@ -74,5 +75,9 @@ class Dashboard extends Component {
 
 export default Dashboard;
 
-// Dashboard.propTypes = {
-// };
+Dashboard.propTypes = {
+  chatInterface: PropTypes.shape({
+    receive: PropTypes.func,
+    send: PropTypes.func,
+  }).isRequired,
+};

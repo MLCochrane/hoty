@@ -1,5 +1,5 @@
 import { Constructor, Context } from '@loopback/context';
-import { HttpServer } from '@loopback/http-server';
+import { HttpServer, HttpServerOptions } from '@loopback/http-server';
 import { Server, ServerOptions, Socket } from 'socket.io';
 import { getWebSocketMetadata } from '../decorators/websocket.decorator';
 import { WebSocketControllerFactory } from './websocket-controller-factory';
@@ -13,12 +13,16 @@ export type SockIOMiddleware = (
   fn: (err?: any) => void,
 ) => void;
 
+export interface SocketIOServerOptions {
+  httpServerOptions?: HttpServerOptions;
+  socketIOOptions?: ServerOptions;
+}
+
 /**
  * A websocket server
  */
 export class WebSocketServer extends Context {
   private io: Server;
-
   constructor(
     public readonly httpServer: HttpServer,
     private options: ServerOptions = {},
@@ -73,6 +77,7 @@ export class WebSocketServer extends Context {
     // FIXME: Access HttpServer.server
     const server = (this.httpServer as any).server;
     this.io.attach(server, this.options);
+    console.log('server starting up');
   }
 
   /**

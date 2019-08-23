@@ -18,7 +18,7 @@ export class WebSocketControllerFactory {
       .bind('ws.controller')
       .toClass(this.controllerClass)
       .tag('websocket')
-      .inScope(BindingScope.CONTEXT);
+      .inScope(BindingScope.TRANSIENT);
   }
 
   async create(socket: Socket) {
