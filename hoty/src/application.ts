@@ -6,7 +6,6 @@ import {
 } from '@loopback/rest-explorer';
 import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
-import { UserController, UserEventsControllerController } from './controllers/';
 import {ServiceMixin} from '@loopback/service-proxy';
 import * as path from 'path';
 import {MySequence} from './sequence';
@@ -15,7 +14,8 @@ import {
   UserServiceBindings,
   TokenServiceConstants,
   PasswordHasherBindings,
-  Pusher
+  PusherServiceBindings,
+  PusherServiceConstants,
 } from './keys';
 import {
   AuthenticationComponent,
@@ -26,14 +26,10 @@ import { MyUserService } from './services/user-service';
 import { BcryptHasher } from './services/hash.password.bcrypt';
 import { JWTAuthenticationStrategy } from './auth-strategies/jwt-strategy';
 import { PusherComponent } from './pusher/component';
-import { WebSocketServer } from './websocket/websocket.server';
-import { WebSocketController } from './controllers';
-
 
 export class HotyApplication extends BootMixin(
   ServiceMixin(RepositoryMixin(RestApplication)),
 ) {
-  public wsServer: WebSocketServer;
   constructor(
     options: ApplicationConfig = {},
     ) {
@@ -81,22 +77,23 @@ export class HotyApplication extends BootMixin(
   }
 
   async pusherStart() {
-    this.controller(WebSocketController);
     const pusherService = await this.getPusherComponent();
-    this.wsServer = pusherService.initWS(this.options);
-    this.bind('servers.websocket.server1').to(this.wsServer);
-    await this.wsServer.start();
-  }
-
-  async pusherStop() {
-    await this.wsServer.stop();
+    // pusherService.initWS(this.options);
   }
 
   async getPusherComponent() {
-    return this.get(Pusher.PUSHER_SERVICE);
+    return this.get(PusherServiceBindings.PUSHER_SERVICE);
   }
 
   setupBindings(): void {
+    this.bind(PusherServiceBindings.PUSHER_INSTANCE_LOCATOR).to(
+      PusherServiceConstants.PUSHER_INSTANCE_LOCATOR_VALUE,
+    );
+
+    this.bind(PusherServiceBindings.PUSHER_SECRET).to(
+      PusherServiceConstants.PUSHER_SECRET_VALUE,
+    );
+
     this.bind(TokenServiceBindings.TOKEN_SECRET).to(
       TokenServiceConstants.TOKEN_SECRET_VALUE,
     );
