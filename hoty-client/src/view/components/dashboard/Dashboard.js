@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import PageBar from '../global/header/PageBar';
+import Pusher from '../chat/Pusher';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -10,14 +11,6 @@ class Dashboard extends Component {
       message: '',
       msgs: [],
     };
-
-    props.chatInterface.receive((id, msg) => {
-      this.setState(prevState => ({
-        msgs: [...prevState.msgs, { id, msg }],
-      }));
-    });
-
-    this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(e) {
@@ -35,10 +28,6 @@ class Dashboard extends Component {
       msgs,
     } = this.state;
 
-    const {
-      chatInterface,
-    } = this.props;
-
     return (
       <div
         className="dashboard"
@@ -47,7 +36,8 @@ class Dashboard extends Component {
         <PageBar
           title="Dashboard"
         />
-        <textarea
+        <Pusher />
+        {/* <textarea
           value={message}
           onChange={e => this.handleChange(e)}
         />
@@ -67,7 +57,7 @@ class Dashboard extends Component {
               </li>
             ))}
           </ul>
-        </div>
+        </div> */}
       </div>
     );
   }
@@ -76,8 +66,4 @@ class Dashboard extends Component {
 export default Dashboard;
 
 Dashboard.propTypes = {
-  chatInterface: PropTypes.shape({
-    receive: PropTypes.func,
-    send: PropTypes.func,
-  }).isRequired,
 };
