@@ -41,7 +41,6 @@ export class ExpressServer {
   // For testing purposes
   public async stop() {
     if (!this.server) return;
-    await this.lbApp.pusherStop();
     this.server.close();
     await pEvent(this.server, 'close');
   }

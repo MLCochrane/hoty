@@ -38,12 +38,12 @@ export class UserRepository extends DefaultCrudRepository<
   >;
   constructor(
     @inject('datasources.db') dataSource: DbDataSource,
-    @repository.getter('EventRepository') getEventRepository: Getter<EventRepository>,
+    @repository('EventRepository') getEventRepository: EventRepository,
   ) {
     super(User, dataSource);
     this.events = this.createHasManyRepositoryFactoryFor(
       'events',
-      getEventRepository,
+      async () => getEventRepository,
     );
   }
 

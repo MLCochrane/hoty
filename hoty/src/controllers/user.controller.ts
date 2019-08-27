@@ -104,12 +104,11 @@ export class UserController {
 
     const token = await this.jwtService.generateToken(userProfile);
 
-    await this.pusherService.getUsers();
     return {token};
   }
 
   @post('/users')
-  async create(@requestBody() user: User): Promise<User> {
+  async create(@requestBody() user: User): Promise<any> {
 
     validateCredentials(_.pick(user, ['email', 'password']));
 
