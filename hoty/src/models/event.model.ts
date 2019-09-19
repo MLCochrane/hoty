@@ -32,6 +32,18 @@ export class Event extends Entity {
   })
   endDate: string;
 
+  @property({
+    type: 'string',
+  })
+  fullName: string;
+
+  @property({
+    type: 'array',
+    itemType: 'string',
+  })
+  themes: string[];
+
+
   @belongsTo(() => User)
   userId: string;
 

@@ -1,31 +1,54 @@
-import {Client} from '@loopback/testlab';
-import {HotyApplication} from '../..';
-import {setupApplication} from './test-helper';
+import { Client } from '@loopback/testlab';
+import { setupExpressApplication } from './test-helper';
+import { ExpressServer } from '../../server';
 
-describe('HomePage', () => {
-  let app: HotyApplication;
+describe('ExpressApplication', () => {
+  let server: ExpressServer;
   let client: Client;
 
   before('setupApplication', async () => {
-    ({app, client} = await setupApplication());
+    ({ server, client } = await setupExpressApplication());
   });
 
-  after(async () => {
-    await app.stop();
+  after('closes application', async () => {
+    await server.stop();
   });
 
-  it('exposes a default home page', async () => {
+  it('displays front page', async () => {
     await client
       .get('/')
       .expect(200)
       .expect('Content-Type', /text\/html/);
   });
 
-  it('exposes self-hosted explorer', async () => {
+  it('displays a static page', async () => {
     await client
-      .get('/explorer/')
+      .get('/notes.html')
       .expect(200)
       .expect('Content-Type', /text\/html/)
+      .expect(/<h2>Notes/);
+  });
+
+  it('gets hello world', async () => {
+    await client
+      .get('/hello')
+      .expect(200)
+      .expect('Hello world!');
+  });
+
+  it('redirects to "api/explorer" from "api/explorer"', async () => {
+    await client
+      .get('/api/explorer')
+      .expect(301)
+      .expect('location', '/api/explorer/');
+  });
+
+  it('displays explorer page', async () => {
+    await client
+      .get('/api/explorer/')
+      .expect(200)
+      .expect('content-type', /html/)
+      .expect(/url\: '\/api\/openapi\.json'\,/)
       .expect(/<title>LoopBack API Explorer/);
   });
 });

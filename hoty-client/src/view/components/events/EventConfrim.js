@@ -32,6 +32,7 @@ class EventConfrimation extends Component {
     const {
       open,
       toggleConfirm,
+      setCurrent,
       dispatch,
       token,
       id,
@@ -63,6 +64,7 @@ class EventConfrimation extends Component {
             variant="contained"
             color="primary"
             onClick={() => {
+              setCurrent(null);
               dispatch(
                 deleteEvent(token, id, eventId),
               );
@@ -88,6 +90,7 @@ EventConfrimation.propTypes = {
   fetched: PropTypes.bool.isRequired,
   fetching: PropTypes.bool.isRequired,
   toggleConfirm: PropTypes.func.isRequired,
+  setCurrent: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,

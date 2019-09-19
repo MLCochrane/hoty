@@ -19,20 +19,41 @@ const useStyles = makeStyles(theme => ({
   title: {
     color: theme.palette.primary.main,
   },
+  blurb: {
+    color: theme.palette.primary.light,
+    paddingBottom: theme.spacing(2),
+  },
 }));
 
-const PageBar = ({ title, children }) => {
+const PageBar = ({ title, children, blurb }) => {
   const classes = useStyles();
   return (
-    <div className={classes.bar}>
+    <div
+      className={classes.bar}
+      data-cy="page-bar"
+    >
       <div className={classes.wrap}>
         <Typography
           className={classes.title}
           variant="h2"
-          >
+          data-cy="page-bar-title"
+        >
           { title }
         </Typography>
-        <div className="page-bar__content">
+        <div
+          className="page-bar__content"
+          data-cy="page-bar-content"
+        >
+          {blurb
+            ? (
+              <Typography
+                className={classes.blurb}
+              >
+                {blurb}
+              </Typography>
+            )
+            : null
+          }
           { children }
         </div>
       </div>
@@ -43,4 +64,11 @@ const PageBar = ({ title, children }) => {
 export default PageBar;
 PageBar.propTypes = {
   title: PropTypes.string.isRequired,
+  blurb: PropTypes.string,
+  children: PropTypes.element,
+};
+
+PageBar.defaultProps = {
+  children: null,
+  blurb: '',
 };

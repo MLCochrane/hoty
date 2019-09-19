@@ -7,9 +7,11 @@ import DayjsUtils from '@date-io/dayjs';
 import Dayjs from 'dayjs';
 import { getAllEvents } from '../../../store/actions/eventActions';
 
+import './events.scss';
+
 import EventsContainer from './EventsContainer';
 import PageBar from '../global/header/PageBar';
-import EventFilter from '../events/EventFilter';
+import EventFilter from './EventFilter';
 
 const mapStateToProps = ({ events, token, users }) => ({
   token: token.token,
@@ -26,11 +28,10 @@ class Events extends Component {
       formOpen: false,
       confirmOpen: false,
       isEditing: false,
-      filter: 'all'
+      filter: 'all',
     };
 
     this.setCurrent = this.setCurrent.bind(this);
-    this.toggleModal = this.toggleModal.bind(this);
     this.toggleConfirm = this.toggleConfirm.bind(this);
     this.toggleEditing = this.toggleEditing.bind(this);
     this.changeFilter = this.changeFilter.bind(this);
@@ -40,24 +41,25 @@ class Events extends Component {
   componentDidMount() {
     const { dispatch, token } = this.props;
     dispatch(getAllEvents(token));
+
+    console.log(this.props.location);
   }
 
   setCurrent(id) {
+    const {
+      curId,
+    } = this.state;
+
+    if (curId === id) {
+      this.setState({
+        curId: null,
+      });
+      return;
+    }
+
     this.setState({
       curId: id,
     });
-  }
-
-  toggleModal(open) {
-    this.setState({
-      formOpen: open,
-    });
-
-    // if (open === false) {
-    // this.setState({
-    // isEditing: false
-    // })
-    // }
   }
 
   toggleConfirm(open) {
@@ -68,13 +70,19 @@ class Events extends Component {
 
   toggleEditing(bool) {
     this.setState({
-      isEditing: bool,
+      formOpen: bool,
     });
   }
 
   changeFilter(filter) {
+    /*
+    *  Simply sets active to null as the list of current events will change
+    *  Could add additional logic to check if active is within new list but meh
+    */
+    this.setCurrent(null);
+
     this.setState({
-      filter: filter,
+      filter,
     });
   }
 
@@ -93,9 +101,12 @@ class Events extends Component {
         return events.filter(el => Dayjs(el.startDate).isAfter(Dayjs(Date.now())));
       case 'past':
         return events.filter(el => Dayjs(el.endDate).isBefore(Dayjs(Date.now())));
+      case 'current':
+        return events.filter(el => Dayjs(el.startDate).isBefore(Dayjs(Date.now()))
+          && Dayjs(el.endDate).isAfter(Dayjs(Date.now())));
       default:
-        break;
-    };
+        return null;
+    }
   }
 
   render() {
@@ -111,6 +122,8 @@ class Events extends Component {
       isEditing,
       filter,
     } = this.state;
+
+    const pageBlurb = `Hey ${user.firstName}, check out the latest going on or add a new event.`;
     return (
       <MuiPickersUtilsProvider utils={DayjsUtils}>
         {noAuth
@@ -119,6 +132,7 @@ class Events extends Component {
             <div className="events">
               <PageBar
                 title="Events"
+                blurb={pageBlurb}
               >
                 <EventFilter
                   filter={filter}
@@ -128,9 +142,8 @@ class Events extends Component {
               </PageBar>
               <EventsContainer
                 events={this.filteredEvents()}
-                callback={this.setCurrent}
+                setCurrent={this.setCurrent}
                 curId={curId}
-                toggleModal={this.toggleModal}
                 toggleConfirm={this.toggleConfirm}
                 formOpen={formOpen}
                 confirmOpen={confirmOpen}

@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { connect } from 'react-redux';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { getCurrentUser } from '../store/actions/userActions';
+import socketChat from '../socket';
 
 import Header from './components/global/header/Header';
 import Routes from './components/Routes';
@@ -20,7 +21,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      noAuth: false,
+      noAuth: true,
     };
   }
 
@@ -57,11 +58,14 @@ class App extends Component {
         this.setState({
           noAuth: false,
         });
+
+        this.socket = socketChat();
       } else if (loggedIn === false) {
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({
           noAuth: true,
         });
+        if (this.socket) this.socket.disconnect();
       }
     }
   }
@@ -77,6 +81,7 @@ class App extends Component {
           <main className="page-content">
             <Routes
               noAuth={noAuth}
+              socket={this.socket}
             />
           </main>
         </section>

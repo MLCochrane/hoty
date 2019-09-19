@@ -67,10 +67,16 @@ export default class FormRegister extends Component {
     const {
       email,
       password,
+      firstName,
+      lastName,
+      username,
     } = this.state;
 
     e.preventDefault();
-    api.post('users/login', {
+    api.post('users/', {
+      firstName: firstName.val,
+      lastName: lastName.val,
+      username: username.val,
       email: email.val,
       password: password.val,
     });
@@ -93,7 +99,7 @@ export default class FormRegister extends Component {
         <NameField
           formName="register"
           inputName="firstName"
-          label="Last Name"
+          label="First Name"
           value={firstName.value}
           errors={firstName.errors}
           errorMessage={firstName.message}

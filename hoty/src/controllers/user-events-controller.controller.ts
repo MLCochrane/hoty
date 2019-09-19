@@ -3,6 +3,7 @@ import {
   post,
   get,
   del,
+  patch,
   param,
   requestBody,
   HttpErrors
@@ -33,9 +34,9 @@ export class UserEventsControllerController {
   ): Promise<Event> {
 
     // No referential integrity so we want to confirm user id exists
-    const isUser = await this.userRepository.findById(userId);
+    const user = await this.userRepository.findById(userId);
 
-    if (!isUser) {
+    if (!user) {
       throw new HttpErrors.Conflict('User not found');
     }
 
@@ -43,6 +44,8 @@ export class UserEventsControllerController {
     if (userId !== currentUserProfile.id) {
       throw new HttpErrors.Conflict('Incorrect user id');
     }
+
+    eventData['fullName'] = `${user.firstName} ${user.lastName}`;
 
     return await this.userRepository.events(userId).create(eventData);
   }
@@ -62,6 +65,22 @@ export class UserEventsControllerController {
     // @param.query.object('filter') filter?: Filter<Event>,
   ): Promise<Object[]> {
     return await this.eventRepository.fetchAll();
+  }
+
+  // NEED TO ADD LOGIC FOR MAARKING AS ATTENDING VS ACTUALLY EDITING
+  @patch('/users/{id}/event/{eventId}', {
+    responses: {
+      '204': {
+        description: 'User PATCH success',
+      },
+    },
+  })
+  @authenticate('jwt')
+  async updateById(
+    @param.path.string('id') id: string,
+    @requestBody() user: User,
+  ): Promise<void> {
+    await this.userRepository.updateById(id, user);
   }
 
   @del('/users/{id}/event/{eventId}', {

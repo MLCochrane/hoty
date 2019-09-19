@@ -3,6 +3,9 @@ import { PasswordHasher } from './services/hash.password.bcrypt';
 import { TokenService, UserService } from '@loopback/authentication';
 import { User } from './models';
 import { Credentials } from './repositories';
+import { PusherService } from './pusher/pusher-service';
+import { SocketIOServerOptions } from './websocket/websocket.server';
+
 
 export namespace TokenServiceConstants {
 	export const TOKEN_SECRET_VALUE = 'myjwts3cr3t';
@@ -31,5 +34,21 @@ export namespace PasswordHasherBindings {
 export namespace UserServiceBindings {
 	export const USER_SERVICE = BindingKey.create<UserService<User, Credentials>>(
 		'services.user.service',
+	);
+}
+
+export namespace SocketIOBindings {
+	export const CONFIG = BindingKey.create<SocketIOServerOptions>(
+		'socketio.server.options',
+	);
+}
+
+export namespace SocketIOTags {
+	export const SOCKET_IO = 'socketio';
+}
+
+export namespace Pusher {
+	export const PUSHER_SERVICE = BindingKey.create<PusherService>(
+		'services.PusherService',
 	);
 }

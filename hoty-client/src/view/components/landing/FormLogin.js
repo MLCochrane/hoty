@@ -85,7 +85,7 @@ class FormLogin extends Component {
 
     return (
       <form
-        className="form__login"
+        className="login"
         noValidate
         onSubmit={this.handleSubmit}
       >
@@ -93,6 +93,7 @@ class FormLogin extends Component {
           color="error"
         >
           { !error ? null : error.response.data.error.message }
+          {/* {I DON'T THINK THIS WORKS} */}
         </Typography>
         <EmailField
           formName="login"

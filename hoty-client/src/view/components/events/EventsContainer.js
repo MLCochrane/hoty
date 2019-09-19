@@ -6,11 +6,16 @@ import {
   Hidden,
   Container,
   Paper,
+  Fab,
 } from '@material-ui/core';
+import {
+  Link,
+} from 'react-router-dom';
+import AddIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/core/styles';
 
 import EventList from './EventList';
-import EventForm from './EventsForm';
+import EditEventsForm from './EditEventsForm';
 import EventConfrimation from './EventConfrim';
 import EventBackdrop from './EventBackdrop';
 
@@ -19,8 +24,13 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(4),
   },
   listContainer: {
-    overflowY: 'scroll',
+    overflow: 'auto',
     height: '60vh',
+  },
+  fab: {
+    position: 'absolute',
+    right: theme.spacing(4),
+    bottom: theme.spacing(4),
   },
 }));
 
@@ -28,10 +38,9 @@ const EventsContainer = ({
   events,
   curId,
   userId,
-  callback,
-  toggleModal,
-  toggleConfirm,
+  setCurrent,
   toggleEditing,
+  toggleConfirm,
   formOpen,
   isEditing,
   confirmOpen,
@@ -39,15 +48,15 @@ const EventsContainer = ({
   const collectCurrent = () => {
     if (events.length) {
       return events.filter(el => el.id === curId)[0];
-    } else {
-      return {};
     }
-  }
+    return {};
+  };
   const classes = useStyles();
   return (
     <Container
       maxWidth="xl"
       className={classes.container}
+      data-cy="events"
     >
       <Paper
         elevation={1}
@@ -64,7 +73,8 @@ const EventsContainer = ({
           >
             <EventList
               events={events}
-              callback={callback}
+              curId={curId}
+              setCurrent={setCurrent}
             />
           </Grid>
           <Hidden smDown>
@@ -73,7 +83,6 @@ const EventsContainer = ({
                 curId={curId}
                 event={collectCurrent()}
                 toggleConfirm={toggleConfirm}
-                toggleModal={toggleModal}
                 toggleEditing={toggleEditing}
                 userId={userId}
               />
@@ -81,19 +90,33 @@ const EventsContainer = ({
           </Hidden>
         </Grid>
       </Paper>
-      <EventForm
+      <EditEventsForm
         open={formOpen}
-        toggleModal={toggleModal}
+        toggleEditing={toggleEditing}
         event={collectCurrent()}
         isEditing={isEditing}
         key={curId}
       />
+      <Link
+        to="/events/create"
+      >
+        <Fab
+          color="primary"
+          aria-label="Add"
+          data-cy="event-fab"
+          size="small"
+          className={classes.fab}
+        >
+          <AddIcon />
+        </Fab>
+      </Link>
       {
         (confirmOpen)
           ? (
             <EventConfrimation
               open={confirmOpen}
               toggleConfirm={toggleConfirm}
+              setCurrent={setCurrent}
               eventId={curId}
             />
           )
@@ -108,10 +131,9 @@ EventsContainer.propTypes = {
   events: PropTypes.arrayOf(PropTypes.object),
   curId: PropTypes.number,
   userId: PropTypes.string.isRequired,
-  callback: PropTypes.func.isRequired,
-  toggleModal: PropTypes.func.isRequired,
-  toggleConfirm: PropTypes.func.isRequired,
+  setCurrent: PropTypes.func.isRequired,
   toggleEditing: PropTypes.func.isRequired,
+  toggleConfirm: PropTypes.func.isRequired,
   formOpen: PropTypes.bool.isRequired,
   isEditing: PropTypes.bool.isRequired,
   confirmOpen: PropTypes.bool.isRequired,

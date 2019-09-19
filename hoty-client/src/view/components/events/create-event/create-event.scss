@@ -1,0 +1,16 @@
+.create-event {
+  &__step-wrap {
+    position: relative;
+    min-height: 500px;
+    width: 600px;
+    margin: 0 auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    & >div {
+      position: absolute;
+    }
+  }
+  &__theme-item {
+    text-transform: capitalize;
+  }
+}

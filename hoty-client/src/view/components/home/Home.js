@@ -4,12 +4,16 @@ import Landing from '../landing/Landing';
 import Dashboard from '../dashboard/Dashboard';
 
 const Home = (props) => {
-  const { noAuth } = props;
+  const { noAuth, socket } = props;
   return (
     <div>
       {(noAuth)
         ? <Landing />
-        : <Dashboard />
+        : (
+          <Dashboard
+            chatInterface={socket}
+          />
+        )
       }
     </div>
   );
@@ -19,4 +23,8 @@ export default Home;
 
 Home.propTypes = {
   noAuth: PropTypes.bool.isRequired,
+  socket: PropTypes.shape({
+    receive: PropTypes.func,
+    send: PropTypes.func,
+  }).isRequired,
 };

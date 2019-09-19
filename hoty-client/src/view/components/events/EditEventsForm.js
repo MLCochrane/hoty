@@ -15,7 +15,7 @@ import TitleField from '../forms/fields/TitleField';
 import DescriptionField from '../forms/fields/DescriptionField';
 import validator, { dateValidator } from '../forms/validator';
 
-import { postEvent } from '../../../store/actions/eventActions';
+import { editEvent } from '../../../store/actions/eventActions';
 
 const mapStateToProps = ({ users, events, token }) => ({
   error: users.error,
@@ -25,7 +25,7 @@ const mapStateToProps = ({ users, events, token }) => ({
   id: users.user.id,
 });
 
-class EventsForm extends Component {
+class EditEventsForm extends Component {
   constructor(props) {
     super(props);
 
@@ -73,9 +73,9 @@ class EventsForm extends Component {
   componentDidUpdate(prevProps) {
     const {
       fetched,
-      toggleModal,
+      toggleEditing,
     } = this.props;
-    if (prevProps.fetched !== fetched && fetched === true) toggleModal(false);
+    if (prevProps.fetched !== fetched && fetched === true) toggleEditing(false);
   }
 
   handleChange(e) {
@@ -136,13 +136,13 @@ class EventsForm extends Component {
       startDate: startDate.val.toISOString(),
       endDate: endDate.val.toISOString(),
     };
-    dispatch(postEvent(token, id, reqBody));
+    dispatch(editEvent(token, id, reqBody));
   }
 
   render() {
     const {
       open,
-      toggleModal,
+      toggleEditing,
       error,
       fetching,
     } = this.props;
@@ -158,7 +158,7 @@ class EventsForm extends Component {
     return (
       <Dialog
         open={open}
-        onClose={() => { toggleModal(false); }}
+        onClose={() => { toggleEditing(false); }}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -217,7 +217,7 @@ class EventsForm extends Component {
             <Button
               variant="contained"
               color="secondary"
-              onClick={() => { toggleModal(false); }}
+              onClick={() => { toggleEditing(false); }}
             >
               Cancel
             </Button>
@@ -244,15 +244,15 @@ class EventsForm extends Component {
     );
   }
 }
-export default connect(mapStateToProps)(EventsForm);
+export default connect(mapStateToProps)(EditEventsForm);
 
-EventsForm.propTypes = {
+EditEventsForm.propTypes = {
   open: PropTypes.bool.isRequired,
   event: PropTypes.shape({
     title: PropTypes.string,
     description: PropTypes.string,
   }),
-  toggleModal: PropTypes.func.isRequired,
+  toggleEditing: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
   isEditing: PropTypes.bool.isRequired,
   error: PropTypes.objectOf(),
@@ -262,7 +262,7 @@ EventsForm.propTypes = {
   id: PropTypes.string,
 };
 
-EventsForm.defaultProps = {
+EditEventsForm.defaultProps = {
   event: {},
   error: null,
   fetching: false,

@@ -8,7 +8,7 @@ a {
 .slide {
 	&-enter {
 		opacity: 0;
-		transform: translate(-50%,-30%) !important;
+		transform: translate(-50%, -30%) !important;
 	}
 	&-enter-active {
 		opacity: 1;
@@ -49,4 +49,41 @@ a {
 .header__toolbar {
 	background: #fff;
 	color: #6200EE;
+}
+
+.slide-right {
+	&-enter {
+		opacity: 0;
+		transform: translateX(30%);
+	}
+
+	&-enter-active {
+		opacity: 1;
+		transform: translateX(0%);
+		transition: opacity 300ms, transform 300ms;
+	}
+
+	&-exit {
+		opacity: 1;
+		transform: translateX(0%);
+	}
+
+	&-exit-active {
+		opacity: 0;
+		transform: translateX(-30%);
+		transition: opacity 300ms, transform 300ms;
+	}
+}
+
+// .form__events {
+// 	position: absolute;
+// 	width: 100%;
+// }
+
+.emoji {
+	font-size: 20px;
+	padding-right: 8px;
+	&:last-of-type {
+		padding-right: 0;
+	}
 }

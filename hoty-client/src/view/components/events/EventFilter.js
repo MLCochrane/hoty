@@ -1,10 +1,9 @@
 import React from 'react';
 import {
-  Typography,
   Button,
 } from '@material-ui/core';
 import {
-  makeStyles
+  makeStyles,
 } from '@material-ui/core/styles';
 
 import PropTypes from 'prop-types';
@@ -19,10 +18,6 @@ const useStyles = makeStyles(theme => ({
       marginRight: '0px',
     },
   },
-  blurb: {
-    color: theme.palette.primary.light,
-    paddingBottom: theme.spacing(2),
-  },
 }));
 
 
@@ -36,20 +31,19 @@ const buttons = [
   {
     name: 'past',
   },
+  {
+    name: 'current',
+  },
 ];
 
 const EventFilter = ({ user, filter, changeFilter }) => {
   const classes = useStyles();
   return (
     <div className={classes.filter}>
-      <Typography
-        className={classes.blurb}
-      >
-        Hey { user.firstName }, check out the latest going on or add a new event.
-      </Typography>
       {
         buttons.map(el => (
           <Button
+            data-filter={el.name}
             key={el.name}
             type="button"
             color="primary"
@@ -62,8 +56,13 @@ const EventFilter = ({ user, filter, changeFilter }) => {
         ))
       }
     </div>
-  )
-}
+  );
+};
 export default EventFilter;
 EventFilter.propTypes = {
+  user: PropTypes.shape({
+    firstName: PropTypes.string,
+  }).isRequired,
+  changeFilter: PropTypes.func.isRequired,
+  filter: PropTypes.string.isRequired,
 };

@@ -1,6 +1,6 @@
 {
   "ids": {
-    "Event": 17
+    "Event": 38
   },
   "models": {
     "User": {
@@ -8,8 +8,11 @@
       "27bc8faa-60de-413a-b431-6fc59a9be0e7": "{\"id\":\"27bc8faa-60de-413a-b431-6fc59a9be0e7\",\"username\":\"bantr\",\"password\":\"$2b$10$F3LzYsmG/X50vdR7xF6wL.VGi/62/NDGnxjM0MVJPI12mrevg1Wl.\",\"email\":\"test@testmail.com\",\"firstName\":\"string\",\"lastName\":\"string\"}"
     },
     "Event": {
-      "15": "{\"title\":\"New Ting\",\"description\":\"This one has times.\",\"startDate\":\"2019-07-15T22:50:05.539Z\",\"endDate\":\"2019-07-23T22:50:00.000Z\",\"userId\":\"11a87a0b-88ac-48e6-9a74-d9d69fe17e12\",\"id\":15}",
-      "16": "{\"title\":\"Anotha new ting\",\"description\":\"Dates amiright\",\"startDate\":\"2019-07-18T21:26:00.000Z\",\"endDate\":\"2019-07-20T23:26:00.000Z\",\"userId\":\"11a87a0b-88ac-48e6-9a74-d9d69fe17e12\",\"id\":16}"
+      "31": "{\"title\":\"Canada Day Party!!!\",\"description\":\"Welcome folks to this year's first ever Canada Booze Olympics! Our generous 2019 host is ... drum room please: HAZEL NATION. \\n\\nTaking place on July 1st, we will kick off opening ceremonies at noon. Please wear your most patriotic outfit, whatever interpretation that may take. \\nThere will be games throughout the afternoon with a closing medal ceremony, so bring your A game. \\nLooking into a keg for the day, based on numbers.\\nPlease bring your own lunch sustenance or we can coordinate with the team on a BBQ lunch. \\n\\n\\nHousekeeping:\\n- competitive attitude is welcome but remember we're all on team Canada\\n- leave Hazel looking as clean as how it you first see it that morning\\n- if you're boozing your keys are staying at Hazel\\n- sunscreen all day, no burns = happy skin\\n\\nLETS CELEBRATE CANADA THE BEST WAY WE KNOW HOW, WITH BOOZE! Cheers.\",\"startDate\":\"2019-08-07T15:15:27.974Z\",\"endDate\":\"2019-08-07T15:15:27.974Z\",\"fullName\":\"string string\",\"themes\":[\"celebration\",\"party\"],\"userId\":\"11a87a0b-88ac-48e6-9a74-d9d69fe17e12\",\"id\":31}",
+      "34": "{\"title\":\"New Project\",\"description\":\"hfgdhdgfh\",\"startDate\":\"2019-08-07T16:42:14.429Z\",\"endDate\":\"2019-08-07T16:42:14.429Z\",\"fullName\":\"string string\",\"themes\":[\"party\"],\"userId\":\"11a87a0b-88ac-48e6-9a74-d9d69fe17e12\",\"id\":34}",
+      "35": "{\"title\":\"New Project\",\"description\":\"fgasfgasfg\",\"startDate\":\"2019-08-07T17:47:37.659Z\",\"endDate\":\"2019-08-07T17:47:37.659Z\",\"fullName\":\"string string\",\"themes\":[\"celebration\",\"cocktails\"],\"userId\":\"11a87a0b-88ac-48e6-9a74-d9d69fe17e12\",\"id\":35}",
+      "36": "{\"title\":\"hsdfg\",\"description\":\"sdfgh\",\"startDate\":\"2019-08-07T17:51:25.912Z\",\"endDate\":\"2019-08-07T17:51:25.912Z\",\"fullName\":\"string string\",\"themes\":[\"celebration\",\"movie\",\"bbq\"],\"userId\":\"11a87a0b-88ac-48e6-9a74-d9d69fe17e12\",\"id\":36}",
+      "37": "{\"title\":\"ag\",\"description\":\"ag\",\"startDate\":\"2019-08-07T17:51:55.145Z\",\"endDate\":\"2019-08-07T17:51:55.145Z\",\"fullName\":\"string string\",\"themes\":[],\"userId\":\"11a87a0b-88ac-48e6-9a74-d9d69fe17e12\",\"id\":37}"
     }
   }
 }
