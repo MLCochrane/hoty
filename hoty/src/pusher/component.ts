@@ -1,12 +1,18 @@
-import { createBindingFromClass } from '@loopback/context';
+import {
+  createBindingFromClass,
+  bind,
+} from '@loopback/context';
 import { Component } from '@loopback/core';
-import { Pusher } from '../keys';
+import {
+  PusherServiceBindings,
+  PusherServiceConstants,
+} from '../keys';
 import { PusherService } from './pusher-service';
 
 export class PusherComponent implements Component {
   bindings = [
     createBindingFromClass(PusherService, {
-      key: Pusher.PUSHER_SERVICE,
+      key: PusherServiceBindings.PUSHER_SERVICE,
     }),
   ];
 }

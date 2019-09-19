@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import {inject} from '@loopback/context';
 import {
   Count,
@@ -36,9 +37,10 @@ import {
   TokenServiceBindings,
   PasswordHasherBindings,
   UserServiceBindings,
+  PusherServiceBindings,
 } from '../keys';
+import { PusherService } from '../pusher/pusher-service';
 
-import * as _ from 'lodash';
 const uuidv4 = require('uuid/v4');
 
 const CredentialsSchema = {
@@ -67,6 +69,7 @@ const CredentialsRequestBody = {
 export class UserController {
   constructor(
     @inject(PasswordHasherBindings.PASSWORD_HASHER) public passwordHasher: PasswordHasher,
+    @inject(PusherServiceBindings.PUSHER_SERVICE) public pusherService: PusherService,
     @inject(TokenServiceBindings.TOKEN_SERVICE) public jwtService: TokenService,
     @inject(UserServiceBindings.USER_SERVICE) public userService: UserService<User, Credentials>,
     @repository(UserRepository) public userRepository: UserRepository,
@@ -105,7 +108,7 @@ export class UserController {
   }
 
   @post('/users')
-  async create(@requestBody() user: User): Promise<User> {
+  async create(@requestBody() user: User): Promise<any> {
 
     validateCredentials(_.pick(user, ['email', 'password']));
 
@@ -136,6 +139,11 @@ export class UserController {
       const savedUser = await this.userRepository.create(user);
       delete savedUser.password;
 
+      await this.pusherService.createUser({
+        id: savedUser.id,
+        name: savedUser.username
+      });
+
       return savedUser;
     } catch (error) {
       throw error;
@@ -150,6 +158,7 @@ export class UserController {
       },
     },
   })
+  @authenticate('jwt')
   async count(
     @param.query.object('where', getWhereSchemaFor(User)) where?: Where,
   ): Promise<Count> {
@@ -191,6 +200,7 @@ export class UserController {
       },
     },
   })
+  @authenticate('jwt')
   async updateAll(
     @requestBody() user: User,
     @param.query.object('where', getWhereSchemaFor(User)) where?: Where,
@@ -206,6 +216,7 @@ export class UserController {
       },
     },
   })
+  @authenticate('jwt')
   async findById(@param.path.string('id') id: string): Promise<User> {
     return await this.userRepository.findById(id);
   }
@@ -217,6 +228,7 @@ export class UserController {
       },
     },
   })
+  @authenticate('jwt')
   async updateById(
     @param.path.string('id') id: string,
     @requestBody() user: User,
@@ -231,6 +243,7 @@ export class UserController {
       },
     },
   })
+  @authenticate('jwt')
   async replaceById(
     @param.path.string('id') id: string,
     @requestBody() user: User,
@@ -245,7 +258,9 @@ export class UserController {
       },
     },
   })
+  @authenticate('jwt')
   async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.userRepository.deleteById(id);
+    await this.pusherService.deleteUser(id);
   }
 }

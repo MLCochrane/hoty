@@ -31,51 +31,32 @@ const routes = [
   },
 ];
 
-class Routes extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      currentRoute: '',
-      enterId: '',
-    };
-  }
-
-  componentDidMount() {
-    this.setState({ currentRoute: window.location.pathname });
-  }
-
-  render() {
-    const { noAuth, socket } = this.props;
-    return (
-      <Route
-        render={({ location }) => (
-          <Switch key={location.key} location={location}>
-          (
-            {routes.map(
-              ({ exact, path, component: C }, index) => (
-                <Route
-                  key={index} // eslint-disable-line
-                  exact={exact}
-                  path={path}
-                  render={props => <C {...props} noAuth={noAuth} socket={socket} />}
-                />
-              ),
-            )}
-          )
-          </Switch>
-        )}
-      />
-    );
-  }
-}
+const Routes = (props) => {
+  const { noAuth } = props;
+  return (
+    <Route
+      render={({ location }) => (
+        <Switch key={location.key} location={location}>
+        (
+          {routes.map(
+            ({ exact, path, component: C }, index) => (
+              <Route
+                key={index} // eslint-disable-line
+                exact={exact}
+                path={path}
+                render={() => <C {...props} noAuth={noAuth} />}
+              />
+            ),
+          )}
+        )
+        </Switch>
+      )}
+    />
+  );
+};
 
 Routes.propTypes = {
   noAuth: PropTypes.bool.isRequired,
-  socket: PropTypes.shape({
-    receive: PropTypes.func,
-    sent: PropTypes.func,
-  }).isRequired,
 };
 
 export default Routes;

@@ -1,46 +1,91 @@
 import { HttpServer } from '@loopback/http-server';
+import { inject } from '@loopback/context';
 import { ApplicationConfig } from '@loopback/core';
 import * as express from 'express';
+import Chatkit from '@pusher/chatkit-server';
 import {
   repository,
 } from '@loopback/repository';
 import {
   UserRepository,
 } from '../repositories';
-import { WebSocketController } from '../controllers';
-import { WebSocketServer } from '../websocket/websocket.server';
+import {
+  PusherServiceBindings,
+} from '../keys';
+
+interface PusherUser {
+  id: string,
+  name: string,
+  customData?: object,
+};
 
 export class PusherService {
   protected httpServer: HttpServer;
-  protected wsServer: WebSocketServer;
+  public chatkit: Chatkit;
   constructor(
-    @repository(UserRepository) public userRepository: UserRepository,
+    @repository(UserRepository)
+    public userRepository: UserRepository,
+    @inject(PusherServiceBindings.PUSHER_INSTANCE_LOCATOR)
+    private pusherLocator: string,
+    @inject(PusherServiceBindings.PUSHER_SECRET)
+    private pusherKey: string,
   )
-  {}
+  {
+    this.bindMethods.apply(this);
+    this.initWS();
+  }
 
-  initWS(options: ApplicationConfig = {}): WebSocketServer {
-    const expressApp = express();
+  bindMethods(): void {
+    this.initWS = this.initWS.bind(this);
+    this.getUser = this.getUser.bind(this);
+    this.getUsers = this.getUsers.bind(this);
+  }
 
-    // Create an http server backed by the Express app
-    this.httpServer = new HttpServer(expressApp, options.websocket);
-
-    // Create ws server from the http server
-    this.wsServer = new WebSocketServer(this.httpServer);
-    this.wsServer.use((socket, next) => {
-      console.log('Global middleware - socket:', socket.id);
-      next();
+  initWS(): void {
+    this.chatkit = new Chatkit({
+      instanceLocator: this.pusherLocator,
+      key: this.pusherKey,
     });
-    // Add a route
-    const ns = this.wsServer.route(WebSocketController, /^\/chats\/\d+$/);
-    ns.use((socket, next) => {
-      console.log(
-        'Middleware for namespace %s - socket: %s',
-        socket.nsp.name,
-        socket.id,
-      );
-      next();
-    });
+    console.log('Component still running');
+  }
 
-    return this.wsServer;
+  async getUser(id: string): Promise<PusherUser> {
+    try {
+      return await this.chatkit.getUser({id});
+    } catch (e) {
+      return e;
+    }
+  }
+
+  async getUsers(): Promise<PusherUser[]> {
+    try {
+      return await this.chatkit.getUsers();
+    } catch (e) {
+      return e;
+    }
+  }
+
+  async createUser(user: PusherUser): Promise<any> {
+    try {
+      return await this.chatkit.createUser(user);
+    } catch(e) {
+      return e;
+    }
+  }
+
+  async deleteUser(userId: string) {
+    try {
+      return await this.chatkit.asyncDeleteUser({ userId });
+    } catch (e) {
+      return e;
+    }
+  }
+
+  async getDeleteStatus(jobId: string) {
+    try {
+      return await this.chatkit.getDeleteStatus({ jobId });
+    } catch (e) {
+      return e;
+    }
   }
 }

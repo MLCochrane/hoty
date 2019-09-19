@@ -4,12 +4,18 @@ import { TokenService, UserService } from '@loopback/authentication';
 import { User } from './models';
 import { Credentials } from './repositories';
 import { PusherService } from './pusher/pusher-service';
-import { SocketIOServerOptions } from './websocket/websocket.server';
 
+// Simply allows us to access .env values here
+require('dotenv').config();
 
 export namespace TokenServiceConstants {
-	export const TOKEN_SECRET_VALUE = 'myjwts3cr3t';
-	export const TOKEN_EXPIRES_IN_VALUE = '900000';
+	export const TOKEN_SECRET_VALUE = process.env.TOKEN_SECRET_VALUE as string;
+	export const TOKEN_EXPIRES_IN_VALUE = process.env.TOKEN_EXPIRES_IN_VALUE as string;
+}
+
+export namespace PusherServiceConstants {
+	export const PUSHER_INSTANCE_LOCATOR_VALUE = process.env.PUSHER_INSTANCE_LOCATOR_VALUE as string;
+	export const PUSHER_SECRET_VALUE = process.env.PUSHER_SECRET_VALUE as string;
 }
 
 export namespace TokenServiceBindings {
@@ -37,18 +43,14 @@ export namespace UserServiceBindings {
 	);
 }
 
-export namespace SocketIOBindings {
-	export const CONFIG = BindingKey.create<SocketIOServerOptions>(
-		'socketio.server.options',
-	);
-}
-
-export namespace SocketIOTags {
-	export const SOCKET_IO = 'socketio';
-}
-
-export namespace Pusher {
+export namespace PusherServiceBindings {
 	export const PUSHER_SERVICE = BindingKey.create<PusherService>(
-		'services.PusherService',
+		'services.pusher.service',
+	);
+	export const PUSHER_INSTANCE_LOCATOR = BindingKey.create<string>(
+		'services.pusher.locator',
+	);
+	export const PUSHER_SECRET = BindingKey.create<string>(
+		'services.pusher.secret',
 	);
 }
