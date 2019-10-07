@@ -34,7 +34,7 @@ export class ExpressServer {
     const host = this.options.rest.host || '127.0.0.1';
     this.server = this.app.listen(port, host);
 
-    await this.lbApp.pusherStart();
+    // await this.lbApp.pusherStart();
     await pEvent(this.server, 'listening');
   }
 

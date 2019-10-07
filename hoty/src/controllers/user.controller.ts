@@ -37,9 +37,9 @@ import {
   TokenServiceBindings,
   PasswordHasherBindings,
   UserServiceBindings,
-  PusherServiceBindings,
+  // PusherServiceBindings,
 } from '../keys';
-import { PusherService } from '../pusher/pusher-service';
+//import { PusherService } from '../pusher/pusher-service';
 
 const uuidv4 = require('uuid/v4');
 
@@ -69,7 +69,7 @@ const CredentialsRequestBody = {
 export class UserController {
   constructor(
     @inject(PasswordHasherBindings.PASSWORD_HASHER) public passwordHasher: PasswordHasher,
-    @inject(PusherServiceBindings.PUSHER_SERVICE) public pusherService: PusherService,
+    // @inject(PusherServiceBindings.PUSHER_SERVICE) public pusherService: PusherService,
     @inject(TokenServiceBindings.TOKEN_SERVICE) public jwtService: TokenService,
     @inject(UserServiceBindings.USER_SERVICE) public userService: UserService<User, Credentials>,
     @repository(UserRepository) public userRepository: UserRepository,
@@ -139,10 +139,10 @@ export class UserController {
       const savedUser = await this.userRepository.create(user);
       delete savedUser.password;
 
-      await this.pusherService.createUser({
-        id: savedUser.id,
-        name: savedUser.username
-      });
+      // await this.pusherService.createUser({
+      //   id: savedUser.id,
+      //   name: savedUser.username
+      // });
 
       return savedUser;
     } catch (error) {
@@ -261,6 +261,6 @@ export class UserController {
   @authenticate('jwt')
   async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.userRepository.deleteById(id);
-    await this.pusherService.deleteUser(id);
+    // await this.pusherService.deleteUser(id);
   }
 }

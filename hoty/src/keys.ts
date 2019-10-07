@@ -3,7 +3,7 @@ import { PasswordHasher } from './services/hash.password.bcrypt';
 import { TokenService, UserService } from '@loopback/authentication';
 import { User } from './models';
 import { Credentials } from './repositories';
-import { PusherService } from './pusher/pusher-service';
+// import { PusherService } from './pusher/pusher-service';
 
 // Simply allows us to access .env values here
 require('dotenv').config();
@@ -13,10 +13,10 @@ export namespace TokenServiceConstants {
 	export const TOKEN_EXPIRES_IN_VALUE = process.env.TOKEN_EXPIRES_IN_VALUE as string;
 }
 
-export namespace PusherServiceConstants {
-	export const PUSHER_INSTANCE_LOCATOR_VALUE = process.env.PUSHER_INSTANCE_LOCATOR_VALUE as string;
-	export const PUSHER_SECRET_VALUE = process.env.PUSHER_SECRET_VALUE as string;
-}
+// export namespace PusherServiceConstants {
+// 	export const PUSHER_INSTANCE_LOCATOR_VALUE = process.env.PUSHER_INSTANCE_LOCATOR_VALUE as string;
+// 	export const PUSHER_SECRET_VALUE = process.env.PUSHER_SECRET_VALUE as string;
+// }
 
 export namespace TokenServiceBindings {
 	export const TOKEN_SECRET = BindingKey.create<string>(
@@ -43,14 +43,14 @@ export namespace UserServiceBindings {
 	);
 }
 
-export namespace PusherServiceBindings {
-	export const PUSHER_SERVICE = BindingKey.create<PusherService>(
-		'services.pusher.service',
-	);
-	export const PUSHER_INSTANCE_LOCATOR = BindingKey.create<string>(
-		'services.pusher.locator',
-	);
-	export const PUSHER_SECRET = BindingKey.create<string>(
-		'services.pusher.secret',
-	);
-}
+// export namespace PusherServiceBindings {
+// 	export const PUSHER_SERVICE = BindingKey.create<PusherService>(
+// 		'services.pusher.service',
+// 	);
+// 	export const PUSHER_INSTANCE_LOCATOR = BindingKey.create<string>(
+// 		'services.pusher.locator',
+// 	);
+// 	export const PUSHER_SECRET = BindingKey.create<string>(
+// 		'services.pusher.secret',
+// 	);
+// }

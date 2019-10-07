@@ -14,8 +14,8 @@ import {
   UserServiceBindings,
   TokenServiceConstants,
   PasswordHasherBindings,
-  PusherServiceBindings,
-  PusherServiceConstants,
+  // PusherServiceBindings,
+  // PusherServiceConstants,
 } from './keys';
 import {
   AuthenticationComponent,
@@ -25,7 +25,7 @@ import { JWTService } from './services/jwt-service';
 import { MyUserService } from './services/user-service';
 import { BcryptHasher } from './services/hash.password.bcrypt';
 import { JWTAuthenticationStrategy } from './auth-strategies/jwt-strategy';
-import { PusherComponent } from './pusher/component';
+// import { PusherComponent } from './pusher/component';
 
 export class HotyApplication extends BootMixin(
   ServiceMixin(RepositoryMixin(RestApplication)),
@@ -54,7 +54,7 @@ export class HotyApplication extends BootMixin(
       path: '/explorer',
     });
     this.component(RestExplorerComponent);
-    this.component(PusherComponent);
+    // this.component(PusherComponent);
 
     this.bootOptions = {
       controllers: {
@@ -77,22 +77,22 @@ export class HotyApplication extends BootMixin(
   }
 
   async pusherStart() {
-    const pusherService = await this.getPusherComponent();
+    // const pusherService = await this.getPusherComponent();
     // pusherService.initWS(this.options);
   }
 
   async getPusherComponent() {
-    return this.get(PusherServiceBindings.PUSHER_SERVICE);
+    // return this.get(PusherServiceBindings.PUSHER_SERVICE);
   }
 
   setupBindings(): void {
-    this.bind(PusherServiceBindings.PUSHER_INSTANCE_LOCATOR).to(
-      PusherServiceConstants.PUSHER_INSTANCE_LOCATOR_VALUE,
-    );
+    // this.bind(PusherServiceBindings.PUSHER_INSTANCE_LOCATOR).to(
+    //   PusherServiceConstants.PUSHER_INSTANCE_LOCATOR_VALUE,
+    // );
 
-    this.bind(PusherServiceBindings.PUSHER_SECRET).to(
-      PusherServiceConstants.PUSHER_SECRET_VALUE,
-    );
+    // this.bind(PusherServiceBindings.PUSHER_SECRET).to(
+    //   PusherServiceConstants.PUSHER_SECRET_VALUE,
+    // );
 
     this.bind(TokenServiceBindings.TOKEN_SECRET).to(
       TokenServiceConstants.TOKEN_SECRET_VALUE,
