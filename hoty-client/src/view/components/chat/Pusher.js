@@ -34,8 +34,6 @@ class Pusher extends Component {
       user,
     } = this.props;
 
-    console.log('bad chick alert');
-
     this.chatManager = new ChatManager({
       instanceLocator: '',
       userId: user.id,

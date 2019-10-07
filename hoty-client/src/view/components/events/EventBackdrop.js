@@ -21,7 +21,7 @@ const EventBackdrop = (props) => {
         key={curId}
         classNames="fade"
         timeout={300}
-        in={curId}
+        in={!!curId}
       >
         {(curId !== null)
           ? (

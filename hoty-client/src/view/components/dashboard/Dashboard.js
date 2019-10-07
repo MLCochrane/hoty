@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 import PageBar from '../global/header/PageBar';
-import Pusher from '../chat/Pusher';
+// import Pusher from '../chat/Pusher';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -36,7 +36,7 @@ class Dashboard extends Component {
         <PageBar
           title="Dashboard"
         />
-        <Pusher />
+        {/* <Pusher /> */}
         {/* <textarea
           value={message}
           onChange={e => this.handleChange(e)}

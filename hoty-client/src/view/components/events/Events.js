@@ -41,8 +41,6 @@ class Events extends Component {
   componentDidMount() {
     const { dispatch, token } = this.props;
     dispatch(getAllEvents(token));
-
-    console.log(this.props.location);
   }
 
   setCurrent(id) {
